@@ -65,7 +65,7 @@ public class ForestalZoneServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ForestalZone> zones = dao.findAll();
         request.setAttribute("zones", zones);
-        logger.log(Level.INFO, "First forestal zone name: {0}", zones.get(0).getName());
+       logger.log(Level.INFO, "First forestal zone name: {0}", zones.get(0).getName());
         request.getRequestDispatcher("/forestal_zones.jsp").forward(request, response);
     }
 

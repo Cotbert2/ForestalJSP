@@ -15,6 +15,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
         <!-- Simple-DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
 
@@ -44,7 +45,7 @@
                     </svg> Download CSV</button>
 
 
-                  <button onclick="downloadCSV()" class="bg-red-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
+                  <button data-modal-target="modalNew" data-modal-toggle="modalNew" class="bg-red-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>New</button>
@@ -88,8 +89,81 @@
                 </table>
             </div>
         </section>
+        
+        <!-- Moda New -->
+        <div id="modalNew" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg w-full max-w-xl shadow-lg transform transition-all">
+                <div class="flex justify-between items-center border-b px-6 py-4">
+                    <h3 class="text-xl font-semibold text-green-800">Add Forest Zone</h3>
+                    <button class="text-gray-500 hover:text-red-600 text-xl" data-modal-target="modalNew" data-modal-toggle="modalNew"">&times;</button>
+                </div>
+                <div class="p-6">
+                    <form id="forestZoneForm" class="space-y-4">
+                        <div>
+                            <label for="zoneName" class="block text-sm font-medium text-gray-700 mb-1">Zone Name</label>
+                            <div class="relative">
+                                <i class="fas fa-tree absolute left-3 top-3 text-gray-400"></i>
+                                <input type="text" id="zoneName" placeholder="Enter zone name"
+                                    class= "text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                        </div>
 
-        <!-- Modal -->
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <div class="relative">
+                                <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
+                                <input type="text" id="description" placeholder="Enter description"
+                                    class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="area" class="block text-sm font-medium text-gray-700 mb-1">Area (HA)</label>
+                            <div class="relative">
+                                <i class="fas fa-ruler-combined absolute left-3 top-3 text-gray-400"></i>
+                                <input type="number" id="area" placeholder="Enter area in hectares"
+                                    class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                            <div class="relative">
+                                <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                                <input type="text" id="location" placeholder="Enter location"
+                                    class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="conservationType" class="block text-sm font-medium text-gray-700 mb-1">Conservation Type</label>
+                            <div class="relative">
+                                <i class="fas fa-leaf absolute left-3 top-3 text-gray-400"></i>
+                                <input type="text" id="conservationType" placeholder="Enter conservation type"
+                                    class=" text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="responsiblePerson" class="block text-sm font-medium text-gray-700 mb-1">Responsible Person</label>
+                            <div class="relative">
+                                <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+                                <input type="text" id="responsiblePerson" placeholder="Enter responsible person"
+                                    class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end space-x-4 pt-4">
+                            <button data-modal-target="modalNew" data-modal-toggle="modalNew"  type="button" id="cancelBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cancel</button>
+                            <button data-modal-target="modalNew" data-modal-toggle="modalNew"  type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save Forest Zone</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal Preview -->
         <div id="previewModal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-modal h-full bg-white/10">
             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto mx-auto">
                 <div class="bg-white rounded-lg shadow p-6 relative">
@@ -128,6 +202,7 @@
                 </div>
             </div>
         </div>
+        
 
         <script>
             const downloadCSV = () => {

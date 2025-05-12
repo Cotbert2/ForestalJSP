@@ -17,9 +17,8 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
 
     @Override
     public void save(ForestalZone forestalZone) {
-        String query = "    INSERT INTO forestal_managment.forestal_zone\n" + "    (uuid_forestal_zone, name_forestal_zone, description_forestal_zone, area_ha_forestal_zone,\n" + "     image_url_forestal_zone, register_date_forestal_zone, map_forestal_zone)\n" + "    VALUES (?, ?, ?, ?, ?, ?, ?::jsonb)\n";
         try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(ConstantsDB.CREATE_FORESTAL_ZONE)) {
 
             stmt.setObject(1, UUID.fromString(forestalZone.getUuid()), java.sql.Types.OTHER);
             stmt.setString(2, forestalZone.getName());
@@ -40,10 +39,9 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
     @Override
     public List<ForestalZone> findAll() {
         List<ForestalZone> zones = new ArrayList<>();
-        String query = "SELECT * FROM forestal_managment.forestal_zone";
         try (Connection conn = ConnectionDB.getConnection();
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+             ResultSet rs = stmt.executeQuery(ConstantsDB.GET_ALL_FORESTAL_ZONE)) {
 
             while (rs.next()) {
                 ForestalZone zone = new ForestalZone(
@@ -66,9 +64,8 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
 
     @Override
     public ForestalZone findById(String uuid) {
-        String query = "SELECT * FROM forestal_managment.forestal_zone WHERE uuid_forestal_zone = ?";
         try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(ConstantsDB.GET_BY_ID_FORESTAL_ZONE)) {
 
             stmt.setObject(1, UUID.fromString(uuid), java.sql.Types.OTHER);
             ResultSet rs = stmt.executeQuery();
@@ -93,9 +90,8 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
 
     @Override
     public void update(ForestalZone zone) {
-        String query = "    UPDATE forestal_managment.forestal_zone SET\n" + "    name_forestal_zone = ?, description_forestal_zone = ?, area_ha_forestal_zone = ?,\n" + "    image_url_forestal_zone = ?, register_date_forestal_zone = ?, map_forestal_zone = ?::jsonb\n" + "    WHERE uuid_forestal_zone = ?\n";
         try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(ConstantsDB.UPDATE_BY_ID_FORESTAL_ZONE)) {
 
             stmt.setString(1, zone.getName());
             stmt.setString(2, zone.getDescription());
@@ -115,9 +111,8 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
 
     @Override
     public void delete(String uuid) {
-        String query = "DELETE FROM forestal_managment.forestal_zone WHERE uuid_forestal_zone = ?";
         try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(ConstantsDB.DELETE_FORESTAL_ZONE)) {
 
             stmt.setObject(1, UUID.fromString(uuid), java.sql.Types.OTHER);
             stmt.executeUpdate();

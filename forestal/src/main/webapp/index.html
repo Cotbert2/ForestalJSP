@@ -2,9 +2,93 @@
 <html>
     <head>
         <title>Start Page</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+
+    <body class="bg-gray-50 text-gray-900">
+
+        <!-- Sticky Top Navbar -->
+        <header class="sticky top-0 z-50 bg-white shadow">
+          <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+              <div class="text-2xl font-bold text-green-700">Run Forest, Run!</div>
+              <ul class="flex space-x-8 text-sm font-medium">
+                <li><a href="#zones" class="hover:text-green-700">Forest Zones</a></li>
+                <li><a href="#species" class="hover:text-green-700">Protected Species</a></li>
+                <li><a href="#sustainability" class="hover:text-green-700">Sustainable Practices</a></li>
+              </ul>
+            </div>
+          </nav>
+        </header>
+      
+        <section class="relative">
+      
+          <video autoplay loop muted playsinline class="w-full h-[80vh] object-cover">
+              <source src="./assets/landscape.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-white text-center px-4">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Explore Forest Zones</h1>
+            <p class="text-lg md:text-xl max-w-xl">Preserving nature’s lungs for future generations. Discover, learn and protect our vital ecosystems.</p>
+          </div>
+        </section>
+      
+        <section id="zones" class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+          <h2 class="text-3xl font-bold text-green-800 mb-6">Forest Zones</h2>
+          <p class="text-gray-700 mb-4">Forest zones vary by climate and biodiversity. From tropical rainforests to boreal coniferous forests, each plays a critical role in carbon absorption and biodiversity preservation.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white shadow-md rounded-lg p-6">
+              <h3 class="font-semibold text-lg text-green-700 mb-2">Tropical Forest</h3>
+              <p class="text-sm text-gray-600">Located near the equator with high rainfall, these forests house the richest biodiversity on Earth.</p>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-6">
+              <h3 class="font-semibold text-lg text-green-700 mb-2">Temperate Forest</h3>
+              <p class="text-sm text-gray-600">Found in regions with four seasons, temperate forests support a wide variety of plant and animal life.</p>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-6">
+              <h3 class="font-semibold text-lg text-green-700 mb-2">Boreal Forest</h3>
+              <p class="text-sm text-gray-600">Also known as Taiga, these cold-region forests are mainly composed of conifers and help regulate Earth’s climate.</p>
+            </div>
+          </div>
+        </section>
+      
+        <section id="species" class="bg-green-50 py-16 px-4 sm:px-6 lg:px-8">
+          <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">Protected Species</h2>
+            <p class="text-gray-700 mb-6">Forests are home to thousands of species, many of which are endangered due to habitat destruction and climate change. Protecting them is our duty.</p>
+            <ul class="list-disc list-inside text-gray-700 space-y-2">
+              <li>Jaguar - South American Rainforest</li>
+              <li>Red Panda - Eastern Himalayan Forests</li>
+              <li>Spotted Owl - North American Temperate Forest</li>
+              <li>Orangutan - Bornean Tropical Forest</li>
+            </ul>
+          </div>
+        </section>
+      
+        <section id="sustainability" class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+          <h2 class="text-3xl font-bold text-green-800 mb-6">Sustainable Practices</h2>
+          <p class="text-gray-700 mb-4">We believe in preserving forests through sustainable logging, reforestation, and community-based conservation.</p>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white shadow-md rounded-lg p-6">
+              <h3 class="font-semibold text-lg text-green-700 mb-2">Eco-friendly Forestry</h3>
+              <p class="text-sm text-gray-600">Controlled harvesting techniques help maintain biodiversity and soil stability.</p>
+            </div>
+            <div class="bg-white shadow-md rounded-lg p-6">
+              <h3 class="font-semibold text-lg text-green-700 mb-2">Community Involvement</h3>
+              <p class="text-sm text-gray-600">Local communities are empowered to take part in protecting and restoring forest areas.</p>
+            </div>
+          </div>
+        </section>
+      
+        <footer class="bg-green-800 text-white py-6">
+          <div class="max-w-7xl mx-auto px-4 text-center">
+            &copy; 2025 Run Forest, Run!. All rights reserved.
+          </div>
+        </footer>
+      
+      </body>
 </html>

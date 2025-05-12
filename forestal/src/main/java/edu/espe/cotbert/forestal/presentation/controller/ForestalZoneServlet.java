@@ -1,11 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package edu.espe.cotbert.forestal.presentation.controller;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 
 import edu.espe.cotbert.forestal.domain.model.ForestalZone;
 import edu.espe.cotbert.forestal.infraestructure.persistance.ForestalZoneDAO;
@@ -14,19 +7,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Timestamp;
 
-/**
- *
- * @author mateo
- */
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.UUID;
+
 @WebServlet(name = "ForestalZoneServlet", urlPatterns = {"/forestal_zone"})
 public class ForestalZoneServlet extends HttpServlet {
+
+    private final ForestalZoneDAO dao = new ForestalZoneDAO();
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-    
+
         try {
             String name = request.getParameter("name");
             String description = request.getParameter("description");
@@ -34,32 +30,51 @@ public class ForestalZoneServlet extends HttpServlet {
             String image = request.getParameter("image");
             String mapJson = request.getParameter("map_json");
             String registerDateStr = request.getParameter("register_date");
-    
+
             if (name == null || description == null || areaStr == null || image == null || mapJson == null || registerDateStr == null) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"error\":\"Missing required parameters\"}");
                 return;
             }
-    
+
             float area = Float.parseFloat(areaStr);
             Timestamp registerDate = Timestamp.valueOf(registerDateStr);
-    
-            ForestalZone forestalZone = new ForestalZone(name, description, area, image, registerDate, mapJson);
-    
-            ForestalZoneDAO dao = new ForestalZoneDAO();
+            String uuid = UUID.randomUUID().toString();
+
+            ForestalZone forestalZone = new ForestalZone(uuid, name, description, area, image, registerDate, mapJson);
             dao.save(forestalZone);
-    
+
             response.setStatus(HttpServletResponse.SC_CREATED);
             response.getWriter().write("{\"message\":\"Forestal zone created successfully\"}");
-    
+
         } catch (IllegalArgumentException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"error\":\"Invalid data format: " + e.getMessage() + "\"}");
         } catch (Exception e) {
-            e.printStackTrace(); // Puedes reemplazar con logger
+            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\":\"Internal server error: " + e.getMessage() + "\"}");
         }
     }
-    
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<ForestalZone> zones = dao.findAll();
+        request.setAttribute("zones", zones);
+        request.getRequestDispatcher("/forestal_zones.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String uuid = request.getParameter("uuid");
+        if (uuid == null || uuid.isBlank()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
+            return;
+        }
+
+        dao.delete(uuid);
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().write("{\"message\":\"Forestal zone deleted successfully\"}");
+    }
 }

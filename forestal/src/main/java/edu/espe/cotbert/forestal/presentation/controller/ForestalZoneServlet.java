@@ -33,7 +33,9 @@ public class ForestalZoneServlet extends HttpServlet {
             String areaStr = request.getParameter("area");
             String image = request.getParameter("image");
             String mapJson = request.getParameter("map_json");
-            String registerDateStr = request.getParameter("register_date");
+            String registerDateStr = request.getParameter("register_date"); 
+            registerDateStr = registerDateStr.replace("T", " ") + ":00";
+
 
             if (name == null || description == null || areaStr == null || image == null || mapJson == null || registerDateStr == null) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

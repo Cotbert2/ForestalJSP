@@ -1,6 +1,7 @@
 package edu.espe.cotbert.forestal.presentation.controller;
 
 import edu.espe.cotbert.forestal.domain.model.ForestalZone;
+import edu.espe.cotbert.forestal.infraestructure.config.LoggerConfig;
 import edu.espe.cotbert.forestal.infraestructure.persistance.ForestalZoneDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,10 +13,13 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "ForestalZoneServlet", urlPatterns = {"/forestal_zone"})
 public class ForestalZoneServlet extends HttpServlet {
 
+    private static final Logger logger = LoggerConfig.getLogger();
     private final ForestalZoneDAO dao = new ForestalZoneDAO();
 
     @Override
@@ -61,6 +65,7 @@ public class ForestalZoneServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ForestalZone> zones = dao.findAll();
         request.setAttribute("zones", zones);
+        logger.log(Level.INFO, "First forestal zone name: {0}", zones.get(0).getName());
         request.getRequestDispatcher("/forestal_zones.jsp").forward(request, response);
     }
 

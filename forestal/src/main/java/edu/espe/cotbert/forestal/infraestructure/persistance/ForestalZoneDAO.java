@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 public class ForestalZoneDAO implements ForestalZoneRepository {
+    
 
     private static final Logger logger = LoggerConfig.getLogger();
 

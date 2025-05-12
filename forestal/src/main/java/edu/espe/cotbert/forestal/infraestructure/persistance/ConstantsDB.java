@@ -28,6 +28,21 @@ public class ConstantsDB {
 
     /****************Tree Species****************/
     
+    public static final String CREATE_TREE_SPECIES = "INSERT INTO forestal_managment.tree_species \n" +
+            "(uuid_tree_species, name_tree_species,common_name_tree_species,family_tree_species,origin_tree_species,\n" +
+            "order_name_tree_species,habitat_tree_species,description_tree_species,image_url_tree_species) \n" +
+            "VALUES(?,?,?,?,?,?,?,?,?)";
+    
+    public static final String DELETE_TREE_SPECIES = "DELETE FROM forestal_managment.tree_species WHERE uuid_tree_species = ?";
+    
+    public static final String GET_ALL_TREE_SPECIES = "SELECT * FROM forestal_managment.tree_species";
+    
+    public static final String GET_BY_ID_TREE_SPECIES = "SELECT * FROM forestal_managment.tree_species WHERE uuid_tree_species = ?";
+    
+    public static final String UPDATE_BY_ID_TREE_SPECIES = "UPDATE forestal_managment.tree_species\n" +
+"SET name_tree_species = ?, common_name_tree_species = ?, family_tree_species = ?, origin_tree_species = ?,\n" +
+"order_name_tree_species = ?, habitat_tree_species = ?, description_tree_species = ?, image_url_tree_species = ?";
+    
     /****************Conservation Activities****************/
     
 }

@@ -49,9 +49,7 @@ public class ForestalZoneServlet extends HttpServlet {
 
             ForestalZone forestalZone = new ForestalZone(uuid, name, description, area, image, registerDate, mapJson);
             dao.save(forestalZone);
-
-            response.setStatus(HttpServletResponse.SC_CREATED);
-            response.getWriter().write("{\"message\":\"Forestal zone created successfully\"}");
+            response.sendRedirect("/forestal/forestal_zone");
 
         } catch (IllegalArgumentException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

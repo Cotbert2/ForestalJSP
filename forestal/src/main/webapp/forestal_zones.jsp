@@ -17,7 +17,9 @@
         <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
         <!-- Simple-DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
 
         <link rel="icon" href="./assets/leave.png" type="image/x-icon">
     </head>
@@ -92,73 +94,79 @@
         
         <!-- Moda New -->
         <div id="modalNew" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-lg w-full max-w-xl shadow-lg transform transition-all">
-                <div class="flex justify-between items-center border-b px-6 py-4">
-                    <h3 class="text-xl font-semibold text-green-800">Add Forest Zone</h3>
-                    <button class="text-gray-500 hover:text-red-600 text-xl" data-modal-target="modalNew" data-modal-toggle="modalNew"">&times;</button>
-                </div>
-                <div class="p-6">
-                    <form method="post" id="forestZoneForm" class="space-y-4">
-                        <div>
-                            <label for="zoneName" class="block text-sm font-medium text-gray-700 mb-1">Zone Name</label>
-                            <div class="relative">
-                                <i class="fas fa-tree absolute left-3 top-3 text-gray-400"></i>
-                                <input type="text" id="zoneName" placeholder="Enter zone name" name="name"
-                                    class= "text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                            <div class="relative">
-                                <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
-                                <input type="text" id="description" placeholder="Enter description" name="description"
-                                    class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="area" class="block text-sm font-medium text-gray-700 mb-1">Area (HA)</label>
-                            <div class="relative">
-                                <i class="fas fa-ruler-combined absolute left-3 top-3 text-gray-400"></i>
-                                <input type="number" id="area" placeholder="Enter area in hectares" name="area"
-                                    class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image</label>
-                            <div class="relative">
-                                <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
-                                <input type="text" id="image" placeholder="Enter url image" name="image"
-                                    class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="registerDate" class="block text-sm font-medium text-gray-700 mb-1">Register Date</label>
-                            <div class="relative">
-                                <i class="fas fa-leaf absolute left-3 top-3 text-gray-400"></i>
-                                <input type="datetime-local" id="registerDate" placeholder="Enter register date" name="register_date"
-                                    class=" text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="mapJson" class="block text-sm font-medium text-gray-700 mb-1">Map</label>
-                            <div class="relative">
-                                <i class="fas fa-leaf absolute left-3 top-3 text-gray-400"></i>
-                                <input type="hidden" id="mapJson" placeholder="Enter map in JSON format" name="map_json"
-                                    class=" text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                            </div>
-                        </div>
-                        <div class="flex justify-end space-x-4 pt-4">
-                            <button data-modal-target="modalNew" data-modal-toggle="modalNew"  type="button" id="cancelBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cancel</button>
-                            <button data-modal-target="modalNew" data-modal-toggle="modalNew"  type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save Forest Zone</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <div class="bg-white rounded-lg w-full max-w-xl shadow-lg transform transition-all my-10 max-h-[90vh] overflow-hidden flex flex-col">
+        <!-- Header -->
+        <div class="flex justify-between items-center border-b px-6 py-4 flex-shrink-0">
+            <h3 class="text-xl font-semibold text-green-800">Add Forest Zone</h3>
+            <button class="text-gray-500 hover:text-red-600 text-xl" data-modal-target="modalNew" data-modal-toggle="modalNew">&times;</button>
         </div>
+
+        <!-- Scrollable Body -->
+        <div class="p-6 overflow-y-auto flex-grow">
+            <form method="post" id="forestZoneForm" class="space-y-4">
+                <div>
+                    <label for="zoneName" class="block text-sm font-medium text-gray-700 mb-1">Zone Name</label>
+                    <div class="relative">
+                        <i class="fas fa-tree absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" id="zoneName" name="name" placeholder="Enter zone name"
+                            class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <div class="relative">
+                        <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" id="description" name="description" placeholder="Enter description"
+                            class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="area" class="block text-sm font-medium text-gray-700 mb-1">Area (HA)</label>
+                    <div class="relative">
+                        <i class="fas fa-ruler-combined absolute left-3 top-3 text-gray-400"></i>
+                        <input type="number" id="area" name="area" placeholder="Enter area in hectares"
+                            class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700 mb-1">Image</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-image absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" id="image" name="image" placeholder="Enter URL image"
+                            class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="registerDate" class="block text-sm font-medium text-gray-700 mb-1">Register Date</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-calendar absolute left-3 top-3 text-gray-400"></i>
+                        <input type="datetime-local" id="registerDate" name="register_date"
+                            class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="map" class="block text-sm font-medium text-gray-700 mb-1">Select Area</label>
+                    <div id="map" class="rounded border" style="height: 250px; width: 100%; max-height: 30vh;"></div>
+                    <input type="hidden" id="mapJson" name="map_json">
+                </div>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-end space-x-4 px-6 py-4 border-t flex-shrink-0">
+            <button data-modal-target="modalNew" data-modal-toggle="modalNew" type="button" id="cancelBtn"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cancel</button>
+            <button type="submit" form="forestZoneForm"
+                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save Forest Zone</button>
+        </div>
+    </div>
+</div>
+
 
 
         <!-- Modal Preview -->
@@ -272,24 +280,103 @@
       });
     });
 </script>
-<script>
-  const geoJsonData = {
-    type: "Feature",
-    geometry: {
-      type: "Polygon",
-      coordinates: [
-        [
-          [-74.05, 4.67],
-          [-74.06, 4.68],
-          [-74.07, 4.66],
-          [-74.05, 4.67] 
-        ]
-      ]
-    }
-  };
 
-  document.getElementById('mapJson').value = JSON.stringify(geoJsonData);
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+<script>
+var map = L.map('map').setView([-0.1807, -78.4678], 13); 
+
+  
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+  var drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+
+  var drawControl = new L.Control.Draw({
+    edit: {
+      featureGroup: drawnItems
+    },
+    draw: {
+      polygon: true,
+      marker: false,
+      circle: false,
+      rectangle: false,
+      polyline: false
+    }
+  });
+  map.addControl(drawControl);
+
+  map.on('draw:created', function (event) {
+    var layer = event.layer;
+    drawnItems.addLayer(layer);
+
+    // Generar GeoJSON cuando se termina de dibujar
+    var geoJsonData = layer.toGeoJSON();
+    console.log(geoJsonData); // Muestra el GeoJSON en la consola
+
+    // Asignar el GeoJSON al campo de entrada
+    document.getElementById('mapJson').value = JSON.stringify(geoJsonData);
+  });
+  
+
 </script>
+
+<script>
+document.getElementById('forestZoneForm').addEventListener('submit', function (e) {
+    e.preventDefault(); 
+
+    let isValid = true;
+    const form = e.target;
+
+    const zoneName = form.zoneName.value.trim();
+    const description = form.description.value.trim();
+    const area = parseFloat(form.area.value);
+    const image = form.image.value.trim();
+    const registerDate = form.registerDate.value.trim();
+    const mapJson = form.mapJson.value.trim();
+
+    [...form.elements].forEach(el => el.classList.remove('border-red-500'));
+
+    if (zoneName === "") {
+        isValid = false;
+        form.zoneName.classList.add('border-red-500');
+    }
+
+    if (description === "") {
+        isValid = false;
+        form.description.classList.add('border-red-500');
+    }
+
+    if (isNaN(area) || area <= 0) {
+        isValid = false;
+        form.area.classList.add('border-red-500');
+    }
+
+    if (image === "") {
+        isValid = false;
+        form.image.classList.add('border-red-500');
+    }
+
+    if (registerDate === "") {
+        isValid = false;
+        form.registerDate.classList.add('border-red-500');
+    }
+
+    if (!isValid) {
+        alert('Please correct the highlighted fields.');
+        return;
+    }
+    
+    if (!isValid){
+        alert("Formulario válido. Enviar datos...");
+        return;
+    }
+
+    form.submit();
+});
+</script>
+
 
 
     </body>

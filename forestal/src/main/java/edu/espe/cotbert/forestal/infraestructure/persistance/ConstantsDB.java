@@ -17,7 +17,8 @@ public class ConstantsDB {
             + "(uuid_forestal_zone, name_forestal_zone, description_forestal_zone, area_ha_forestal_zone,\n"
             + "image_url_forestal_zone, register_date_forestal_zone, map_forestal_zone)\n"
             + "VALUES (?, ?, ?, ?, ?, ?, ?::jsonb)\n";
-    public static final String DELETE_FORESTAL_ZONE = "DELETE FROM forestal_managment.forestal_zone WHERE uuid_forestal_zone = ?";
+    
+    public static final String DELETE_FORESTAL_ZONE = "UPDATE forestal_managment.forestal_zone fz \n" + "set is_deleted_forestal_zone = true WHERE fz.uuid_forestal_zone = ?;";
 
     public static final String GET_ALL_FORESTAL_ZONE = "SELECT * FROM forestal_managment.forestal_zone";
 
@@ -63,11 +64,13 @@ public class ConstantsDB {
             + "    ts.description_tree_species,\n"
             + "    ts.image_url_tree_species,\n"
             + " ts.origin_tree_species\n"
-            + "FROM forestal_managment.forestal_zone fz\n"
+            + "FROM forestal_managment.forestal_zone fz\n" 
             + "LEFT JOIN forestal_managment.forestal_zone_tree_species fzts\n"
             + "    ON fz.uuid_forestal_zone = fzts.uuid_forestal_zone\n"
             + "LEFT JOIN forestal_managment.tree_species ts\n"
-            + "    ON ts.uuid_tree_species = fzts.uuid_tree_species;";
+            + "    ON ts.uuid_tree_species = fzts.uuid_tree_species"
+                        + " WHERE fz.is_deleted_forestal_zone = false";
+
     static String DELETE_CONSERVATION_ACTIVITY;
     static String CREATE_CONSERVATION_ACTIVITY;
     static String GET_BY_ID_CONSERVATION_ACTIVITY;

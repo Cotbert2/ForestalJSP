@@ -16,6 +16,7 @@ CREATE TABLE forestal_managment.tree_species (
     habitat_tree_species TEXT NOT NULL,
     description_tree_species TEXT NOT NULL,
     image_url_tree_species TEXT NOT NULL,
+    is_deleted_tree_species BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (origin_tree_species) REFERENCES forestal_managment.origins(uuid_origin)
 );
 
@@ -50,3 +51,4 @@ CREATE TABLE forestal_managment.forestal_zone_tree_species(
     FOREIGN KEY (uuid_forestal_zone) REFERENCES forestal_managment.forestal_zone(uuid_forestal_zone),
     FOREIGN KEY (uuid_tree_species) REFERENCES forestal_managment.tree_species(uuid_tree_species)
 );
+

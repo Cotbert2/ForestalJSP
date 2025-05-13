@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author Luis Sagnay
  */
-@WebServlet(name = "ConservationActivityServlet", urlPatterns = {"/conservation_activity"})
+@WebServlet(name = "ConservationActivityServlet", urlPatterns = {"/conservation_activities"})
 public class ConservationActivitiesServlet extends HttpServlet {
 
     private static final Logger logger = LoggerConfig.getLogger();

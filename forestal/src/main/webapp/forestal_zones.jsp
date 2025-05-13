@@ -289,43 +289,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
-<script>
-    let map = L.map('map').setView([-0.1807, -78.4678], 13);
 
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-    let drawnItems = new L.FeatureGroup();
-    map.addLayer(drawnItems);
-
-    let drawControl = new L.Control.Draw({
-        edit: {
-            featureGroup: drawnItems
-        },
-        draw: {
-            polygon: true,
-            marker: false,
-            circle: false,
-            rectangle: false,
-            polyline: false
-        }
-    });
-    map.addControl(drawControl);
-
-    map.on('draw:created', function (event) {
-        let layer = event.layer;
-        drawnItems.addLayer(layer);
-
-
-        let geoJsonData = layer.toGeoJSON();
-        console.log(geoJsonData);
-
-
-        document.getElementById('mapJson').value = JSON.stringify(geoJsonData);
-    });
-
-
-</script>
 
 <script>
     document.getElementById('forestZoneForm').addEventListener('submit', function (e) {
@@ -405,6 +369,53 @@
         });
     }
 </script>
+
+<script>
+let map;
+let mapInitialized = false;
+
+document.querySelectorAll('[data-modal-toggle="modalNew"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+        setTimeout(() => {
+            const mapContainer = document.getElementById('map');
+            
+            if (!mapInitialized) {
+                map = L.map('map').setView([-0.1807, -78.4678], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+                const drawnItems = new L.FeatureGroup();
+                map.addLayer(drawnItems);
+
+                const drawControl = new L.Control.Draw({
+                    edit: { featureGroup: drawnItems },
+                    draw: {
+                        polygon: true,
+                        marker: false,
+                        circle: false,
+                        rectangle: false,
+                        polyline: false
+                    }
+                });
+                map.addControl(drawControl);
+
+                map.on('draw:created', function (event) {
+                    const layer = event.layer;
+                    drawnItems.addLayer(layer);
+
+                    const geoJsonData = layer.toGeoJSON();
+                    document.getElementById('mapJson').value = JSON.stringify(geoJsonData);
+                });
+
+                mapInitialized = true;
+            } else {
+                map.invalidateSize(); // recalcula tamaño si ya existe
+            }
+        }, 300); // Espera que el modal se abra visualmente
+    });
+});
+</script>
+
 
 </body>
 </html>

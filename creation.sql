@@ -43,11 +43,10 @@ CREATE TABLE forestal_managment.conservation_activities(
 );
 
 
-CREATE TABLE forestal_managment.conservation_activity_tree_species(
-    uuid_conservation_activity_tree_species UUID PRIMARY KEY,
-    uuid_conservation_activity UUID NOT NULL,
+CREATE TABLE forestal_managment.forestal_zone_tree_species(
+    uuid_forestal_zone_tree_species UUID PRIMARY KEY,
+    uuid_forestal_zone UUID NOT NULL,
     uuid_tree_species UUID NOT NULL,
-    FOREIGN KEY (uuid_conservation_activity) REFERENCES forestal_managment.conservation_activities(uuid_conservation_activity),
+    FOREIGN KEY (uuid_forestal_zone) REFERENCES forestal_managment.forestal_zone(uuid_forestal_zone),
     FOREIGN KEY (uuid_tree_species) REFERENCES forestal_managment.tree_species(uuid_tree_species)
 );
-

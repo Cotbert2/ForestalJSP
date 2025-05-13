@@ -5,7 +5,9 @@
 package edu.espe.cotbert.forestal.domain.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -21,7 +23,8 @@ public class ForestalZone {
     private String image;
     private Timestamp registerDate;
     private String mapJson;
-
+    private List<TreeSpecies> trees;
+    private String treesJSON;
 
     public ForestalZone(String uuid, String name, String description, float area, String image, Timestamp registerDate, String mapJson) {
         this.uuid = uuid;
@@ -31,6 +34,7 @@ public class ForestalZone {
         this.image = image;
         this.registerDate = registerDate;
         this.mapJson = mapJson;
+        this.trees = new ArrayList<>();
     }
 
     //generate uuid if null
@@ -42,10 +46,10 @@ public class ForestalZone {
         this.image = image;
         this.registerDate = registerDate;
         this.mapJson = mapJson;
+        this.trees = new ArrayList<>();
     }
 
     //setters and getters
-
     public String getUuid() {
         return uuid;
     }
@@ -100,5 +104,21 @@ public class ForestalZone {
 
     public void setMapJson(String mapJson) {
         this.mapJson = mapJson;
+    }
+
+    public List<TreeSpecies> getTrees() {
+        return trees;
+    }
+
+    public void setTrees(List<TreeSpecies> trees) {
+        this.trees = trees;
+    }
+
+    public void setTreesJSON(String treeJson) {
+        this.treesJSON = treeJson;
+    }
+
+    public String getTreesJSON() {
+        return this.treesJSON;
     }
 }

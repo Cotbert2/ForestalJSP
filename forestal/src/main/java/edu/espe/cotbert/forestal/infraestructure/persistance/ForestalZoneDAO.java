@@ -1,25 +1,27 @@
 package edu.espe.cotbert.forestal.infraestructure.persistance;
 
+import com.google.gson.Gson;
 import edu.espe.cotbert.forestal.domain.model.ForestalZone;
+import edu.espe.cotbert.forestal.domain.model.TreeSpecies;
 import edu.espe.cotbert.forestal.domain.repository.ForestalZoneRepository;
 import edu.espe.cotbert.forestal.infraestructure.config.ConnectionDB;
 import edu.espe.cotbert.forestal.infraestructure.config.LoggerConfig;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 public class ForestalZoneDAO implements ForestalZoneRepository {
-    
 
     private static final Logger logger = LoggerConfig.getLogger();
 
     @Override
     public void save(ForestalZone forestalZone) {
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(ConstantsDB.CREATE_FORESTAL_ZONE)) {
+        try (Connection conn = ConnectionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(ConstantsDB.CREATE_FORESTAL_ZONE)) {
 
             stmt.setObject(1, UUID.fromString(forestalZone.getUuid()), java.sql.Types.OTHER);
             stmt.setString(2, forestalZone.getName());
@@ -39,47 +41,66 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
 
     @Override
     public List<ForestalZone> findAll() {
-        List<ForestalZone> zones = new ArrayList<>();
-        try (Connection conn = ConnectionDB.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(ConstantsDB.GET_ALL_FORESTAL_ZONE)) {
+        Map<String, ForestalZone> zoneMap = new HashMap<>();
+
+        try (Connection conn = ConnectionDB.getConnection(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(ConstantsDB.GET_ALL_FORESTAL_ZONE_WITH_TREES)) {
 
             while (rs.next()) {
-                ForestalZone zone = new ForestalZone(
-                    rs.getString("uuid_forestal_zone"),
-                    rs.getString("name_forestal_zone"),
-                    rs.getString("description_forestal_zone"),
-                    rs.getFloat("area_ha_forestal_zone"),
-                    rs.getString("image_url_forestal_zone"),
-                    rs.getTimestamp("register_date_forestal_zone"),
-                    rs.getString("map_forestal_zone")
-                );
-                zones.add(zone);
+                String zoneUuid = rs.getString("uuid_forestal_zone");
+
+                ForestalZone zone = zoneMap.get(zoneUuid);
+                if (zone == null) {
+                    zone = new ForestalZone(
+                            zoneUuid,
+                            rs.getString("name_forestal_zone"),
+                            rs.getString("description_forestal_zone"),
+                            rs.getFloat("area_ha_forestal_zone"),
+                            rs.getString("image_url_forestal_zone"),
+                            rs.getTimestamp("register_date_forestal_zone"),
+                            rs.getString("map_forestal_zone")
+                    );
+                    zoneMap.put(zoneUuid, zone);
+                }
+
+                if (rs.getString("uuid_tree_species") != null) {
+                    TreeSpecies tree = new TreeSpecies(
+                            rs.getString("uuid_tree_species"),
+                            rs.getString("name_tree_species"),
+                            rs.getString("common_name_tree_species"),
+                            rs.getString("family_tree_species"),
+                            rs.getString("origin_tree_species"),
+                            rs.getString("order_name_tree_species"),
+                            rs.getString("habitat_tree_species"),
+                            rs.getString("description_tree_species"),
+                            rs.getString("image_url_tree_species")
+                    );
+                    zone.getTrees().add(tree);
+                }
             }
 
         } catch (Exception e) {
-            logger.severe("Error retrieving forestal zones: " + e.getMessage());
+            logger.severe("Error retrieving forestal zones with trees: " + e.getMessage());
         }
-        return zones;
+
+        return new ArrayList<>(zoneMap.values());
     }
 
     @Override
     public ForestalZone findById(String uuid) {
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(ConstantsDB.GET_BY_ID_FORESTAL_ZONE)) {
+        try (Connection conn = ConnectionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(ConstantsDB.GET_BY_ID_FORESTAL_ZONE)) {
 
             stmt.setObject(1, UUID.fromString(uuid), java.sql.Types.OTHER);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 return new ForestalZone(
-                    rs.getString("uuid_forestal_zone"),
-                    rs.getString("name_forestal_zone"),
-                    rs.getString("description_forestal_zone"),
-                    rs.getFloat("area_ha_forestal_zone"),
-                    rs.getString("image_url_forestal_zone"),
-                    rs.getTimestamp("register_date_forestal_zone"),
-                    rs.getString("map_forestal_zone")
+                        rs.getString("uuid_forestal_zone"),
+                        rs.getString("name_forestal_zone"),
+                        rs.getString("description_forestal_zone"),
+                        rs.getFloat("area_ha_forestal_zone"),
+                        rs.getString("image_url_forestal_zone"),
+                        rs.getTimestamp("register_date_forestal_zone"),
+                        rs.getString("map_forestal_zone")
                 );
             }
 
@@ -91,8 +112,7 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
 
     @Override
     public void update(ForestalZone zone) {
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(ConstantsDB.UPDATE_BY_ID_FORESTAL_ZONE)) {
+        try (Connection conn = ConnectionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(ConstantsDB.UPDATE_BY_ID_FORESTAL_ZONE)) {
 
             stmt.setString(1, zone.getName());
             stmt.setString(2, zone.getDescription());
@@ -112,8 +132,7 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
 
     @Override
     public void delete(String uuid) {
-        try (Connection conn = ConnectionDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(ConstantsDB.DELETE_FORESTAL_ZONE)) {
+        try (Connection conn = ConnectionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(ConstantsDB.DELETE_FORESTAL_ZONE)) {
 
             stmt.setObject(1, UUID.fromString(uuid), java.sql.Types.OTHER);
             stmt.executeUpdate();

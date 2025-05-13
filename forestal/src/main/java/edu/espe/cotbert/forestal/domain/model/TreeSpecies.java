@@ -5,6 +5,7 @@
 package edu.espe.cotbert.forestal.domain.model;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**

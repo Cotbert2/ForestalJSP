@@ -44,5 +44,18 @@ public class ConstantsDB {
 "order_name_tree_species = ?, habitat_tree_species = ?, description_tree_species = ?, image_url_tree_species = ?";
     
     /****************Conservation Activities****************/
-    
+    public static final String CREATE_CONSERVATION_ACTIVITY = "INSERT INTO forestal_managment.conservation_activity\n" +
+    "(uuid_conservation_activity, name_conservation_activity, description_conservation_activity,\n" +
+    "activity_date_conservation_activity, uuid_forestal_zone)\n" +
+    "VALUES (?, ?, ?, ?, ?)";
+
+    public static final String DELETE_CONSERVATION_ACTIVITY = "DELETE FROM forestal_managment.conservation_activity WHERE uuid_conservation_activity = ?";
+
+    public static final String GET_ALL_CONSERVATION_ACTIVITY = "SELECT * FROM forestal_managment.conservation_activity";
+
+    public static final String GET_BY_ID_CONSERVATION_ACTIVITY = "SELECT * FROM forestal_managment.conservation_activity WHERE uuid_conservation_activity = ?";
+
+    public static final String UPDATE_BY_ID_CONSERVATION_ACTIVITY = "UPDATE forestal_managment.conservation_activity\n" +
+        "SET name_conservation_activity = ?, description_conservation_activity = ?, activity_date_conservation_activity = ?, uuid_forestal_zone = ?\n" +
+        "WHERE uuid_conservation_activity = ?";
 }

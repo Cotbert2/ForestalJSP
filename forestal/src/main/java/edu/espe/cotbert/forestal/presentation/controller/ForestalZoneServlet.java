@@ -8,6 +8,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import edu.espe.cotbert.forestal.infraestructure.persistance.TreeSpeciesDAO;
+import edu.espe.cotbert.forestal.domain.model.TreeSpecies;
+import edu.espe.cotbert.forestal.infraestructure.persistance.ForestZoneTreeSpeciesDAO;
+import edu.espe.cotbert.forestal.domain.model.ForestalZoneTreeSpecies;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -21,6 +25,8 @@ public class ForestalZoneServlet extends HttpServlet {
 
     private static final Logger logger = LoggerConfig.getLogger();
     private final ForestalZoneDAO dao = new ForestalZoneDAO();
+    private final TreeSpeciesDAO daoTrees = new TreeSpeciesDAO();
+    private final ForestZoneTreeSpeciesDAO daoForestalZoneTreeSpecies = new ForestZoneTreeSpeciesDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,6 +47,40 @@ public class ForestalZoneServlet extends HttpServlet {
                 dao.delete(uuid);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("{\"message\":\"Forestal zone deleted successfully\"}");
+                response.sendRedirect("/forestal/forestal_zone");
+                return;
+            }
+            
+           if ("ADD_TREE".equalsIgnoreCase(method)) {
+                String uuid = UUID.randomUUID().toString();
+                String uuidForestal = request.getParameter("uuidForestal");
+                String uuidTree = request.getParameter("uuidTree");
+                if (uuidForestal == null || uuidForestal.isBlank() || uuidTree == null || uuidTree.isBlank()) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
+                    return;
+                }
+                
+                ForestalZoneTreeSpecies forestalZoneTreeSpecie = new ForestalZoneTreeSpecies(uuid,uuidForestal, uuidTree);
+                daoForestalZoneTreeSpecies.save(forestalZoneTreeSpecie);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\":\"Tree Specie in Forest zone saved successfully\"}");
+                response.sendRedirect("/forestal/forestal_zone");
+                return;
+            }
+           
+           if ("DELETE_TREE".equalsIgnoreCase(method)) {
+                String uuidForestal = request.getParameter("uuidForestal");
+                String uuidTree = request.getParameter("uuidTree");
+                if (uuidForestal == null || uuidForestal.isBlank() || uuidTree == null || uuidTree.isBlank()) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
+                    return;
+                }
+                
+                daoForestalZoneTreeSpecies.delete(uuidForestal,uuidTree);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\":\"Tree Specie in Forest zone deleted successfully\"}");
                 response.sendRedirect("/forestal/forestal_zone");
                 return;
             }
@@ -80,7 +120,9 @@ public class ForestalZoneServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ForestalZone> zones = dao.findAll();
+        List<TreeSpecies> trees = daoTrees.findAll();
         request.setAttribute("zones", zones);
+        request.setAttribute("trees", trees); 
         //logger.log(Level.INFO, "First forestal zone name: {0}", zones.get(0).getName());
         //trees
         //logger.log(Level.INFO, "First forestal zone trees: {0}", zones.get(0).getTrees().get(0).getName());

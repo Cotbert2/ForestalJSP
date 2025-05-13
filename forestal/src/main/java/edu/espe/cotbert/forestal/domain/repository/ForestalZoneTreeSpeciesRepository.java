@@ -15,6 +15,6 @@ public interface ForestalZoneTreeSpeciesRepository {
     void save(ForestalZoneTreeSpecies forestalZone);
     List<ForestalZoneTreeSpecies> findAll();
     ForestalZoneTreeSpecies findById(String uuid);
-    void update(ForestalZoneTreeSpecies Zone);
-    void delete(String uuid);
+        void update(ForestalZoneTreeSpecies Zone);
+    void delete(String uuidForestal, String uuidTree);
 }

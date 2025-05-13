@@ -93,11 +93,12 @@ public class ForestZoneTreeSpeciesDAO implements ForestalZoneTreeSpeciesReposito
     }
     
     @Override
-    public void delete(String uuid){
+    public void delete(String uuidForestal, String uuidTree){
         try(Connection conn = ConnectionDB.getConnection();
                 PreparedStatement stmt = conn.prepareCall(ConstantsDB.DELETE_FORESTAL_ZONE_TREE_SPECIES)){
             
-            stmt.setObject(1, UUID.fromString(uuid), java.sql.Types.OTHER);
+            stmt.setObject(1, UUID.fromString(uuidForestal), java.sql.Types.OTHER);
+            stmt.setObject(2, UUID.fromString(uuidTree),java.sql.Types.OTHER);
             stmt.executeUpdate();
             logger.info("forestalZoneTreeSpecies deleted successfully");
         }catch(Exception e){

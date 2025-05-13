@@ -97,10 +97,9 @@ public class ConstantsDB {
      * 
      */
     public static final String CREATE_FORESTAL_ZONE_TREE_SPECIES= "insert into  forestal_managment.forestal_zone_tree_species(uuid_forestal_zone_tree_species,uuid_forestal_zone,uuid_tree_species)\n" +
-        "values (?,?,?);" +
-        "VALUES (?, ?, ?, ?, ?)";
+        "VALUES (?,?,?);";
 
-    public static final String DELETE_FORESTAL_ZONE_TREE_SPECIES = "DELETE FROM forestal_managment.forestal_zone_tree_species WHERE uuid_forestal_zone_tree_species = ?";
+    public static final String DELETE_FORESTAL_ZONE_TREE_SPECIES = "DELETE FROM forestal_managment.forestal_zone_tree_species WHERE uuid_forestal_zone = ? AND uuid_tree_species = ?";
 
     public static final String GET_ALL_FORESTAL_ZONE_TREE_SPECIES= "SELECT * FROM forestal_managment.forestal_zone_tree_species";
 

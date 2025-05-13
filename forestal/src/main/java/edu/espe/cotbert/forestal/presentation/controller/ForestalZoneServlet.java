@@ -28,14 +28,30 @@ public class ForestalZoneServlet extends HttpServlet {
         response.setContentType("application/json");
 
         try {
+
+            String method = request.getParameter("_method");
+            if ("DELETE".equalsIgnoreCase(method)) {
+                String uuid = request.getParameter("uuid");
+                if (uuid == null || uuid.isBlank()) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
+                    return;
+                }
+
+                dao.delete(uuid);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\":\"Forestal zone deleted successfully\"}");
+                response.sendRedirect("/forestal/forestal_zone");
+                return;
+            }
+
             String name = request.getParameter("name");
             String description = request.getParameter("description");
             String areaStr = request.getParameter("area");
             String image = request.getParameter("image");
             String mapJson = request.getParameter("map_json");
-            String registerDateStr = request.getParameter("register_date"); 
+            String registerDateStr = request.getParameter("register_date");
             registerDateStr = registerDateStr.replace("T", " ") + ":00";
-
 
             if (name == null || description == null || areaStr == null || image == null || mapJson == null || registerDateStr == null) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -73,15 +89,6 @@ public class ForestalZoneServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String uuid = request.getParameter("uuid");
-        if (uuid == null || uuid.isBlank()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
-            return;
-        }
 
-        dao.delete(uuid);
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("{\"message\":\"Forestal zone deleted successfully\"}");
     }
 }

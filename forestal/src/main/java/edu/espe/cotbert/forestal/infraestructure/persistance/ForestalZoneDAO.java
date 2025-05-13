@@ -1,6 +1,6 @@
 package edu.espe.cotbert.forestal.infraestructure.persistance;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import edu.espe.cotbert.forestal.domain.model.ForestalZone;
 import edu.espe.cotbert.forestal.domain.model.TreeSpecies;
 import edu.espe.cotbert.forestal.domain.repository.ForestalZoneRepository;

@@ -68,8 +68,14 @@ public class ConstantsDB {
             + "    ON fz.uuid_forestal_zone = fzts.uuid_forestal_zone\n"
             + "LEFT JOIN forestal_managment.tree_species ts\n"
             + "    ON ts.uuid_tree_species = fzts.uuid_tree_species;";
+    static String DELETE_CONSERVATION_ACTIVITY;
+    static String CREATE_CONSERVATION_ACTIVITY;
+    static String GET_BY_ID_CONSERVATION_ACTIVITY;
+    static String UPDATE_BY_ID_CONSERVATION_ACTIVITY;
+    static String GET_ALL_CONSERVATION_ACTIVITY;
 
     /**
      * **************Conservation Activities***************
+     * 
      */
 }

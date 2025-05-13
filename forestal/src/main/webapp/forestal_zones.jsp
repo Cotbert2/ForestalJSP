@@ -15,8 +15,11 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
         <!-- Simple-DataTables CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
 
         <link rel="icon" href="./assets/leave.png" type="image/x-icon">
     </head>
@@ -44,11 +47,11 @@
                         </svg> Download CSV</button>
 
 
-                    <button onclick="downloadCSV()" class="bg-red-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>New</button>
-                </div>
+                  <button data-modal-target="modalNew" data-modal-toggle="modalNew" class="bg-red-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>New</button>
+                  </div>
             </div>
 
             <div class="overflow-x-auto">
@@ -197,6 +200,103 @@
         });
     });
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+<script>
+var map = L.map('map').setView([-0.1807, -78.4678], 13); 
+
+  
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+  var drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+
+  var drawControl = new L.Control.Draw({
+    edit: {
+      featureGroup: drawnItems
+    },
+    draw: {
+      polygon: true,
+      marker: false,
+      circle: false,
+      rectangle: false,
+      polyline: false
+    }
+  });
+  map.addControl(drawControl);
+
+  map.on('draw:created', function (event) {
+    var layer = event.layer;
+    drawnItems.addLayer(layer);
+
+    // Generar GeoJSON cuando se termina de dibujar
+    var geoJsonData = layer.toGeoJSON();
+    console.log(geoJsonData); // Muestra el GeoJSON en la consola
+
+    // Asignar el GeoJSON al campo de entrada
+    document.getElementById('mapJson').value = JSON.stringify(geoJsonData);
+  });
+  
+
+</script>
+
+<script>
+document.getElementById('forestZoneForm').addEventListener('submit', function (e) {
+    e.preventDefault(); 
+
+    let isValid = true;
+    const form = e.target;
+
+    const zoneName = form.zoneName.value.trim();
+    const description = form.description.value.trim();
+    const area = parseFloat(form.area.value);
+    const image = form.image.value.trim();
+    const registerDate = form.registerDate.value.trim();
+    const mapJson = form.mapJson.value.trim();
+
+    [...form.elements].forEach(el => el.classList.remove('border-red-500'));
+
+    if (zoneName === "") {
+        isValid = false;
+        form.zoneName.classList.add('border-red-500');
+    }
+
+    if (description === "") {
+        isValid = false;
+        form.description.classList.add('border-red-500');
+    }
+
+    if (isNaN(area) || area <= 0) {
+        isValid = false;
+        form.area.classList.add('border-red-500');
+    }
+
+    if (image === "") {
+        isValid = false;
+        form.image.classList.add('border-red-500');
+    }
+
+    if (registerDate === "") {
+        isValid = false;
+        form.registerDate.classList.add('border-red-500');
+    }
+
+    if (!isValid) {
+        alert('Please correct the highlighted fields.');
+        return;
+    }
+    
+    if (!isValid){
+        alert("Formulario válido. Enviar datos...");
+        return;
+    }
+
+    form.submit();
+});
+</script>
+
 
 
 </body>

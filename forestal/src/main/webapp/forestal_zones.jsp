@@ -450,10 +450,13 @@
     
     const makeReadOnly = (uuid) => {
         const inputs = document.querySelectorAll("#zone-info-" + uuid + " input");
+        const saveBtn = document.querySelector("#btn-save-" + uuid);
+        saveBtn.classList.toggle("hidden");
         if(inputs){
             inputs.forEach(input => {
                 if(!input.hasAttribute("readonly")){
                     input.setAttribute("readonly","");
+                    input.classList.toggle("text-gray-400");
                     input.focus();
                 }
             });

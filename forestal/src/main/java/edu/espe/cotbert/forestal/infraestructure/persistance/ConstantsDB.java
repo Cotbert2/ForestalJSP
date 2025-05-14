@@ -106,4 +106,15 @@ public class ConstantsDB {
     public static final String GET_BY_ID_FORESTAL_ZONE_TREE_SPECIES = "SELECT * FROM forestal_managment.cforestal_zone_tree_species WHERE uuid_forestal_zone_tree_species = ?";
 
     public static final String UPDATE_BY_ID_FORESTAL_ZONE_TREE_SPECIES = "UPDATE forestal_managment.forestal_zone_tree_species SET uuid_forestal_zone = ?, uuid_tree_species = ?";
+    
+        /**
+     * **************Origins***************
+     */
+    public static final String GET_ALL_ORIGINS = "SELECT uuid_origin, name_origin FROM forestal_managment.origins";
+
+    public static final String GET_BY_ID_ORIGIN = "SELECT uuid_origin, name_origin FROM forestal_managment.origins WHERE uuid_origin = ?";
+
+    public static final String CREATE_ORIGINS = "INSERT INTO forestal_managment.origins (uuid_origin, name_origin) VALUES (?, ?)";
+    
+    
 }

@@ -4,6 +4,7 @@
  */
 package edu.espe.cotbert.forestal.presentation.controller;
 
+import edu.espe.cotbert.forestal.domain.model.Origins;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import edu.espe.cotbert.forestal.infraestructure.persistance.TreeSpeciesDAO;
 import edu.espe.cotbert.forestal.domain.model.TreeSpecies;
+import edu.espe.cotbert.forestal.infraestructure.persistance.OriginsDAO;
 import java.util.UUID;
 
 /**
@@ -28,7 +30,11 @@ public class TreeSpeciesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<TreeSpecies> trees = dao.findAll();
+        OriginsDAO originsDAO = new OriginsDAO();
+        List<Origins> origins = originsDAO.findAll();
+        
         request.setAttribute("trees", trees);
+        request.setAttribute("origins", origins);
         request.getRequestDispatcher("/tree_species.jsp").forward(request, response);   
     }
     @Override
@@ -56,8 +62,7 @@ public class TreeSpeciesServlet extends HttpServlet {
             String uuid = UUID.randomUUID().toString();
             TreeSpecies treeSpecies = new TreeSpecies(uuid, name, commonName, family, origin, orderName, habitat, description, image);
             dao.save(treeSpecies);
-            response.setStatus(HttpServletResponse.SC_CREATED);
-            response.getWriter().write("{\"message\":\"Forestal zone created successfully\"}");
+            response.sendRedirect("/forestal/tree_species");
             
         }catch(IllegalArgumentException e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

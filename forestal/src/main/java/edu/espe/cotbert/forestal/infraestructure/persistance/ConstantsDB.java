@@ -27,8 +27,7 @@ public class ConstantsDB {
 
     public static final String UPDATE_BY_ID_FORESTAL_ZONE = "UPDATE forestal_managment.forestal_zone SET\n"
             + "name_forestal_zone = ?, description_forestal_zone = ?, area_ha_forestal_zone = ?,\n"
-            + "image_url_forestal_zone = ?, register_date_forestal_zone = ?, map_forestal_zone = ?::jsonb\n"
-            + "WHERE uuid_forestal_zone = ?\n";
+            +  "register_date_forestal_zone = ? WHERE uuid_forestal_zone = ?\n";
 
     /**
      * **************Tree Species***************

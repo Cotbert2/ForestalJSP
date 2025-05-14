@@ -84,6 +84,31 @@ public class ForestalZoneServlet extends HttpServlet {
                 response.sendRedirect("/forestal/forestal_zone");
                 return;
             }
+           
+           if ("UPDATE".equalsIgnoreCase(method)) {
+                String uuid = request.getParameter("uuid");
+                String name = request.getParameter("name");
+                String description = request.getParameter("description");
+                String areaStr = request.getParameter("area");
+                String registerDateStr = request.getParameter("register_date");
+                registerDateStr = registerDateStr.replace("T", " ") + ":00";
+                
+                if (uuid == null || uuid.isBlank() || name == null || name.isBlank() || description == null || description.isBlank() || areaStr == null || areaStr.isBlank() || registerDateStr == null || registerDateStr.isBlank()) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
+                    return;
+                }
+                
+                float area = Float.parseFloat(areaStr);
+                Timestamp registerDate = Timestamp.valueOf(registerDateStr);
+                
+                ForestalZone forestalZone = new ForestalZone(uuid, name, description, area, "", registerDate, "");
+                dao.update(forestalZone);                
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\":\"Forest zone updat successfully\"}");
+                response.sendRedirect("/forestal/forestal_zone");
+                return;
+            }
 
             String name = request.getParameter("name");
             String description = request.getParameter("description");

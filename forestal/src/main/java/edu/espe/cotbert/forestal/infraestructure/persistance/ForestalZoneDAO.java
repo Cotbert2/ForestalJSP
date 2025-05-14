@@ -113,15 +113,14 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
     @Override
     public void update(ForestalZone zone) {
         try (Connection conn = ConnectionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(ConstantsDB.UPDATE_BY_ID_FORESTAL_ZONE)) {
-
+            
+         
             stmt.setString(1, zone.getName());
             stmt.setString(2, zone.getDescription());
             stmt.setFloat(3, zone.getArea());
-            stmt.setString(4, zone.getImage());
-            stmt.setTimestamp(5, zone.getRegisterDate());
-            stmt.setString(6, zone.getMapJson());
-            stmt.setObject(7, UUID.fromString(zone.getUuid()), java.sql.Types.OTHER);
-
+            stmt.setTimestamp(4, zone.getRegisterDate());
+            stmt.setObject(5,UUID.fromString(zone.getUuid()), java.sql.Types.OTHER);
+            
             stmt.executeUpdate();
             logger.info("ForestalZone updated successfully");
 

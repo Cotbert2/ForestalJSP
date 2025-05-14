@@ -180,123 +180,201 @@
 
             <c:forEach var="currentZone" items="${zones}">
                 <div id="modal-${currentZone.uuid}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-modal h-full bg-black/40">
-                    <div class="relative p-4 w-full max-w-2xl h-full md:h-auto mx-auto">
+                    <div class="relative p-4 w-full max-w-2xl max-h-[90vh] mx-auto overflow-y-auto">
                         <div class="bg-white rounded-lg shadow p-6 relative">
-                            <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-900" data-modal-hide="modal-${currentZone.uuid}">
-                                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                            </button>
-                            <h3 class="text-xl font-semibold text-green-700 mb-4">Zone Information</h3>
-                            <img src="${currentZone.image}" alt="Zone Image" class="rounded-lg mb-4 w-full h-60 object-cover">
-                            <div class="mb-4 space-y-1">
-                                <p><strong>Name:</strong> ${currentZone.name}</p>
-                                <p><strong>Description:</strong> ${currentZone.description}</p>
-                                <p><strong>Area:</strong> ${currentZone.area} ha</p>
-                                <p><strong>Register Date:</strong> ${currentZone.registerDate}</p>
-                            </div>
+                            <div class="sticky top-0 z-20 bg-white p-4 border-b border-gray-200 flex justify-between items-center">
+                                <h3 class="text-xl font-semibold text-green-700">Zone Information</h3>
+                                <button data-modal-hide="modal-${currentZone.uuid}" onclick="makeReadOnly('${currentZone.uuid}')" type="button" class="text-gray-400 hover:text-gray-900">
+                                  <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                  </svg>
+                                </button>
+                              </div>
+                              <div class="overflow-y-auto max-h-[75vh] p-6 space-y-4">
+                                        <img src="${currentZone.image}" alt="Zone Image" class="rounded-lg mb-4 w-full h-60 object-cover">
 
-                            <h4 class="text-lg font-semibold text-gray-700 mb-2">Tree Species</h4>
+                                       <div id="zone-info-${currentZone.uuid}" class="mb-4 space-y-2">
+                                            <div class=" flex items-center gap-4">
+                                              <strong class="w-32">Name:</strong>
+                                              <i class="fas fa-tree  text-lg"></i>
+                                              <input
+                                                id="name-${currentZone.uuid}"
+                                                readonly
+                                                class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                                type="text"
+                                                value="${currentZone.name}"
+                                              />
+                                            </div>
 
-                            <c:choose>
-                                <c:when test="${not empty currentZone.trees}">
-                                    <table class="min-w-full divide-y divide-gray-200 border">
-                                        <thead class="bg-gray-100">
-                                            <tr>
-                                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Species Name</th>
-                                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Scientific Name</th>
-                                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                            <c:forEach var="tree" items="${currentZone.trees}">
-                                                <tr>
-                                                    <td class="px-4 py-2">${tree.name}</td>
-                                                    <td class="px-4 py-2">${tree.commonName}</td>
-                                                    <td class="px-4 py-2">
-                                                        <button
-                                                            onclick="onDeleteTree('${currentZone.uuid}','${tree.uuid}')"
-                                                            class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500"
-                                                            >
+                                            <div class="flex items-center gap-4">
+                                              <strong class="w-32">Description:</strong>
+                                              <i class="fas fa-align-left  text-lg"></i>
+                                              <input
+                                                  id="description-${currentZone.uuid}"
+                                                readonly
+                                                class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                                type="text"
+                                                value="${currentZone.description}"
+                                              />
+                                            </div>
+
+                                            <div class="flex items-center gap-4">
+                                              <strong class="w-32">Area (ha):</strong>
+                                              <i class="fas fa-ruler-combined  text-lg"></i>
+                                              <input
+                                                  id="area-${currentZone.uuid}"
+                                                readonly
+                                                class="pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                                type="number"
+                                                value="${currentZone.area}"
+                                              />
+                                            </div>
+
+                                            <div class="flex items-center gap-4">
+                                              <strong class="w-32">Register Date:</strong>
+                                              <i class="fa-solid fa-calendar 0 text-lg"></i>
+                                              <input
+                                                  id="register-date-${currentZone.uuid}"
+                                                readonly
+                                                class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                                type="datetime-local"
+                                                value="${currentZone.registerDate}"
+                                              />
+                                            </div>
+
+                                          </div>
+
+
+
+
+                                        <h4 class="text-lg font-semibold text-gray-700 mb-2">Tree Species</h4>
+
+                                        <c:choose>
+                                            <c:when test="${not empty currentZone.trees}">
+                                                <table id="table-${currentZone.uuid}" class="min-w-full divide-y divide-gray-200 border">
+                                                    <thead class="bg-gray-100">
+                                                        <tr>
+                                                            <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Species Name</th>
+                                                            <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Scientific Name</th>
+                                                            <th class="px-4 py-2 text-left text-sm font-medium text-gray-500">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white divide-y divide-gray-200">
+                                                        <c:forEach var="tree" items="${currentZone.trees}">
+                                                            <tr>
+                                                                <td class="px-4 py-2">${tree.name}</td>
+                                                                <td class="px-4 py-2">${tree.commonName}</td>
+                                                                <td class="px-4 py-2">
+                                                                    <button
+                                                                        onclick="onDeleteTree('${currentZone.uuid}','${tree.uuid}')"
+                                                                        class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500"
+                                                                        >
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                               <div class="my-3 flex justify-between items-center">
+                                                   <div class="flex gap-3">
+                                                       <button onclick="makeEditable('${currentZone.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                            </svg>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </tbody>
-                                    </table>
-                                   <div class="my-3 flex justify-end">
-                                        <button id="addTreeBtn-${currentZone.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                            </svg>
-                                            Add Tree
-                                        </button>
-                                    </div>
+                                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                           </svg>
+                                                    </button>
+                                                       <button id="btn-save-${currentZone.uuid}" onclick="onUpdate('${currentZone.uuid}')" class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                                              </svg>
+                                                                Save
+                                                            </button>
+                                                   </div>
+                                                                
+                                                    <button id="addTreeBtn-${currentZone.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                        </svg>
+                                                        Add Tree
+                                                    </button> 
+                                                </div>
 
-                                    <div id="treeSelectContainer-${currentZone.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
-                                        <label for="tree" class="block text-sm font-medium text-gray-700">Select Tree</label>
+                                                <div id="treeSelectContainer-${currentZone.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
+                                                    <label for="tree" class="block text-sm font-medium text-gray-700">Select Tree</label>
 
-                                        <select id="treeSelect-${currentZone.uuid}" name="treeId" placeholder="Select a tree..."
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                                            <option value="" selected disabled hidden>Select a tree...</option>
-                                            <c:forEach var="currentTree" items="${trees}">
-                                                <c:set var="isAlreadyInZone" value="false" />
+                                                    <select id="treeSelect-${currentZone.uuid}" name="treeId" placeholder="Select a tree..."
+                                                            class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                                        <option value="" selected disabled hidden>Select a tree...</option>
+                                                        <c:forEach var="currentTree" items="${trees}">
+                                                            <c:set var="isAlreadyInZone" value="false" />
 
-                                                <c:forEach var="tree" items="${currentZone.trees}">
-                                                    <c:if test="${currentTree.uuid == tree.uuid}">
-                                                        <c:set var="isAlreadyInZone" value="true" />
-                                                    </c:if>
-                                                </c:forEach>
+                                                            <c:forEach var="tree" items="${currentZone.trees}">
+                                                                <c:if test="${currentTree.uuid == tree.uuid}">
+                                                                    <c:set var="isAlreadyInZone" value="true" />
+                                                                </c:if>
+                                                            </c:forEach>
 
-                                                <c:if test="${!isAlreadyInZone}">
-                                                    <option value="${currentTree.uuid}">${currentTree.commonName}</option>
-                                                </c:if>
-                                            </c:forEach>
-                                        </select>
+                                                            <c:if test="${!isAlreadyInZone}">
+                                                                <option value="${currentTree.uuid}">${currentTree.commonName}</option>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </select>
 
-                                        <div class="my-3 flex justify-end">
-                                            <button onclick="addNewTree('${currentZone.uuid}')"
-                                                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
-                                                Save
-                                            </button>  
-                                        </div>
-                                    </div>
-                                </c:when>
-                                <c:otherwise>
-                                    <p class="text-sm text-gray-500 italic">No trees added yet.</p>
-                                    <div class="my-3 flex justify-end">
-                                        <button id="addTreeBtn-${currentZone.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                            </svg>
-                                            Add Tree
-                                        </button>
-                                    </div>
+                                                    <div class="my-3 flex justify-end">
+                                                        <button onclick="addNewTree('${currentZone.uuid}')"
+                                                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
+                                                            Save
+                                                        </button>  
+                                                    </div>
 
-                                    <div id="treeSelectContainer-${currentZone.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
-                                        <label for="tree" class="block text-sm font-medium text-gray-700">Select Tree</label>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p class="text-sm text-gray-500 italic">No trees added yet.</p>
+                                                <div class="my-3 flex justify-end">
+                                                     <button onclick="makeEditable('${currentZone.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                           </svg>
+                                                    </button>
+                                                       <button id="btn-save-${currentZone.uuid}" onclick="onUpdate('${currentZone.uuid}')" class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                                              </svg>
+                                                                Save
+                                                            </button>
+                                                   </div>
+                                                    <button id="addTreeBtn-${currentZone.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                        </svg>
+                                                        Add Tree
+                                                    </button>
+                                                </div>
 
-                                        <select id="treeSelect-${currentZone.uuid}" name="treeId" placeholder="Select a tree..."
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                                            <option value="" selected disabled hidden>Select a tree...</option>
-                                            <c:forEach var="currentTree" items="${trees}">
-                                                <option value="${currentTree.uuid}">${currentTree.commonName}</option>
-                                            </c:forEach>
-                                        </select>
+                                                <div id="treeSelectContainer-${currentZone.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
+                                                    <label for="tree" class="block text-sm font-medium text-gray-700">Select Tree</label>
 
-                                        <div class="my-3 flex justify-end">
-                                            <button onclick="addNewTree('${currentZone.uuid}')"
-                                                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
-                                                Save
-                                            </button>  
-                                        </div>
-                                    </div>
-                                </c:otherwise>
-                            </c:choose>
+                                                    <select id="treeSelect-${currentZone.uuid}" name="treeId" placeholder="Select a tree..."
+                                                            class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                                        <option value="" selected disabled hidden>Select a tree...</option>
+                                                        <c:forEach var="currentTree" items="${trees}">
+                                                            <option value="${currentTree.uuid}">${currentTree.commonName}</option>
+                                                        </c:forEach>
+                                                    </select>
 
+                                                    <div class="my-3 flex justify-end">
+                                                        <button onclick="addNewTree('${currentZone.uuid}')"
+                                                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
+                                                            Save
+                                                        </button>  
+                                                    </div>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -308,11 +386,83 @@
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
 
+<form action="/forestal/forestal_zone" id="updateForm" method="post">
+    <input type="hidden" name="uuid" id="uuidUpdate">
+    <input type="hidden" name="name" id="nameUpdate">
+    <input type="hidden" name="description" id="descriptionUpdate">
+    <input type="hidden" name="area" id="areaUpdate">
+    <input type="hidden" name="register_date" id="registerDateUpdate">
+    <input type="hidden" name="_method" value="UPDATE">
+</form>
+
+<script>
+    const onUpdate = (uuid) => {
+        const name = document.getElementById('name-'+uuid).value;
+        const description = document.getElementById('description-'+uuid).value;
+        const area = document.getElementById('area-'+uuid).value;
+        const registerDate = document.getElementById('register-date-'+uuid).value;
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, update it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('uuidUpdate').value = uuid;
+                document.getElementById('nameUpdate').value = name;
+                document.getElementById('descriptionUpdate').value = description;
+                document.getElementById('areaUpdate').value = area;
+                document.getElementById('registerDateUpdate').value = registerDate;
+                document.getElementById('updateForm').submit();
+            }
+        });
+    };
+</script>
+
 <form action="/forestal/forestal_zone" id="deleteTreeForm" method="post">
     <input type="hidden" name="uuidForestal" id="uuidForestal">
     <input type="hidden" name="uuidTree" id="uuidTree">
     <input type="hidden" name="_method" value="DELETE_TREE">
 </form>
+
+<script>
+    
+    const activeEdit = false;
+
+    const makeEditable = (uuid) => {
+        const inputs = document.querySelectorAll("#zone-info-" + uuid + " input");
+        
+        const saveBtn = document.querySelector("#btn-save-" + uuid);
+        saveBtn.classList.toggle("hidden");
+        if(inputs){
+            inputs.forEach(input => {
+                input.toggleAttribute("readonly");
+                input.classList.toggle("text-gray-400");
+            });
+            inputs[0].focus();
+        }else{
+            console.log("error xd");
+        }
+    };
+    
+    const makeReadOnly = (uuid) => {
+        const inputs = document.querySelectorAll("#zone-info-" + uuid + " input");
+        if(inputs){
+            inputs.forEach(input => {
+                if(!input.hasAttribute("readonly")){
+                    input.setAttribute("readonly","");
+                    input.focus();
+                }
+            });
+            inputs[0].focus();
+        }else{
+            console.log("error xd");
+        }
+    };
+</script>
 
 <script>
     const onDeleteTree = (uuidForestal, uuidTree) => {
@@ -384,7 +534,6 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // Inicializa TomSelect para cada select correspondiente (esto puede ser opcional dependiendo de tu flujo de trabajo)
     document.querySelectorAll('[id^="treeSelect-"]').forEach(selectElement => {
         new TomSelect(selectElement, {
             create: false,
@@ -393,7 +542,6 @@
         });
     });
 
-    // Agrega el evento a cada botón "Add Tree"
     document.querySelectorAll('[id^="addTreeBtn-"]').forEach(btn => {
         btn.addEventListener('click', function() {
             const zoneId = btn.id.replace('addTreeBtn-', '');

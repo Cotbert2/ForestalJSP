@@ -17,6 +17,13 @@ Author     : jeffersonyepez
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
@@ -31,7 +38,7 @@ Author     : jeffersonyepez
                 <div class="flex justify-between items-center py-4">
                     <div class="text-2xl font-bold text-green-700">Run Forest, Run!</div>
                     <ul class="flex space-x-8 text-sm font-medium">
-                        <li><a href="#forest-zones" class="hover:text-green-700">Forest Zones</a></li>
+                        <li><a href="#forest-zones" class="hover:text-green-700">Tree Species</a></li>
                     </ul>
                 </div>
             </nav>
@@ -232,7 +239,7 @@ Author     : jeffersonyepez
 
                         <h4 class="text-lg font-semibold text-gray-700 mb-2">Forestal Zone</h4>
 
-                        <h4 class="text-lg font-semibold text-gray-700 mb-2">Tree Species</h4>
+                        
 
                         <c:choose>
                             <c:when test="${not empty currentTree.zones}">
@@ -410,7 +417,7 @@ Author     : jeffersonyepez
             });
 
         </script>
-<<<<<<< HEAD
+
 
         <script>
             function downloadCSV() {

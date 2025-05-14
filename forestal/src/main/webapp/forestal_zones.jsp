@@ -243,7 +243,17 @@
                                                 class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
                                             <option value="" selected disabled hidden>Select a tree...</option>
                                             <c:forEach var="currentTree" items="${trees}">
-                                                <option value="${currentTree.uuid}">${currentTree.commonName}</option>
+                                                <c:set var="isAlreadyInZone" value="false" />
+
+                                                <c:forEach var="tree" items="${currentZone.trees}">
+                                                    <c:if test="${currentTree.uuid == tree.uuid}">
+                                                        <c:set var="isAlreadyInZone" value="true" />
+                                                    </c:if>
+                                                </c:forEach>
+
+                                                <c:if test="${!isAlreadyInZone}">
+                                                    <option value="${currentTree.uuid}">${currentTree.commonName}</option>
+                                                </c:if>
                                             </c:forEach>
                                         </select>
 

@@ -200,7 +200,7 @@
                                               <input
                                                 id="name-${currentZone.uuid}"
                                                 readonly
-                                                class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                                class="text-gray-400 pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
                                                 type="text"
                                                 value="${currentZone.name}"
                                               />
@@ -212,7 +212,7 @@
                                               <input
                                                   id="description-${currentZone.uuid}"
                                                 readonly
-                                                class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                                class="text-gray-400 pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
                                                 type="text"
                                                 value="${currentZone.description}"
                                               />
@@ -224,7 +224,7 @@
                                               <input
                                                   id="area-${currentZone.uuid}"
                                                 readonly
-                                                class="pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                                class="text-gray-400 pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
                                                 type="number"
                                                 value="${currentZone.area}"
                                               />
@@ -236,7 +236,7 @@
                                               <input
                                                   id="register-date-${currentZone.uuid}"
                                                 readonly
-                                                class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                                class="text-gray-400 pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
                                                 type="datetime-local"
                                                 value="${currentZone.registerDate}"
                                               />
@@ -306,7 +306,7 @@
 
                                                     <select id="treeSelect-${currentZone.uuid}" name="treeId" placeholder="Select a tree..."
                                                             class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                                                        <option value="" selected disabled hidden>Select a tree...</option>
+                                                        <option value="" selected disabled hidden></option>
                                                         <c:forEach var="currentTree" items="${trees}">
                                                             <c:set var="isAlreadyInZone" value="false" />
 
@@ -333,8 +333,9 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <p class="text-sm text-gray-500 italic">No trees added yet.</p>
-                                                <div class="my-3 flex justify-end">
-                                                     <button onclick="makeEditable('${currentZone.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                <div class="my-3 flex justify-between items-center">
+                                                   <div class="flex gap-3">
+                                                       <button onclick="makeEditable('${currentZone.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                                            </svg>
@@ -346,12 +347,13 @@
                                                                 Save
                                                             </button>
                                                    </div>
+                                                                
                                                     <button id="addTreeBtn-${currentZone.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                         </svg>
                                                         Add Tree
-                                                    </button>
+                                                    </button> 
                                                 </div>
 
                                                 <div id="treeSelectContainer-${currentZone.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
@@ -359,7 +361,7 @@
 
                                                     <select id="treeSelect-${currentZone.uuid}" name="treeId" placeholder="Select a tree..."
                                                             class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                                                        <option value="" selected disabled hidden>Select a tree...</option>
+                                                        <option value="" selected disabled hidden></option>
                                                         <c:forEach var="currentTree" items="${trees}">
                                                             <option value="${currentTree.uuid}">${currentTree.commonName}</option>
                                                         </c:forEach>

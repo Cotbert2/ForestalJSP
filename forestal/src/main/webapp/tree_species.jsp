@@ -17,22 +17,14 @@ Author     : jeffersonyepez
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
-        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
-        
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+        
         <link rel="icon" href="./assets/leave.png" type="image/x-icon">
     </head>
-    <body class="bg-gray-50 text-gray-900">        <meta charset="UTF-8">
-        <title>Forest Zones</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
-        
+    <body class="bg-gray-50 text-gray-900">
+
 
         <header class="sticky top-0 z-50 bg-white shadow">
             <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,8 +55,6 @@ Author     : jeffersonyepez
 
 
             </div>
-
-            <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search trees..." class="mb-4 p-2 border border-gray-300 rounded w-full" />
 
             <div class="overflow-x-auto">
                 <table id="treesTable" class="min-w-full divide-y divide-gray-200">
@@ -385,7 +375,6 @@ Author     : jeffersonyepez
 
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-                // Inicializa TomSelect para cada select correspondiente (esto puede ser opcional dependiendo de tu flujo de trabajo)
                 document.querySelectorAll('[id^="zoneSelect-"]').forEach(selectElement => {
                     if (selectElement.tomselect)
                         return;
@@ -396,7 +385,6 @@ Author     : jeffersonyepez
                     });
                 });
 
-                // Agrega el evento a cada botón "Add Tree"
                 document.querySelectorAll('[id^="addZoneBtn-"]').forEach(btn => {
                     btn.addEventListener('click', function () {
                         const treeId = btn.id.replace('addZoneBtn-', '');
@@ -422,6 +410,7 @@ Author     : jeffersonyepez
             });
 
         </script>
+<<<<<<< HEAD
 
         <script>
             function downloadCSV() {
@@ -579,6 +568,36 @@ Author     : jeffersonyepez
     }
 
         </script>
+
+
+        <script>
+            function downloadCSV() {
+                const rows = document.querySelectorAll("#treesTable tbody tr");
+                let csv = "Name,Description,Area,Register Date\n";
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
+                });
+                const blob = new Blob([csv], {type: 'text/csv'});
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "forest_zones.csv";
+                link.click();
+            }
+
+
+
+
+        </script>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+
+        
+
 
     </body>
 </html>

@@ -94,7 +94,6 @@
                             </div>
                           </div>
 
-
                         <div>
                             <label for="map" class="block text-sm font-medium text-gray-700 mb-1">Select Area</label>
                             <div id="map" class="rounded border" style="height: 400px; width: 100%;"></div>
@@ -229,7 +228,7 @@
                                         </tbody>
                                     </table>
                                    <div class="my-3 flex justify-end">
-                                        <button id="addTreeBtn" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                        <button id="addTreeBtn-${currentZone.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
@@ -237,41 +236,52 @@
                                         </button>
                                     </div>
 
-                                    <div id="treeSelectContainer" class="hidden opacity-0 transition-all duration-500 ease-in-out">
-                                        <label for="tree">Select Tree</label>
-                                        <select id="treeSelect" name="treeId" placeholder="Select a tree...">
+                                    <div id="treeSelectContainer-${currentZone.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
+                                        <label for="tree" class="block text-sm font-medium text-gray-700">Select Tree</label>
+
+                                        <select id="treeSelect-${currentZone.uuid}" name="treeId" placeholder="Select a tree..."
+                                                class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
                                             <option value="" selected disabled hidden>Select a tree...</option>
                                             <c:forEach var="currentTree" items="${trees}">
-                                                <option value="${currentTree.uuid}">${currentTree.name}</option>
+                                                <option value="${currentTree.uuid}">${currentTree.commonName}</option>
                                             </c:forEach>
                                         </select>
+
                                         <div class="my-3 flex justify-end">
                                             <button onclick="addNewTree('${currentZone.uuid}')"
-                                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>  
+                                                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
+                                                Save
+                                            </button>  
                                         </div>
                                     </div>
                                 </c:when>
                                 <c:otherwise>
                                     <p class="text-sm text-gray-500 italic">No trees added yet.</p>
                                     <div class="my-3 flex justify-end">
-                                        <button id="addTreeBtn" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                        <button id="addTreeBtn-${currentZone.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
                                             Add Tree
                                         </button>
                                     </div>
-                                    <div id="treeSelectContainer" class="hidden opacity-0 transition-all duration-500 ease-in-out">
-                                        <label for="tree">Select Tree</label>
-                                        <select id="treeSelect" name="treeId" placeholder="Select a tree...">
+
+                                    <div id="treeSelectContainer-${currentZone.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
+                                        <label for="tree" class="block text-sm font-medium text-gray-700">Select Tree</label>
+
+                                        <select id="treeSelect-${currentZone.uuid}" name="treeId" placeholder="Select a tree..."
+                                                class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
                                             <option value="" selected disabled hidden>Select a tree...</option>
                                             <c:forEach var="currentTree" items="${trees}">
-                                                <option value="${currentTree.uuid}">${currentTree.name}</option>
+                                                <option value="${currentTree.uuid}">${currentTree.commonName}</option>
                                             </c:forEach>
                                         </select>
+
                                         <div class="my-3 flex justify-end">
                                             <button onclick="addNewTree('${currentZone.uuid}')"
-                                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>  
+                                                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
+                                                Save
+                                            </button>  
                                         </div>
                                     </div>
                                 </c:otherwise>
@@ -322,7 +332,11 @@
 
 <script>
   function addNewTree(uuidForestal) {
-    const select = document.getElementById("treeSelect");
+    const select = document.getElementById(`treeSelect-` + uuidForestal);
+    if (!select) {
+      console.error(`No se encontró el select para la zona con UUID: ${uuidForestal}`);
+      return;
+    }
     const uuidTree = select.value;
     Swal.fire({
       title: "Are you sure?",
@@ -358,30 +372,42 @@
 </script>
 
 
-
 <script>
-  new TomSelect("#treeSelect", {
-    create: false,
-    allowEmptyOption: true,
-    maxOptions: 100
-  });
-  
-  const addTreeBtn = document.getElementById('addTreeBtn');
-    const treeSelectContainer = document.getElementById('treeSelectContainer');
-
-    addTreeBtn.addEventListener('click', function() {
-        if (treeSelectContainer.classList.contains('hidden')) {
-            treeSelectContainer.classList.remove('hidden');
-            setTimeout(() => {
-                treeSelectContainer.classList.add('opacity-100');
-            }, 10); 
-        } else {
-            treeSelectContainer.classList.remove('opacity-100');
-            setTimeout(() => {
-                treeSelectContainer.classList.add('hidden');
-            }, 500); 
-        }
+  document.addEventListener("DOMContentLoaded", () => {
+    // Inicializa TomSelect para cada select correspondiente (esto puede ser opcional dependiendo de tu flujo de trabajo)
+    document.querySelectorAll('[id^="treeSelect-"]').forEach(selectElement => {
+        new TomSelect(selectElement, {
+            create: false,
+            allowEmptyOption: true,
+            maxOptions: 100
+        });
     });
+
+    // Agrega el evento a cada botón "Add Tree"
+    document.querySelectorAll('[id^="addTreeBtn-"]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const zoneId = btn.id.replace('addTreeBtn-', '');
+            const treeSelectContainer = document.getElementById(`treeSelectContainer-` + zoneId); 
+            console.log(treeSelectContainer);
+            if (treeSelectContainer) {
+                if (treeSelectContainer.classList.contains('hidden')) {
+                    treeSelectContainer.classList.remove('hidden');
+                    setTimeout(() => {
+                        treeSelectContainer.classList.add('opacity-100');
+                    }, 10);
+                } else {
+                    treeSelectContainer.classList.remove('opacity-100');
+                    setTimeout(() => {
+                        treeSelectContainer.classList.add('hidden');
+                    }, 500);
+                }
+            } else {
+                console.error(`El contenedor para la zona con ID ${zoneId} no se encontró.`);
+            }
+        });
+    });
+});
+
 </script>
 
 <script>
@@ -481,42 +507,6 @@
             isValid = false;
             form.registerDate.classList.add('border-green-500');
         }
-        
-        const mapJson = document.getElementById('map').value;
-
-        // Verificar si hay datos GeoJSON
-        if (!mapJson || mapJson.trim() === '') {
-          e.preventDefault();
-          Swal.fire({
-            icon: 'warning',
-            title: 'Área no seleccionada',
-            text: 'Por favor, dibuja un área en el mapa antes de guardar.'
-          });
-          return;
-        }
-
-        try {
-          const geojson = JSON.parse(mapJson);
-
-          // Validar que hay al menos una figura completa
-          if (!geojson.features || geojson.features.length === 0) {
-            e.preventDefault();
-            Swal.fire({
-              icon: 'warning',
-              title: 'Área incompleta',
-              text: 'El área seleccionada no está completa. Asegúrate de cerrar el polígono.'
-            });
-          }
-
-        } catch (err) {
-          e.preventDefault();
-          Swal.fire({
-            icon: 'error',
-            title: 'Error en el mapa',
-            text: 'El área seleccionada no es válida.'
-          });
-        }
-      });
 
         if (!isValid) {
             alert('Please correct the highlighted fields.');

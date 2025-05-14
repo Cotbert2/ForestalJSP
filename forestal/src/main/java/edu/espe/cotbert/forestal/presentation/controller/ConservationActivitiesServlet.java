@@ -1,8 +1,10 @@
 package edu.espe.cotbert.forestal.presentation.controller;
 
 import edu.espe.cotbert.forestal.domain.model.ConservationActivities;
+import edu.espe.cotbert.forestal.domain.model.ForestalZone;
 import edu.espe.cotbert.forestal.infraestructure.config.LoggerConfig;
 import edu.espe.cotbert.forestal.infraestructure.persistance.ConservationActivitiesDAO;
+import edu.espe.cotbert.forestal.infraestructure.persistance.ForestalZoneDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,6 +25,8 @@ public class ConservationActivitiesServlet extends HttpServlet {
 
     private static final Logger logger = LoggerConfig.getLogger();
     private final ConservationActivitiesDAO dao = new ConservationActivitiesDAO();
+        private final ForestalZoneDAO daoForestal = new ForestalZoneDAO();
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,6 +64,8 @@ public class ConservationActivitiesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<ConservationActivities> activities = dao.findAll();
         request.setAttribute("activities", activities);
+        List<ForestalZone> zones = daoForestal.findAll();
+        request.setAttribute("zones", zones);
         request.getRequestDispatcher("/conservation_activities.jsp").forward(request, response);
     }
 

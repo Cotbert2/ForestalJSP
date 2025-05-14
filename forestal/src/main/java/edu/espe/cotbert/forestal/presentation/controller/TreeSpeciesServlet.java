@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import edu.espe.cotbert.forestal.infraestructure.persistance.TreeSpeciesDAO;
 import edu.espe.cotbert.forestal.domain.model.TreeSpecies;
+import edu.espe.cotbert.forestal.infraestructure.persistance.ForestZoneTreeSpeciesDAO;
 import edu.espe.cotbert.forestal.infraestructure.persistance.ForestalZoneDAO;
 import edu.espe.cotbert.forestal.infraestructure.persistance.OriginsDAO;
 import java.util.UUID;
@@ -27,6 +28,7 @@ import java.util.UUID;
 public class TreeSpeciesServlet extends HttpServlet {
     private final TreeSpeciesDAO dao = new TreeSpeciesDAO();
     private final ForestalZoneDAO zoneDAO = new ForestalZoneDAO();
+    private final ForestZoneTreeSpeciesDAO daoForestalZoneTreeSpecies = new ForestZoneTreeSpeciesDAO();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -50,7 +52,25 @@ public class TreeSpeciesServlet extends HttpServlet {
 
         try {
             // ✅ Manejar la lógica de agregar una zona a una especie
+            
+            
             String method = request.getParameter("_method");
+            
+            if ("DELETE".equalsIgnoreCase(method)) {
+                String uuid = request.getParameter("uuid");
+                if (uuid == null || uuid.isBlank()) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
+                    return;
+                }
+
+                dao.delete(uuid);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\":\"Tree deleted successfully\"}");
+                response.sendRedirect("/forestal/tree_species");
+                return;
+            }
+            
             if ("ADD_ZONE".equalsIgnoreCase(method)) {
                 String uuidTree = request.getParameter("uuidTree");
                 String uuidZone = request.getParameter("uuidZone");
@@ -61,7 +81,7 @@ public class TreeSpeciesServlet extends HttpServlet {
                     return;
                 }
 
-                // Guardar en tabla intermedia
+               
                 edu.espe.cotbert.forestal.infraestructure.persistance.ForestZoneTreeSpeciesDAO daoLink = new edu.espe.cotbert.forestal.infraestructure.persistance.ForestZoneTreeSpeciesDAO();
                 String uuid = UUID.randomUUID().toString();
                 edu.espe.cotbert.forestal.domain.model.ForestalZoneTreeSpecies relation =
@@ -71,8 +91,24 @@ public class TreeSpeciesServlet extends HttpServlet {
                 response.sendRedirect("/forestal/tree_species");
                 return;
             }
+            
+            if ("DELETE_TREE".equalsIgnoreCase(method)) {
+                String uuidForestal = request.getParameter("uuidForestal");
+                String uuidTree = request.getParameter("uuidTree");
+                if (uuidForestal == null || uuidForestal.isBlank() || uuidTree == null || uuidTree.isBlank()) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
+                    return;
+                }
+                
+                daoForestalZoneTreeSpecies.delete(uuidForestal,uuidTree);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("{\"message\":\"Tree Specie in Forest zone deleted successfully\"}");
+                response.sendRedirect("/forestal/forestal_zone");
+                return;
+            }
 
-            // ✅ Aquí sigue tu lógica para insertar un árbol nuevo (como ya estaba)
+            
             String name = request.getParameter("name");
             String commonName = request.getParameter("common_name");
             String family = request.getParameter("family");

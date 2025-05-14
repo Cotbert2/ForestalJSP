@@ -4,10 +4,10 @@
  */
 package edu.espe.cotbert.forestal.domain.model;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 /**
  *
  * @author mateo
@@ -21,6 +21,8 @@ public class TreeSpecies {
     private String orderName;
     private String habitat;
     private String description;
+    private List<ForestalZone> zones;
+    private String zonesJSON;
     private String image;
     
     public TreeSpecies(String uuid, String name, String commonName, String family, String origin, String orderName, String habitat, String description, String image){
@@ -33,6 +35,7 @@ public class TreeSpecies {
         this.habitat = habitat;
         this.description = description;
         this.image = image;
+        this.zones = new ArrayList<>();
     }
     //generate uuid if null
     public TreeSpecies(String name, String commonName, String family,String origin, String orderName, String habitat, String description, String image){
@@ -45,7 +48,10 @@ public class TreeSpecies {
         this.habitat = habitat;
         this.description = description;
         this.image = image;
+        this.zones = new ArrayList<>();
     }
+    
+    
     
     //setters and getters
 
@@ -120,6 +126,24 @@ public class TreeSpecies {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public List<ForestalZone> getZones() {
+        return zones;
+    }
+
+    public void setZones(List<ForestalZone> zones) {
+        this.zones = zones;
+    }
+
+    public String getZonesJSON() {
+        return zonesJSON;
+    }
+
+    public void setZonesJSON(String zonesJSON) {
+        this.zonesJSON = zonesJSON;
+    }
+    
+    
     
     
 }

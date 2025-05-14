@@ -41,8 +41,32 @@ public class ConstantsDB {
             + "SET is_deleted_tree_species = true \n"
             + "WHERE uuid_tree_species  = ?;";
 
-    public static final String GET_ALL_TREE_SPECIES = "SELECT * FROM forestal_managment.tree_species ts where ts.is_deleted_tree_species = false;";
+    public static final String GET_ALL_TREE_SPECIES = 
+    "SELECT \n" +
+    "    ts.uuid_tree_species,\n" +
+    "    ts.name_tree_species,\n" +
+    "    ts.common_name_tree_species,\n" +
+    "    ts.family_tree_species,\n" +
+    "    ts.origin_tree_species,\n" +
+    "    ts.order_name_tree_species,\n" +
+    "    ts.habitat_tree_species,\n" +
+    "    ts.description_tree_species,\n" +
+    "    ts.image_url_tree_species,\n" +
+    "    z.uuid_forestal_zone,\n" +
+    "    z.name_forestal_zone,\n" +
+    "    z.description_forestal_zone,\n" +
+    "    z.area_ha_forestal_zone,\n" +
+    "    z.image_url_forestal_zone,\n" +
+    "    z.register_date_forestal_zone,\n" +
+    "    z.map_forestal_zone\n" +
+    "FROM forestal_managment.tree_species ts\n" +
+    "LEFT JOIN forestal_managment.forestal_zone_tree_species fzts\n" +
+    "    ON ts.uuid_tree_species = fzts.uuid_tree_species\n" +
+    "LEFT JOIN forestal_managment.forestal_zone z\n" +
+    "    ON z.uuid_forestal_zone = fzts.uuid_forestal_zone\n" +
+    "WHERE z.is_deleted_forestal_zone IS NOT TRUE OR z.is_deleted_forestal_zone IS NULL";
 
+    
     public static final String GET_BY_ID_TREE_SPECIES = "SELECT * FROM forestal_managment.tree_species WHERE is_deleted_tree_species = false WHERE uuid_tree_species = ?";
 
     public static final String UPDATE_BY_ID_TREE_SPECIES = "UPDATE forestal_managment.tree_species\n"

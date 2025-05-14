@@ -1,5 +1,6 @@
 
 package edu.espe.cotbert.forestal.infraestructure.persistance;
+import edu.espe.cotbert.forestal.domain.model.ForestalZone;
 import edu.espe.cotbert.forestal.domain.model.TreeSpecies;
 import edu.espe.cotbert.forestal.domain.repository.TreeSpeciesRepository;
 import edu.espe.cotbert.forestal.infraestructure.config.ConnectionDB;
@@ -41,12 +42,25 @@ public class TreeSpeciesDAO implements TreeSpeciesRepository{
     public List<TreeSpecies> findAll(){
         List<TreeSpecies> trees = new ArrayList<>();
         try(Connection conn = ConnectionDB.getConnection();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(ConstantsDB.GET_ALL_TREE_SPECIES)){
-            
-            while (rs.next()){
-                TreeSpecies tree = new TreeSpecies(
-                        rs.getString("uuid_tree_species"),
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(ConstantsDB.GET_ALL_TREE_SPECIES)) {
+
+            while (rs.next()) {
+                // Extraer el UUID una vez
+                String uuidTree = rs.getString("uuid_tree_species");
+
+                // Verificar si ya existe el árbol
+                TreeSpecies existingTree = trees.stream()
+                    .filter(t -> t.getUuid().equals(uuidTree))
+                    .findFirst()
+                    .orElse(null);
+
+                TreeSpecies tree;
+                if (existingTree != null) {
+                    tree = existingTree;
+                } else {
+                    tree = new TreeSpecies(
+                        uuidTree,
                         rs.getString("name_tree_species"),
                         rs.getString("common_name_tree_species"),
                         rs.getString("family_tree_species"),
@@ -55,14 +69,31 @@ public class TreeSpeciesDAO implements TreeSpeciesRepository{
                         rs.getString("habitat_tree_species"),
                         rs.getString("description_tree_species"),
                         rs.getString("image_url_tree_species")
-                );
-                trees.add(tree);
+                    );
+                    trees.add(tree);
+                }
+
+                // Agregar zona si existe
+                if (rs.getString("uuid_forestal_zone") != null) {
+                    ForestalZone zone = new ForestalZone(
+                        rs.getString("uuid_forestal_zone"),
+                        rs.getString("name_forestal_zone"),
+                        rs.getString("description_forestal_zone"),
+                        rs.getFloat("area_ha_forestal_zone"),
+                        rs.getString("image_url_forestal_zone"),
+                        rs.getTimestamp("register_date_forestal_zone"),
+                        rs.getString("map_forestal_zone")
+                    );
+                    tree.getZones().add(zone);
+                }
             }
-        }catch(Exception e){
+
+        } catch(Exception e){
             logger.severe("Error retrieving trees species: " + e.getMessage());
         }
         return trees;
     }
+
     
     @Override
     public TreeSpecies findById(String uuid){

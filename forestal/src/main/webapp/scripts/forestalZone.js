@@ -226,7 +226,8 @@ document.getElementById('forestZoneForm').addEventListener('submit',  (e) => {
     }
 
     if (!isValid) {
-        toastr.warning("Invalid form. Please check your input.");
+        console.error("Please fill in all required fields.");
+        onWarningToast("Please fill in all required fields.");        
         return;
     }
 

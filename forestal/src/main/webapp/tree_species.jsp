@@ -677,6 +677,54 @@ Author     : jeffersonyepez
         <input type="hidden" name="_method" value="UPDATE">
     </form>
 
+<<<<<<< HEAD
+=======
+    <script>
+        const onUpdate = (uuid) => {
+            const name = document.getElementById("name-" + uuid)?.value || "";
+            const commonName = document.getElementById("commonName-" + uuid)?.value || "";
+            const family = document.getElementById("family-" + uuid)?.value || "";
+            const origin = document.getElementById("origin-" + uuid)?.value || "";
+            const orderName = document.getElementById("orderName-" + uuid)?.value || "";
+            const habitat = document.getElementById("habitat-" + uuid)?.value || "";
+            const description = document.getElementById("description-" + uuid)?.value || "";
+            //const image = document.querySelector("#modal-"+uuid img)?.src || "";
+
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, update it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('uuidUpdate').value = uuid;
+                    document.getElementById('nameUpdate').value = name;
+                    document.getElementById('commonNameUpdate').value = commonName;
+                    document.getElementById('familyUpdate').value = family;
+                    document.getElementById('originUpdate').value = origin;
+                    document.getElementById('orderNameUpdate').value = orderName;
+                    document.getElementById('habitatUpdate').value = habitat;
+                    document.getElementById('descriptionUpdate').value = description;
+
+
+                    document.getElementById('updateForm').submit();
+                }
+            });
+        };
+    </script>
+
+    <script src="./scripts/downloadCSV.js"></script>
+
+    <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
+    <input type="hidden" name="uuidForestal" id="uuidForestal">
+    <input type="hidden" name="uuidTree" id="uuidTree">
+    <input type="hidden" name="_method" value="DELETE_ZONE">
+</form>
+>>>>>>> faea819f5607c7a2605dc2e5e388034239747e3a
     
 
 

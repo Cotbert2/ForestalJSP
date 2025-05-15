@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -15,6 +16,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
+
+        <link rel="stylesheet" href="./styles/scrollbar.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
@@ -25,7 +28,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     </head>
-    <body class="bg-gray-50 text-gray-900">
+    <body class="bg-gray-50 text-gray-900 scroll-container">
 
         <header class="sticky top-0 z-50 bg-white shadow">
             <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -149,8 +152,11 @@
                                 <td class="px-6 py-4">${currentZone.description}</td>
                                 <td class="px-6 py-4">${currentZone.area}</td>
                                 <td class="px-6 py-4">${currentZone.registerDate}</td>
+                            
                                 <td class="px-6 py-4">
                                     <button 
+                                    onclick='renderMap(`${currentZone.mapJson}`)'
+
                                         data-modal-target="modal-${currentZone.uuid}"
                                         data-modal-toggle="modal-${currentZone.uuid}"
                                         class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500">
@@ -190,8 +196,15 @@
                                   </svg>
                                 </button>
                               </div>
-                              <div class="overflow-y-auto max-h-[75vh] p-6 space-y-4">
+                              <div class="
+                              overflow-y-auto max-h-[75vh] p-6 space-y-4">
                                         <img src="${currentZone.image}" alt="Zone Image" class="rounded-lg mb-4 w-full h-60 object-cover">
+
+                                        <div>
+                                            <label for="mapView" class="block text-sm font-medium text-gray-700 mb-1">Location: </label>
+                                            <div id="mapView" class="rounded border" style="height: 400px; width: 100%;"></div>
+                                            <input type="hidden" id="mapViewJson" name="mapViewJson">
+                                        </div>
 
                                        <div id="zone-info-${currentZone.uuid}" class="mb-4 space-y-2">
                                             <div class=" flex items-center gap-4">
@@ -374,6 +387,9 @@
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>
+
+
+
                             </div>
                         </div>
                     </div>
@@ -742,17 +758,44 @@ document.querySelectorAll('[data-modal-toggle="modalNew"]').forEach(btn => {
                     drawnItems.addLayer(layer);
 
                     const geoJsonData = layer.toGeoJSON();
+                    console.log("Nuevo polígono dibujado:", geoJsonData);
                     document.getElementById('mapJson').value = JSON.stringify(geoJsonData);
                 });
 
                 mapInitialized = true;
             } else {
-                map.invalidateSize(); // recalcula tamaño si ya existe
+                map.invalidateSize();
             }
-        }, 300); // Espera que el modal se abra visualmente
+        }, 300); 
     });
 });
 </script>
+
+
+
+<script>
+
+    const renderMap = (mapJson) => {
+        console.log("Renderizando mapa...");
+        console.log("mapJson", mapJson);
+        setTimeout(() => {
+
+            console.log("Renderizando mapa...");
+            const parsedGeoJSON = JSON.parse(mapJson);
+            const map = L.map("mapView").setView([-0.420, -78.49], 13);
+
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: "© OpenStreetMap contributors"
+            }).addTo(map);
+
+            const geoJsonLayer = L.geoJSON(parsedGeoJSON).addTo(map);
+
+            map.fitBounds(geoJsonLayer.getBounds());
+        }, 1000);
+
+}
+    </script>
+    
 
 
 </body>

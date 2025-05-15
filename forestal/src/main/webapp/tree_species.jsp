@@ -54,7 +54,7 @@ Author     : jeffersonyepez
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-3xl font-bold text-green-800">Tree Species</h2>
                 <div class="flex">
-                    <button onclick="downloadCSV()" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
+                    <button onclick="downloadCSVFileFromTable('treesTable','tree_species')" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
                         </svg> Download CSV</button>
@@ -655,25 +655,7 @@ Author     : jeffersonyepez
         };
     </script>
 
-    <script>
-        function downloadCSV() {
-            const rows = document.querySelectorAll("#treesTable tbody tr");
-            let csv = "Name,Description,Area,Register Date\n";
-            rows.forEach(row => {
-                const cells = row.querySelectorAll("td");
-                csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
-            });
-            const blob = new Blob([csv], {type: 'text/csv'});
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "forest_zones.csv";
-            link.click();
-        }
-
-
-
-
-    </script>
+    <script src="./scipts/downloadCSV.js"></script>
 
     <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
     <input type="hidden" name="uuidForestal" id="uuidForestal">
@@ -838,26 +820,6 @@ Author     : jeffersonyepez
 
     </script>
 
-
-    <script>
-        function downloadCSV() {
-            const rows = document.querySelectorAll("#treesTable tbody tr");
-            let csv = "Name,Description,Area,Register Date\n";
-            rows.forEach(row => {
-                const cells = row.querySelectorAll("td");
-                csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
-            });
-            const blob = new Blob([csv], {type: 'text/csv'});
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = "forest_zones.csv";
-            link.click();
-        }
-
-
-
-
-    </script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>

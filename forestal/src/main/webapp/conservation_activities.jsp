@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
     <link rel="icon" href="./assets/leave.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -63,7 +64,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
                         <div class="relative">
                             <i class="fas fa-tag absolute left-3 top-3 text-gray-400"></i>
-                            <input type="text" name="name" id="activityName" required 
+                            <input type="text" name="name" id="activityName"  
                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
                     </div>
@@ -72,7 +73,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                         <div class="relative">
                             <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
-                            <textarea name="description" id="activityDescription" required 
+                            <textarea name="description" id="activityDescription"  
                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
                         </div>
                     </div>
@@ -81,7 +82,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
                         <div class="relative">
                             <i class="fas fa-calendar-alt absolute left-3 top-3 text-gray-400"></i>
-                            <input type="datetime-local" name="start_date" id="activityStartDate" required 
+                            <input type="datetime-local" name="start_date" id="activityStartDate"  
                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
                     </div>
@@ -90,7 +91,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
                         <div class="relative">
                             <i class="fas fa-calendar-alt absolute left-3 top-3 text-gray-400"></i>
-                            <input type="datetime-local" name="end_date" id="activityEndDate" required 
+                            <input type="datetime-local" name="end_date" id="activityEndDate"  
                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
                     </div>
@@ -99,7 +100,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Register Date</label>
                         <div class="relative">
                             <i class="fas fa-calendar-alt absolute left-3 top-3 text-gray-400"></i>
-                            <input type="datetime-local" name="register_date" id="registerDate" required 
+                            <input type="datetime-local" name="register_date" id="registerDate"  
                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                         </div>
                     </div>
@@ -108,7 +109,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-1">Forest Zone</label>
                         <div class="relative">
                             <i class="fas fa-tree absolute left-3 top-3 text-gray-400"></i>
-                            <select name="uuidd_forestal_zone" id="activityZone" required 
+                            <select name="uuidd_forestal_zone" id="activityZone"  
                                     class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                                 <option value="" selected disabled>Select a zone...</option>
                                 <c:forEach var="zone" items="${zones}">
@@ -213,33 +214,45 @@
                     <div id="activity-info-${activity.uuid}" class="grid grid-cols-1 gap-3 px-5">
                         <div class="flex items-center space-x-4">
                             <label class="w-32 text-gray-700 font-bold">Name:</label>
+                            <i class="fa-solid fa-handshake"></i>
                             <input id="name-${activity.uuid}" type="text" value="${activity.name}" readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
                         </div>
                         <div class="flex items-center space-x-4">
                             <label class="w-32 text-gray-700 font-bold">Description:</label>
+                            <i class="fa-regular fa-rectangle-list"></i>
                             <textarea id="description-${activity.uuid}" readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border">${activity.description}</textarea>
                         </div>
                         <div class="flex items-center space-x-4">
                             <label class="w-32 text-gray-700 font-bold">Start Date:</label>
+                            <i class="fa-solid fa-calendar-days"></i>
                             <input id="startDate-${activity.uuid}" type="datetime-local"
                                 value="<fmt:formatDate value='${activity.startDate}' pattern='yyyy-MM-dd\'T\'HH:mm' />"
                                 readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
                         </div>
                         <div class="flex items-center space-x-4">
                             <label class="w-32 text-gray-700 font-bold">End Date:</label>
+                            <i class="fa-solid fa-calendar-days"></i>
                             <input id="endDate-${activity.uuid}" type="datetime-local"
                                 value="<fmt:formatDate value='${activity.endDate}' pattern='yyyy-MM-dd\'T\'HH:mm' />"
                                 readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
                         </div>
                         <div class="flex items-center space-x-4">
                             <label class="w-32 text-gray-700 font-bold">Register Date:</label>
+                            <i class="fa-solid fa-calendar-days"></i>
                             <input id="registerDate-${activity.uuid}" type="datetime-local"
                                 value="<fmt:formatDate value='${activity.registerDate}' pattern='yyyy-MM-dd\'T\'HH:mm' />"
                                 readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
                         </div>
                         <div class="flex items-center space-x-4">
                             <label class="w-32 text-gray-700 font-bold">Forest Zone:</label>
-                            <input id="forestalZone-${activity.uuid}" type="text" value="${activity.forestalZoneUuid}" readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
+                            <i class="fa-solid fa-tree"></i>
+                            <select id="zone-${activity.uuid}" disabled class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border">
+                                <c:forEach var="zone" items="${zones}">
+                                    <option value="${zone.uuid}" ${zone.uuid == activity.forestalZoneUuid ? 'selected' : ''}>
+                                        ${zone.name}
+                                    </option>
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
 
@@ -284,13 +297,81 @@
 
     <script>
     const onUpdate = (uuid) => {
-        const name = document.getElementById('name-' + uuid).value;
-        const description = document.getElementById('description-' + uuid).value;
-        const startDate = document.getElementById('startDate-' + uuid).value;
-        const endDate = document.getElementById('endDate-' + uuid).value;
-        const registerDate = document.getElementById('registerDate-' + uuid).value;
-        const forestalZone = document.getElementById('forestalZone-' + uuid).value;
+        const nameEl = document.getElementById('name-' + uuid);
+        const descEl = document.getElementById('description-' + uuid);
+        const startEl = document.getElementById('startDate-' + uuid);
+        const endEl = document.getElementById('endDate-' + uuid);
+        const regEl = document.getElementById('registerDate-' + uuid);
+        const zoneEl = document.getElementById('zone-' + uuid);
 
+        // Limpiar bordes rojos previos
+        [nameEl, descEl, startEl, endEl, regEl, zoneEl].forEach(el => el.classList.remove('border-red-500'));
+
+        let isValid = true;
+        let errorMessage = "";
+
+        // Validaciones de campos vacíos
+        if (!nameEl.value.trim()) {
+            nameEl.classList.add('border-red-500');
+            isValid = false;
+        }
+
+        if (!descEl.value.trim()) {
+            descEl.classList.add('border-red-500');
+            isValid = false;
+        }
+
+        if (!startEl.value) {
+            startEl.classList.add('border-red-500');
+            isValid = false;
+        }
+
+        if (!endEl.value) {
+            endEl.classList.add('border-red-500');
+            isValid = false;
+        }
+
+        if (!regEl.value) {
+            regEl.classList.add('border-red-500');
+            isValid = false;
+        }
+
+        if (!zoneEl.value) {
+            zoneEl.classList.add('border-red-500');
+            isValid = false;
+        }
+
+        // Validaciones de fechas
+        if (startEl.value && endEl.value) {
+            const start = new Date(startEl.value);
+            const end = new Date(endEl.value);
+            if (start >= end) {
+                endEl.classList.add('border-red-500');
+                isValid = false;
+                errorMessage = "The start date cannot be later than or equal to the end date.";
+            }
+        }
+
+        if (regEl.value && startEl.value) {
+            const register = new Date(regEl.value);
+            const start = new Date(startEl.value);
+            if (register > start) {
+                regEl.classList.add('border-red-500');
+                isValid = false;
+                errorMessage = "The register date cannot be later than the start date.";
+            }
+        }
+
+        // Mostrar errores
+        if (!isValid) {
+            if (!errorMessage) {
+                errorMessage = "Please fill in all required fields.";
+            }
+            onErrorToast(errorMessage);
+            return;
+        }
+
+        // Confirmación y envío si es válido
         Swal.fire({
             title: "¿Estás seguro?",
             text: "¡No podrás revertir esta acción!",
@@ -303,22 +384,24 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('uuidUpdate').value = uuid;
-                document.getElementById('nameUpdate').value = name;
-                document.getElementById('descriptionUpdate').value = description;
-                document.getElementById('startDateUpdate').value = startDate;
-                document.getElementById('endDateUpdate').value = endDate;
-                document.getElementById('registerDateUpdate').value = registerDate;
-                document.getElementById('forestalZoneUpdate').value = forestalZone;
+                document.getElementById('nameUpdate').value = nameEl.value;
+                document.getElementById('descriptionUpdate').value = descEl.value;
+                document.getElementById('startDateUpdate').value = startEl.value;
+                document.getElementById('endDateUpdate').value = endEl.value;
+                document.getElementById('registerDateUpdate').value = regEl.value;
+                document.getElementById('forestalZoneUpdate').value = zoneEl.value;
 
                 document.getElementById('updateForm').submit();
             }
         });
     };
 
+
     const makeEditable = (uuid) => {
         console.log("UUID recibido:", uuid);
         const inputs = document.querySelectorAll("#activity-info-"+uuid + " input");
         const textArea = document.querySelectorAll("#activity-info-" + uuid + " textarea");
+        const selects = document.querySelectorAll("#activity-info-" + uuid + " select");
         const saveBtn = document.getElementById("btn-save-" + uuid);
 
         if (!inputs || inputs.length === 0) {
@@ -342,6 +425,13 @@
             area.classList.toggle("bg-gray-100");
             area.classList.toggle("text-gray-700");
         });
+        
+        selects.forEach(select => {
+            select.disabled = !select.disabled;
+            select.classList.toggle("bg-gray-100");
+            select.classList.toggle("text-gray-700");
+        });
+
 
         inputs[0].focus();
 
@@ -418,74 +508,89 @@
         };
     </script>
 
-    <script>
-    document.getElementById('activityForm')?.addEventListener('submit', function(e) {
-        e.preventDefault();
 
-        const form = e.target;
-        const errors = [];
+<script>
+document.getElementById('activityForm')?.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-        const name = form.name.value.trim();
-        const description = form.description.value.trim();
-        const startDate = form.start_date.value;
-        const endDate = form.end_date.value;
-        const registerDate = form.register_date.value;
-        const zone = form.uuidd_forestal_zone?.value;
+    const form = e.target;
+    let isValid = true;
+    let errorMessage = "";
 
-        // Validaciones básicas
-        if (!name) errors.push("El nombre es requerido.");
-        if (!description) errors.push("La descripción es requerida.");
-        if (!startDate) errors.push("La fecha de inicio es requerida.");
-        if (!endDate) errors.push("La fecha de fin es requerida.");
-        if (!registerDate) errors.push("La fecha de registro es requerida.");
-        if (!zone) errors.push("Debe seleccionar una zona forestal.");
+    // Campos
+    const name = form.name;
+    const description = form.description;
+    const startDate = form.start_date;
+    const endDate = form.end_date;
+    const registerDate = form.register_date;
+    const zone = form.uuidd_forestal_zone;
 
-        // Validaciones de fechas
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const register = new Date(registerDate);
+    // Limpiar bordes rojos previos
+    form.querySelectorAll('.border-red-500').forEach(el => el.classList.remove('border-red-500'));
 
-        if (start && end && start >= end) {
-            errors.push("La fecha de fin debe ser posterior a la de inicio.");
+    // Validación de campos vacíos
+    if (!name.value.trim()) {
+        name.classList.add('border-red-500');
+        isValid = false;
+    }
+
+    if (!description.value.trim()) {
+        description.classList.add('border-red-500');
+        isValid = false;
+    }
+
+    if (!startDate.value) {
+        startDate.classList.add('border-red-500');
+        isValid = false;
+    }
+
+    if (!endDate.value) {
+        endDate.classList.add('border-red-500');
+        isValid = false;
+    }
+
+    if (!registerDate.value) {
+        registerDate.classList.add('border-red-500');
+        isValid = false;
+    }
+
+    if (!zone.value) {
+        zone.classList.add('border-red-500');
+        isValid = false;
+    }
+
+    // Validaciones de fechas
+    if (startDate.value && endDate.value) {
+        const start = new Date(startDate.value);
+        const end = new Date(endDate.value);
+        if (start >= end) {
+            endDate.classList.add('border-red-500');
+            isValid = false;
+            errorMessage = "The start date cannot be later than or equal to the end date.";
         }
+    }
 
-        if (register && start && register > start) {
-            errors.push(" La fecha de registro no puede ser posterior a la de inicio.");
+    if (registerDate.value && startDate.value) {
+        const register = new Date(registerDate.value);
+        const start = new Date(startDate.value);
+        if (register > start) {
+            registerDate.classList.add('border-red-500');
+            isValid = false;
+            errorMessage = "The register date cannot be later than the start date.";
         }
+    }
 
-        // Mostrar errores si existen
-        if (errors.length > 0) {
-            let errorListHtml = '<ul class="text-left">';
-            for (let i = 0; i < errors.length; i++) {
-                errorListHtml += '<li>' + errors[i] + '</li>';
-            }
-            errorListHtml += '</ul>';
-
-            Swal.fire({
-                icon: "warning",
-                title: "Por favor corrige los siguientes errores:",
-                html: errorListHtml,
-                confirmButtonColor: "#16a34a"
-            });
-            return;
+    // Mostrar mensaje de error si hay campos inválidos
+    if (!isValid) {
+        if (!errorMessage) {
+            errorMessage = "Please fill in all required fields.";
         }
+        onErrorToast(errorMessage);
+        return;
+    }
 
-        // Confirmación opcional antes de enviar
-        Swal.fire({
-            icon: 'question',
-            title: '¿Deseas guardar esta actividad?',
-            showCancelButton: true,
-            confirmButtonColor: '#16a34a',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, guardar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    });
-
+    form.submit();
+});
 </script>
 
 
@@ -505,11 +610,13 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- DataTables JS -->
+]    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 </body>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+<script src="./scripts/toastrService.js"></script>
 </html>

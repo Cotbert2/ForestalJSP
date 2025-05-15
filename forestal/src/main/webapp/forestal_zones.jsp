@@ -249,7 +249,7 @@
                                         <div>
                                             <label for="mapView"
                                                 class="block text-sm font-medium text-gray-700 mb-1">Location: </label>
-                                            <div id="mapView-${currentZone.uuid}" class="rounded border"
+                                            <div id="mapView-${currentZone.uuid }" class="rounded border"
                                                 style="height: 400px; width: 100%;"></div>
                                             <input type="hidden" id="mapViewJson" name="mapViewJson">
                                         </div>
@@ -358,7 +358,7 @@
                                                         </button>
                                                     </div>
 
-                                                    <button id="addTreeBtn-${currentZone.uuid}"
+                                                            <button onclick="addNewTree()" id="addTreeBtn-${currentZone.uuid}"
                                                         class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                                                             fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -432,7 +432,7 @@
                                                         </button>
                                                     </div>
 
-                                                    <button id="addTreeBtn-${currentZone.uuid}"
+                                                    <button onclick="addNewTree()" id="addTreeBtn-${currentZone.uuid}"
                                                         class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
                                                             fill="none" viewBox="0 0 24 24" stroke-width="1.5"

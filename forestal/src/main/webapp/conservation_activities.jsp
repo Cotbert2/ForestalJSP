@@ -46,7 +46,7 @@
     
 
     <!-- Modal: New Activity -->
-        <div id="modalNewActivity" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div id="modalNewActivity" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-lg w-full max-w-xl shadow-lg transform transition-all my-10 max-h-[90vh] overflow-hidden flex flex-col">
             <div class="flex justify-between items-center border-b px-6 py-4 flex-shrink-0">
                 <h3 class="text-xl font-semibold text-green-800">Add Conservation Activity</h3>
@@ -203,34 +203,156 @@
     <c:forEach var="activity" items="${activities}">
         <div id="modal-${activity.uuid}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-modal h-full bg-black/40">
             <div class="relative p-4 w-full max-w-2xl h-full md:h-auto mx-auto">
-                <div class="bg-white rounded-lg shadow p-6 relative">
+                <div class="bg-white rounded-lg shadow p-6 relative ">
                     <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-gray-900" data-modal-hide="modal-${activity.uuid}">
                         <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 011.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                         </svg>
                     </button>
-                    <h3 class="text-xl font-semibold text-green-700 mb-4">Activity Details</h3>
-                    <div class="mb-4 space-y-3">
-                        <p><strong class="text-gray-700">Name:</strong> ${activity.name}</p>
-                        <p><strong class="text-gray-700">Description:</strong> ${activity.description}</p>
-                        <p><strong class="text-gray-700">Start Date:</strong> ${activity.startDate}</p>
-                        <p><strong class="text-gray-700">End Date:</strong> ${activity.endDate}</p>
-                        <p><strong class="text-gray-700">Register Date:</strong> ${activity.registerDate}</p>
-                        <p><strong class="text-gray-700">Forest Zone:</strong> ${activity.forestalZoneUuid}</p>
+                    <h3 class="text-xl font-semibold text-green-700 mb-4 px-5 pt-5">Activity Details</h3>
+                    <div id="activity-info-${activity.uuid}" class="grid grid-cols-1 gap-3 px-5">
+                        <div class="flex items-center space-x-4">
+                            <label class="w-32 text-gray-700 font-bold">Name:</label>
+                            <input id="name-${activity.uuid}" type="text" value="${activity.name}" readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <label class="w-32 text-gray-700 font-bold">Description:</label>
+                            <textarea id="description-${activity.uuid}" readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border">${activity.description}</textarea>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <label class="w-32 text-gray-700 font-bold">Start Date:</label>
+                            <input id="startDate-${activity.uuid}" type="datetime-local"
+                                value="<fmt:formatDate value='${activity.startDate}' pattern='yyyy-MM-dd\'T\'HH:mm' />"
+                                readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <label class="w-32 text-gray-700 font-bold">End Date:</label>
+                            <input id="endDate-${activity.uuid}" type="datetime-local"
+                                value="<fmt:formatDate value='${activity.endDate}' pattern='yyyy-MM-dd\'T\'HH:mm' />"
+                                readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <label class="w-32 text-gray-700 font-bold">Register Date:</label>
+                            <input id="registerDate-${activity.uuid}" type="datetime-local"
+                                value="<fmt:formatDate value='${activity.registerDate}' pattern='yyyy-MM-dd\'T\'HH:mm' />"
+                                readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <label class="w-32 text-gray-700 font-bold">Forest Zone:</label>
+                            <input id="forestalZone-${activity.uuid}" type="text" value="${activity.forestalZoneUuid}" readonly class="flex-1 bg-white text-gray-700 px-3 py-2 rounded border" />
+                        </div>
                     </div>
-                    <button onclick="onEditActivity('${activity.uuid}', '${activity.name}', '${activity.description}', '${activity.startDate}', '${activity.endDate}', '${activity.forestalZoneUuid}')" 
-                            class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500">
-                        <i class="fas fa-edit"></i>
-                    </button>
+
+
+                    <div class="flex items-center justify-start space-x-3 mt-4 px-5 pb-5">                    
+                        <button onclick="makeEditable('${activity.uuid}')" 
+                            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                            </svg>
+                        </button>
+                        <button id="btn-save-${activity.uuid}" onclick="onUpdate('${activity.uuid}')"
+                            class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                            </svg>
+                            Save
+                        </button>
+                    </div>
                 </div>
-                    
             </div>
         </div>
     </c:forEach>
 
-    <!-- SimpleDataTables -->
+
+    <form action="/forestal/conservation_activities" id="updateForm" method="post">
+        <input type="hidden" name="uuid" id="uuidUpdate">
+        <input type="hidden" name="name" id="nameUpdate">
+        <input type="hidden" name="description" id="descriptionUpdate">
+        <input type="hidden" name="start_date" id="startDateUpdate">
+        <input type="hidden" name="end_date" id="endDateUpdate">
+        <input type="hidden" name="register_date" id="registerDateUpdate">
+        <input type="hidden" name="uuidd_forestal_zone" id="forestalZoneUpdate">
+        <input type="hidden" name="_method" value="UPDATE">
+    </form>
+
+    <script>
+    const onUpdate = (uuid) => {
+        const name = document.getElementById('name-' + uuid).value;
+        const description = document.getElementById('description-' + uuid).value;
+        const startDate = document.getElementById('startDate-' + uuid).value;
+        const endDate = document.getElementById('endDate-' + uuid).value;
+        const registerDate = document.getElementById('registerDate-' + uuid).value;
+        const forestalZone = document.getElementById('forestalZone-' + uuid).value;
+
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡No podrás revertir esta acción!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, actualizar",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('uuidUpdate').value = uuid;
+                document.getElementById('nameUpdate').value = name;
+                document.getElementById('descriptionUpdate').value = description;
+                document.getElementById('startDateUpdate').value = startDate;
+                document.getElementById('endDateUpdate').value = endDate;
+                document.getElementById('registerDateUpdate').value = registerDate;
+                document.getElementById('forestalZoneUpdate').value = forestalZone;
+
+                document.getElementById('updateForm').submit();
+            }
+        });
+    };
+
+    const makeEditable = (uuid) => {
+        console.log("UUID recibido:", uuid);
+        const inputs = document.querySelectorAll("#activity-info-"+uuid + " input");
+        const textArea = document.querySelectorAll("#activity-info-" + uuid + " textarea");
+        const saveBtn = document.getElementById("btn-save-" + uuid);
+
+        if (!inputs || inputs.length === 0) {
+            console.warn(`No se encontraron inputs para uuid ${uuid}`);
+            return;
+        }
+        if (!saveBtn) {
+            console.warn(`No se encontró botón guardar para uuid ${uuid}`);
+            return;
+        }
+
+        saveBtn.classList.toggle("hidden");
+        inputs.forEach(input => {
+            input.toggleAttribute("readonly");
+            input.classList.toggle("bg-gray-100");
+            input.classList.toggle("text-gray-700");
+        });
+        
+        textArea.forEach(area => {
+            area.toggleAttribute("readonly");
+            area.classList.toggle("bg-gray-100");
+            area.classList.toggle("text-gray-700");
+        });
+
+        inputs[0].focus();
+
+    };
+
+    </script>
+
+
+
+    
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
-    <!-- Flowbite -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
     <script>
@@ -297,129 +419,72 @@
     </script>
 
     <script>
-    // Función para hacer editable los campos de una actividad
-    const makeActivityEditable = (uuid) => {
-        const inputs = document.querySelectorAll(`#activity-info-${uuid} input, #activity-info-${uuid} textarea`);
-        const saveBtn = document.querySelector(`#btn-save-${uuid}`);
-        
-        saveBtn?.classList.toggle("hidden");
-        inputs?.forEach(input => {
-            input.toggleAttribute("readonly");
-            input.classList.toggle("bg-gray-100");
-            input.classList.toggle("text-gray-700");
-        });
-        
-        if (inputs.length > 0) {
-            inputs[0].focus();
-        }
-    };
-
-    // Función para hacer los campos de solo lectura
-    const makeActivityReadOnly = (uuid) => {
-        const inputs = document.querySelectorAll(`#activity-info-${uuid} input, #activity-info-${uuid} textarea`);
-        const saveBtn = document.querySelector(`#btn-save-${uuid}`);
-        
-        saveBtn?.classList.add("hidden");
-        inputs?.forEach(input => {
-            input.setAttribute("readonly", "");
-            input.classList.add("bg-gray-100", "text-gray-700");
-        });
-    };
-
-    // Inicialización de fechas
-    document.addEventListener('DOMContentLoaded', () => {
-        // Configurar fecha de registro
-        const now = new Date();
-        const ecuadorOffset = -5 * 60; // UTC-5 para Ecuador
-        const localTime = new Date(now.getTime() + (ecuadorOffset - now.getTimezoneOffset()) * 60000);
-        document.getElementById('registerDate').value = localTime.toISOString().slice(0, 16);
-        
-        // Configurar fechas de inicio y fin por defecto
-        document.getElementById('activityStartDate').value = localTime.toISOString().slice(0, 16);
-        
-        const endTime = new Date(localTime.getTime() + 3600000); // 1 hora después
-        document.getElementById('activityEndDate').value = endTime.toISOString().slice(0, 16);
-        
-        // Inicializar DataTable
-        new simpleDatatables.DataTable(document.getElementById('activityTable'), {
-            perPage: 5,
-            perPageSelect: [5, 10, 25, 50],
-            searchable: true,
-            sortable: true,
-            labels: {
-                placeholder: "Buscar...",
-                perPage: "{select} por página",
-                noRows: "No hay registros",
-                info: "Mostrando {start} a {end} de {rows} entradas"
-            }
-        });
-    });
-
-    // Validación del formulario
     document.getElementById('activityForm')?.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         const form = e.target;
         const errors = [];
-        
-        // Validar campos
-        if (!form.name.value.trim()) errors.push("El nombre es requerido");
-        if (!form.description.value.trim()) errors.push("La descripción es requerida");
-        if (!form.start_date.value) errors.push("La fecha de inicio es requerida");
-        if (!form.end_date.value) errors.push("La fecha de fin es requerida");
-        if (new Date(form.end_date.value) <= new Date(form.start_date.value)) {
-            errors.push("La fecha de fin debe ser posterior a la de inicio");
+
+        const name = form.name.value.trim();
+        const description = form.description.value.trim();
+        const startDate = form.start_date.value;
+        const endDate = form.end_date.value;
+        const registerDate = form.register_date.value;
+        const zone = form.uuidd_forestal_zone?.value;
+
+        // Validaciones básicas
+        if (!name) errors.push("El nombre es requerido.");
+        if (!description) errors.push("La descripción es requerida.");
+        if (!startDate) errors.push("La fecha de inicio es requerida.");
+        if (!endDate) errors.push("La fecha de fin es requerida.");
+        if (!registerDate) errors.push("La fecha de registro es requerida.");
+        if (!zone) errors.push("Debe seleccionar una zona forestal.");
+
+        // Validaciones de fechas
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const register = new Date(registerDate);
+
+        if (start && end && start >= end) {
+            errors.push("La fecha de fin debe ser posterior a la de inicio.");
         }
-        //if (!form.uuidd_forestal_zone.value) errors.push("Debe seleccionar una zona forestal");
-        
+
+        if (register && start && register > start) {
+            errors.push(" La fecha de registro no puede ser posterior a la de inicio.");
+        }
+
+        // Mostrar errores si existen
         if (errors.length > 0) {
+            let errorListHtml = '<ul class="text-left">';
+            for (let i = 0; i < errors.length; i++) {
+                errorListHtml += '<li>' + errors[i] + '</li>';
+            }
+            errorListHtml += '</ul>';
+
             Swal.fire({
-                icon: "error",
-                title: "Error de validación",
-                html: errors.join("<br>")
+                icon: "warning",
+                title: "Por favor corrige los siguientes errores:",
+                html: errorListHtml,
+                confirmButtonColor: "#16a34a"
             });
             return;
         }
-        
-        // Enviar formulario si es válido
-        form.submit();
+
+        // Confirmación opcional antes de enviar
+        Swal.fire({
+            icon: 'question',
+            title: '¿Deseas guardar esta actividad?',
+            showCancelButton: true,
+            confirmButtonColor: '#16a34a',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
     });
-
-    // Función para editar actividad (abrir modal con datos)
-    const onEditActivity = (uuid, name, description, startDate, endDate, zoneUuid) => {
-        document.getElementById('activityUuid').value = uuid;
-        document.getElementById('activityName').value = name;
-        document.getElementById('activityDescription').value = description;
-        document.getElementById('activityStartDate').value = startDate.replace(' ', 'T').slice(0, 16);
-        document.getElementById('activityEndDate').value = endDate.replace(' ', 'T').slice(0, 16);
-        document.getElementById('activityZone').value = zoneUuid;
-        document.getElementById('formMethod').value = 'UPDATE';
-        
-        // Abrir modal
-        const modal = new Modal(document.getElementById('modalNewActivity'));
-        modal.show();
-    };
-
-    function onEditActivity(uuid, name, description, startDate, endDate, zone) {
-        const modal = document.getElementById("modalNewActivity");
-        const form = document.getElementById("activityForm");
-        
-        if (form) {
-            form.action = "/conservation/activities"; // o tu endpoint de actualización
-            form.uuid.value = uuid;
-            form.name.value = name;
-            form.description.value = description;
-            form.start_date.value = new Date(startDate).toISOString().slice(0, 16);
-            form.end_date.value = new Date(endDate).toISOString().slice(0, 16);
-            form.forestal_zone_uuid.value = zone;
-            
-            // Asegúrate de establecer el método de actualización
-            document.getElementById("activityMethod").value = "PUT";
-            
-            // Mostrar modal
-            modal.classList.remove("hidden");
-        }
-    }
 
 </script>
 

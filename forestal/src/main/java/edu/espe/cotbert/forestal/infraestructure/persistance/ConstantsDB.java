@@ -136,7 +136,7 @@ public static final String GET_BY_ID_TREE_SPECIES =
 
     public static final String UPDATE_BY_ID_CONSERVATION_ACTIVITY = "UPDATE forestal_managment.conservation_activities\n"
         + "SET name_conservation_activity = ?, description_conservation_activity = ?,\n"
-        + "start_date_conservation_activity = ?, end_date_conservation_activity = ?, uuidd_forestal_zone = ?\n"
+        + "start_date_conservation_activity = ?, end_date_conservation_activity = ?, register_date_conservation_activity = ?, uuidd_forestal_zone = ?\n"
         + "WHERE uuid_conservation_activity = ?";
     /**
      * **************Forestal Zone Tree Species***************

@@ -1,9 +1,36 @@
   
 const onUpdate = (uuid) => {
-    const name = document.getElementById('name-' + uuid).value;
-    const description = document.getElementById('description-' + uuid).value;
-    const area = document.getElementById('area-' + uuid).value;
-    const registerDate = document.getElementById('register-date-' + uuid).value;
+    let isValid = true;
+    const name = document.getElementById('name-' + uuid);
+    const description = document.getElementById('description-' + uuid);
+    const area = document.getElementById('area-' + uuid);
+    const registerDate = document.getElementById('register-date-' + uuid);
+    if (name.value === "") {
+        isValid = false;
+        name.classList.add('border-red-500');
+    }
+
+    if (description.value === "") {
+        isValid = false;
+        description.classList.add('border-red-500');
+    }
+
+    if (isNaN(area.value) || area.value <= 0) {
+        isValid = false;
+        area.classList.add('border-red-500');
+    }
+
+    if (registerDate.value === "") {
+        isValid = false;
+        registerDate.classList.add('border-red-500');
+    }
+
+    if (!isValid) {
+        console.error("Please fill in all required fields.");
+        onWarningToast("Please fill in all required fields.");        
+        return;
+    }
+    
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -15,10 +42,10 @@ const onUpdate = (uuid) => {
     }).then((result) => {
         if (result.isConfirmed) {
             document.getElementById('uuidUpdate').value = uuid;
-            document.getElementById('nameUpdate').value = name;
-            document.getElementById('descriptionUpdate').value = description;
-            document.getElementById('areaUpdate').value = area;
-            document.getElementById('registerDateUpdate').value = registerDate;
+            document.getElementById('nameUpdate').value = name.value;
+            document.getElementById('descriptionUpdate').value = description.value;
+            document.getElementById('areaUpdate').value = area.value;
+            document.getElementById('registerDateUpdate').value = registerDate.value;
             document.getElementById('updateForm').submit();
         }
     });
@@ -235,7 +262,7 @@ document.getElementById('forestZoneForm').addEventListener('submit',  (e) => {
 
     form.submit();
 });
- 
+
 
 
   

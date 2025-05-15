@@ -414,7 +414,7 @@ Author     : jeffersonyepez
                                             </c:forEach>
 
                                             <c:if test="${!isAlreadyInTree}">
-                                                <option value="${currentZone.uuid}">${currentZone.description}</option>
+                                                <option value="${currentZone.uuid}">${currentZone.name}</option>
                                             </c:if>
                                         </c:forEach>
                                     </select>

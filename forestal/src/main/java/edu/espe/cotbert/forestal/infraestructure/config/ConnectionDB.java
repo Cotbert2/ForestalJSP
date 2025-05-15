@@ -12,14 +12,11 @@ public class ConnectionDB {
 
     
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/forestal";
-    private static final String USER = "forestal_tree";
-    private static final String PASSWORD = "admin123";
+    private static String URL = "jdbc:postgresql://localhost:5432/forestal";
+    private static String USER = "forestal_tree";
+    private static String PASSWORD = "admin123";
     private static final Logger logger = LoggerConfig.getLogger();
     private static final String PROPERTIES_FILE = "/db.properties";
-    private static String URL;
-    private static String USER;
-    private static String PASSWORD;
 
     static {
         try (InputStream input = ConnectionDB.class.getResourceAsStream(PROPERTIES_FILE)) {

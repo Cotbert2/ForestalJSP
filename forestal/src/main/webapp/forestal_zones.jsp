@@ -19,7 +19,6 @@
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
-
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
                 <link rel="stylesheet" href="./styles/scrollbar.css">
                 <link rel="stylesheet"
@@ -29,7 +28,8 @@
                 <link rel="stylesheet"
                     href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
                 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
-                <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
 
                 <link rel="icon" href="./assets/leave.png" type="image/x-icon">
@@ -520,10 +520,13 @@
                 </form>
 
 
-
             </body>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-            <script src="./scipts/forestalZone.js"></script>
-            <script src="./scipts/downloadCSV.js"></script>
-            
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+            <script src="./scripts/forestalZone.js"></script>
+            <script src="./scripts/downloadCSV.js"></script>
+            <script src="./scripts/toastrService.js"></script>
+
+
             </html>

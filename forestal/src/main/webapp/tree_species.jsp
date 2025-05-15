@@ -655,7 +655,7 @@ Author     : jeffersonyepez
         };
     </script>
 
-    <script src="./scipts/downloadCSV.js"></script>
+    <script src="./scripts/downloadCSV.js"></script>
 
     <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
     <input type="hidden" name="uuidForestal" id="uuidForestal">

@@ -25,8 +25,7 @@ Author     : jeffersonyepez
         <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
         <link rel="icon" href="./assets/leave.png" type="image/x-icon">
     </head>
@@ -478,6 +477,8 @@ Author     : jeffersonyepez
             </div>
 
         </c:forEach>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
@@ -600,59 +601,6 @@ Author     : jeffersonyepez
 
             };
         </script>
-
-        <form action="/forestal/tree_species" id="updateForm" method="post">
-            <input type="hidden" name="uuid" id="uuidUpdate">
-            <input type="hidden" name="name" id="nameUpdate">
-            <input type="hidden" name="commonName" id="commonNameUpdate">
-            <input type="hidden" name="family" id="familyUpdate">
-            <input type="hidden" name="origin" id="originUpdate">
-            <input type="hidden" name="orderName" id="orderNameUpdate">
-            <input type="hidden" name="habitat" id="habitatUpdate">
-            <input type="hidden" name="description" id="descriptionUpdate">
-
-
-            <input type="hidden" name="_method" value="UPDATE">
-        </form>
-
-        <script>
-            const onUpdate = (uuid) => {
-                const name = document.getElementById("name-" + uuid)?.value || "";
-                const commonName = document.getElementById("commonName-" + uuid)?.value || "";
-                const family = document.getElementById("family-" + uuid)?.value || "";
-                const origin = document.getElementById("origin-" + uuid)?.value || "";
-                const orderName = document.getElementById("orderName-" + uuid)?.value || "";
-                const habitat = document.getElementById("habitat-" + uuid)?.value || "";
-                const description = document.getElementById("description-" + uuid)?.value || "";
-                //const image = document.querySelector("#modal-"+uuid img)?.src || "";
-
-
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, update it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById('uuidUpdate').value = uuid;
-                        document.getElementById('nameUpdate').value = name;
-                        document.getElementById('commonNameUpdate').value = commonName;
-                        document.getElementById('familyUpdate').value = family;
-                        document.getElementById('originUpdate').value = origin;
-                        document.getElementById('orderNameUpdate').value = orderName;
-                        document.getElementById('habitatUpdate').value = habitat;
-                        document.getElementById('descriptionUpdate').value = description;
-
-
-                        document.getElementById('updateForm').submit();
-                    }
-                });
-            };
-        </script>
-
         
 
         <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
@@ -679,14 +627,52 @@ Author     : jeffersonyepez
 
     <script>
         const onUpdate = (uuid) => {
-            const name = document.getElementById("name-" + uuid)?.value || "";
-            const commonName = document.getElementById("commonName-" + uuid)?.value || "";
-            const family = document.getElementById("family-" + uuid)?.value || "";
-            const origin = document.getElementById("origin-" + uuid)?.value || "";
-            const orderName = document.getElementById("orderName-" + uuid)?.value || "";
-            const habitat = document.getElementById("habitat-" + uuid)?.value || "";
-            const description = document.getElementById("description-" + uuid)?.value || "";
-            //const image = document.querySelector("#modal-"+uuid img)?.src || "";
+            const name =document.getElementById("name-" + uuid);
+            const commonName =document.getElementById("commonName-" + uuid);
+            const family =document.getElementById("family-" + uuid);
+            const origin =document.getElementById("origin-" + uuid);
+            const orderName =document.getElementById("orderName-" + uuid);
+            const habitat =document.getElementById("habitat-" + uuid);
+            const description =document.getElementById("description-" + uuid);
+           
+            let isValid = true;
+            if (name.value.trim() === "") {
+                isValid = false;
+                name.classList.add('border-red-500');
+            }
+
+            if (commonName.value.trim() === "") {
+                isValid = false;
+                commonName.classList.add('border-red-500');
+            }
+            if (family.value.trim() === "") {
+                isValid = false;
+                family.classList.add('border-red-500');
+            }
+
+            if (origin.value.trim() === "") {
+                isValid = false;
+                origin.classList.add('border-red-500');
+            }
+            
+            if (orderName.value.trim() === "") {
+                isValid = false;
+                orderName.classList.add('border-red-500');
+            }
+            if (habitat.value.trim() === "") {
+                isValid = false;
+                habitat.classList.add('border-red-500');
+            }
+            if (description.value.trim() === "") {
+                isValid = false;
+                description.classList.add('border-red-500');
+            }
+
+            if (!isValid) {
+                console.error("Please fill in all required fields.");
+                onWarningToast("Please fill in all required fields.");        
+                return;
+            }
 
 
             Swal.fire({
@@ -700,15 +686,13 @@ Author     : jeffersonyepez
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('uuidUpdate').value = uuid;
-                    document.getElementById('nameUpdate').value = name;
-                    document.getElementById('commonNameUpdate').value = commonName;
-                    document.getElementById('familyUpdate').value = family;
-                    document.getElementById('originUpdate').value = origin;
-                    document.getElementById('orderNameUpdate').value = orderName;
-                    document.getElementById('habitatUpdate').value = habitat;
-                    document.getElementById('descriptionUpdate').value = description;
-
-
+                    document.getElementById('nameUpdate').value = name.value;
+                    document.getElementById('commonNameUpdate').value = commonName.value;
+                    document.getElementById('familyUpdate').value = family.value;
+                    document.getElementById('originUpdate').value = origin.value;
+                    document.getElementById('orderNameUpdate').value = orderName.value;
+                    document.getElementById('habitatUpdate').value = habitat.value;
+                    document.getElementById('descriptionUpdate').value = description.value;
                     document.getElementById('updateForm').submit();
                 }
             });
@@ -765,123 +749,6 @@ Author     : jeffersonyepez
 
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-                const form = document.getElementById('treeSpeciesForm');
-
-                const fieldsToValidate = [
-                    'treeSpeciesName',
-                    'commonTreeSpeciesName',
-                    'familyTreeSpecies',
-                    'orderTreeSpecies',
-                    'habitatTreeSpecies',
-                    'descriptionTreeSpecies'
-                ];
-
-                const textRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; 
-
-                fieldsToValidate.forEach(fieldId => {
-                    const input = document.getElementById(fieldId);
-                    input.addEventListener('input', () => validateInput(input));
-                });
-
-                function validateInput(input) {
-                    const value = input.value.trim();
-                    const id = input.id;
-                    const parent = input.parentNode;
-
-                   
-                    const prevError = document.getElementById(`error-${id}`);
-                    if (prevError)
-                        prevError.remove();
-
-                    input.classList.remove('border-red-500');
-
-                    
-                    if (value === '' || !textRegex.test(value)) {
-                        input.classList.add('border-red-500');
-
-                        const error = document.createElement('p');
-                        error.className = 'text-red-500 text-sm mt-1';
-                        error.id = `error-${id}`;
-                        error.innerText = value === ''
-                                ? 'This field is required.'
-                                : 'Use only letters';
-
-                        parent.appendChild(error);
-                    }
-                }
-
-                
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-
-                    let isValid = true;
-
-                    fieldsToValidate.forEach(fieldId => {
-                        const input = document.getElementById(fieldId);
-                        const value = input.value.trim();
-
-                        if (value === '' || !textRegex.test(value)) {
-                            validateInput(input);
-                            isValid = false;
-                        }
-                    });
-
-                    
-                    const imageInput = document.getElementById('image');
-                    const imageValue = imageInput.value.trim();
-                    const imageErrorId = 'error-image';
-                    const existingImageError = document.getElementById(imageErrorId);
-                    if (existingImageError)
-                        existingImageError.remove();
-                    imageInput.classList.remove('border-red-500');
-
-                    if (imageValue === '') {
-                        isValid = false;
-                        imageInput.classList.add('border-red-500');
-                        const errorMessage = document.createElement('p');
-                        errorMessage.className = 'text-red-500 text-sm mt-1';
-                        errorMessage.id = imageErrorId;
-                        errorMessage.innerText = 'URL obligatory';
-                        imageInput.parentNode.appendChild(errorMessage);
-                    }
-
-                   
-                    const originSelect = document.getElementById('originTreeSpecies');
-                    const originValue = originSelect.value.trim();
-                    const originErrorId = 'error-originTreeSpecies';
-                    const existingOriginError = document.getElementById(originErrorId);
-                    if (existingOriginError)
-                        existingOriginError.remove();
-                    originSelect.classList.remove('border-red-500');
-
-                    if (originValue === '') {
-                        isValid = false;
-                        originSelect.classList.add('border-red-500');
-                        const errorMessage = document.createElement('p');
-                        errorMessage.className = 'text-red-500 text-sm mt-1';
-                        errorMessage.id = originErrorId;
-                        errorMessage.innerText = 'Select the origin';
-                        originSelect.parentNode.appendChild(errorMessage);
-                    }
-
-                    if (!isValid) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Validation error',
-                            text: 'Please correct the fields marked in red.'
-                        });
-                        return;
-                    }
-
-                    form.submit();
-                });
-            });
-        </script>
-
-
-
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
                 document.querySelectorAll("[data-modal-toggle]").forEach(button => {
                     const targetId = button.getAttribute("data-modal-target");
                     const modal = document.getElementById(targetId);
@@ -931,9 +798,78 @@ Author     : jeffersonyepez
             }
 
         </script>
+        
+        <script>
+            document.getElementById('treeSpeciesForm').addEventListener('submit',  (e) => {
+            e.preventDefault();
+
+            
+            let isValid = true;
+            const form = e.target;
+            console.log("form: " + form);
+
+            const name = form.name.value.trim();
+            const commonName = form.commonName.value.trim();
+            const family = form.family.value.trim();
+            const origin = form.origin.value.trim();
+            const orderName = form.orderName.value.trim();
+            const habitat = form.habitat.value.trim();
+            const description = form.description.value.trim();
+            const image = form.image.value.trim();
+
+            [...form.elements].forEach(el => el.classList.remove('border-red-500'));
+
+            if (name === "") {
+                isValid = false;
+                form.name.classList.add('border-red-500');
+            }
+
+            if (commonName === "") {
+                isValid = false;
+                form.commonName.classList.add('border-red-500');
+            }
+            if (family === "") {
+                isValid = false;
+                form.family.classList.add('border-red-500');
+            }
+
+            if (origin=== "") {
+                isValid = false;
+                form.origin.classList.add('border-red-500');
+            }
+            
+            if (orderName === "") {
+                isValid = false;
+                form.orderName.classList.add('border-red-500');
+            }
+            if (habitat === "") {
+                isValid = false;
+                form.habitat.classList.add('border-red-500');
+            }
+            if (description === "") {
+                isValid = false;
+                form.description.classList.add('border-red-500');
+            }
+            if (image === "") {
+                isValid = false;
+                form.image.classList.add('border-red-500');
+            }
+
+            if (!isValid) {
+                console.error("Please fill in all required fields.");
+                onWarningToast("Please fill in all required fields.");        
+                return;
+            }
 
 
 
+            form.submit();
+        });
+
+        </script>
+
+
+        <script src="./scripts/toastrService.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>

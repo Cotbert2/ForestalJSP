@@ -29,26 +29,26 @@ const onUpdate = (uuid) => {
         console.error("Please fill in all required fields.");
         onWarningToast("Please fill in all required fields.");        
         return;
-    }else{
-        Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, update it!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('uuidUpdate').value = uuid;
-            document.getElementById('nameUpdate').value = name.value;
-            document.getElementById('descriptionUpdate').value = description.value;
-            document.getElementById('areaUpdate').value = area.value;
-            document.getElementById('registerDateUpdate').value = registerDate.value;
-            document.getElementById('updateForm').submit();
-        }
-    });
     }
+    Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, update it!"
+}).then((result) => {
+    if (result.isConfirmed) {
+        document.getElementById('uuidUpdate').value = uuid;
+        document.getElementById('nameUpdate').value = name.value;
+        document.getElementById('descriptionUpdate').value = description.value;
+        document.getElementById('areaUpdate').value = area.value;
+        document.getElementById('registerDateUpdate').value = registerDate.value;
+        document.getElementById('updateForm').submit();
+    }
+});
+    
     
     
     

@@ -152,6 +152,7 @@ public class TreeSpeciesServlet extends HttpServlet {
             String orderName = request.getParameter("orderName");
             String habitat = request.getParameter("habitat");
             String description = request.getParameter("description");
+            String image = request.getParameter("image");
             
 
             if (name == null || commonName == null || family == null || origin == null
@@ -162,7 +163,7 @@ public class TreeSpeciesServlet extends HttpServlet {
             }
 
             String uuid = UUID.randomUUID().toString();
-            TreeSpecies treeSpecies = new TreeSpecies(uuid, name, commonName, family, origin, orderName, habitat, description, "");
+            TreeSpecies treeSpecies = new TreeSpecies(uuid, name, commonName, family, origin, orderName, habitat, description, image);
             dao.save(treeSpecies);
             response.sendRedirect("/forestal/tree_species");
 

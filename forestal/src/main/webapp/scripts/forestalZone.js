@@ -339,28 +339,22 @@ document.querySelectorAll('[data-modal-toggle="modalNew"]').forEach(btn => {
 
 
   
-let mapView; 
 const renderMap = (mapJson) => {
     console.log("Renderizando mapa...");
     console.log("mapJson", mapJson);
-    
     setTimeout(() => {
+
+        console.log("Renderizando mapa...");
         const parsedGeoJSON = JSON.parse(mapJson);
-
-        if (mapView) {
-            mapView.remove();
-        }
-
-        mapView = L.map("mapView").setView([-0.420, -78.49], 13);
+        const map = L.map("mapView").setView([-0.420, -78.49], 13);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: "© OpenStreetMap contributors"
-        }).addTo(mapView);
+        }).addTo(map);
 
-        const geoJsonLayer = L.geoJSON(parsedGeoJSON).addTo(mapView);
+        const geoJsonLayer = L.geoJSON(parsedGeoJSON).addTo(map);
 
-        mapView.fitBounds(geoJsonLayer.getBounds());
+        map.fitBounds(geoJsonLayer.getBounds());
     }, 1000);
-}
 
- 
+} 

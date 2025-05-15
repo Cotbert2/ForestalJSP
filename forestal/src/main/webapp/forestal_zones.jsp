@@ -29,6 +29,8 @@
                 <link rel="stylesheet"
                     href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
                 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
 
                 <link rel="icon" href="./assets/leave.png" type="image/x-icon">
 
@@ -120,7 +122,7 @@
 
                                 <div>
                                     <label for="map" class="block text-sm font-medium text-gray-700 mb-1">Select
-                                        Area</label>
+                                        Area (This field cannot be edited)</label>
                                     <div id="map" class="rounded border" style="height: 400px; width: 100%;"></div>
                                     <input type="hidden" id="mapJson" name="map_json">
                                 </div>
@@ -520,7 +522,8 @@
 
 
             </body>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
             <script src="./scipts/forestalZone.js"></script>
             <script src="./scipts/downloadCSV.js"></script>
-
+            
             </html>

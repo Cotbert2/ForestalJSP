@@ -74,7 +74,7 @@ public static final String GET_BY_ID_TREE_SPECIES =
 
     public static final String UPDATE_BY_ID_TREE_SPECIES = "UPDATE forestal_managment.tree_species\n"
             + "SET name_tree_species = ?, common_name_tree_species = ?, family_tree_species = ?, origin_tree_species = ?,\n"
-            + "order_name_tree_species = ?, habitat_tree_species = ?, description_tree_species = ?, image_url_tree_species = ?";
+            + "order_name_tree_species = ?, habitat_tree_species = ?, description_tree_species = ? WHERE uuid_tree_species = ?";
     public static final String GET_ALL_FORESTAL_ZONE_WITH_TREES = 
     "SELECT \n"
   + "    fz.uuid_forestal_zone,\n"

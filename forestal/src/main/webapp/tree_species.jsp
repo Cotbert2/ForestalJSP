@@ -17,7 +17,7 @@ Author     : jeffersonyepez
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
-        
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
@@ -27,7 +27,7 @@ Author     : jeffersonyepez
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-        
+
         <link rel="icon" href="./assets/leave.png" type="image/x-icon">
     </head>
     <body class="bg-gray-50 text-gray-900">
@@ -146,7 +146,7 @@ Author     : jeffersonyepez
                             <label for="commonTreeSpeciesName" class="block text-sm font-medium text-gray-700 mb-1">Common Tree Species Name</label>
                             <div class="relative">
                                 <i class="fas fa-tree absolute left-3 top-3 text-gray-400"></i>
-                                <input type="text" id="commonTreeSpeciesName" name="common_name" placeholder="Enter Common Tree Species Name"
+                                <input type="text" id="commonTreeSpeciesName" name="commonName" placeholder="Enter Common Tree Species Name"
                                        class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                             </div>
                         </div>
@@ -174,7 +174,7 @@ Author     : jeffersonyepez
                             <label for="orderNameTreeSpecies" class="block text-sm font-medium text-gray-700 mb-1">Order Name Tree Species</label>
                             <div class="relative">
                                 <i class="fas fa-align-left absolute left-3 top-3 text-gray-400"></i>
-                                <input type="text" id="orderTreeSpecies" name="order_name" placeholder="Enter Order Name Tree Species"
+                                <input type="text" id="orderTreeSpecies" name="orderName" placeholder="Enter Order Name Tree Species"
                                        class="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
                             </div>
                         </div>
@@ -223,23 +223,119 @@ Author     : jeffersonyepez
         </div>
 
         <c:forEach var="currentTree" items="${trees}"> 
-            <div id="modal-${currentTree.uuid}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-modal h-full bg-black/40"> <div class="relative p-4 w-full max-w-2xl h-full md:h-auto mx-auto"> <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative"> <button type="button" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" data-modal-hide="modal-${currentTree.uuid}"> <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/> </svg> </button> <h3 class="text-xl font-semibold text-green-700 mb-4">Tree Species Information</h3>
+            <div id="modal-${currentTree.uuid}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full h-modal h-full bg-black/40"> <div class="relative p-4 w-full max-w-2xl h-full md:h-auto mx-auto"> 
+                    <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative"> 
 
-                        <img src="${currentTree.image}" alt="Tree Image" class="w-full h-48 object-cover rounded mb-4" />
+                        <h3 class="text-xl font-semibold text-green-700 mb-4">Tree Species Information</h3>
+                        <button data-modal-hide="modal-${currentTree.uuid}" onclick="makeReadOnly('${currentTree.uuid}')" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" data-modal-hide="modal-${currentTree.uuid}"> 
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"> 
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/> 
+                            </svg> 
+                        </button> 
 
-                        <div class="space-y-2 text-sm text-gray-700">
-                            <p><strong>Name:</strong> ${currentTree.name}</p>
-                            <p><strong>Common Name:</strong> ${currentTree.commonName}</p>
-                            <p><strong>Family:</strong> ${currentTree.family}</p>
-                            <p><strong>Origin UUID:</strong> ${currentTree.origin}</p>
-                            <p><strong>Order Name:</strong> ${currentTree.orderName}</p>
-                            <p><strong>Habitat:</strong> ${currentTree.habitat}</p>
-                            <p><strong>Description:</strong> ${currentTree.description}</p>
+
+                        <div class="overflow-y-auto max-h-[75vh] p-6 space-y-4">
+                            <img src="${currentTree.image}" alt="Tree Image" class="w-full h-48 object-cover rounded mb-4" />
+
+                            <div id="tree-info-${currentTree.uuid}" class="mb-4 space-y-2">
+                                <div class=" flex items-center gap-4">
+                                    <strong class="w-32">Name:</strong>
+                                    <i class="fas fa-tree  text-lg"></i>
+                                    <input
+                                        id="name-${currentTree.uuid}"
+                                        readonly
+                                        class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                        type="text"
+                                        value="${currentTree.name}"
+                                        />
+                                </div>
+
+                                <div class=" flex items-center gap-4">
+                                    <strong class="w-32">Common Name:</strong>
+                                    <i class="fas fa-tree  text-lg"></i>
+                                    <input
+                                        id="commonName-${currentTree.uuid}"
+                                        readonly
+                                        class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                        type="text"
+                                        value="${currentTree.commonName}"
+                                        />
+                                </div>
+
+                                <div class=" flex items-center gap-4">
+                                    <strong class="w-32">Family:</strong>
+                                    <i class="fas fa-tree  text-lg"></i>
+                                    <input
+                                        id="family-${currentTree.uuid}"
+                                        readonly
+                                        class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                        type="text"
+                                        value="${currentTree.family}"
+                                        />
+                                </div>
+
+                                <div class=" flex items-center gap-4">
+                                    <strong class="w-32">Order Name:</strong>
+                                    <i class="fas fa-tree  text-lg"></i>
+                                    <input
+                                        id="orderName-${currentTree.uuid}"
+                                        readonly
+                                        class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                        type="text"
+                                        value="${currentTree.orderName}"
+                                        />
+                                </div>
+
+                                <div class="flex items-center gap-4">
+                                    <strong class="w-32">Origin:</strong>
+                                    <i class="fas fa-globe-americas text-lg"></i>
+
+                                    <select
+                                        id="origin-${currentTree.uuid}"
+                                        disabled
+                                        class="text-gray-400 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                        <c:forEach var="origin" items="${origins}">
+                                            <option value="${origin.uuid_origin}" 
+                                                    <c:if test="${origin.uuid_origin == currentTree.origin}">selected</c:if>>
+                                                ${origin.name_origin}
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+
+
+                                <div class=" flex items-center gap-4">
+                                    <strong class="w-32">Habitat:</strong>
+                                    <i class="fas fa-tree  text-lg"></i>
+                                    <input
+                                        id="habitat-${currentTree.uuid}"
+                                        readonly
+                                        class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                        type="text"
+                                        value="${currentTree.habitat}"
+                                        />
+                                </div>
+
+                                <div class=" flex items-center gap-4">
+                                    <strong class="w-32">Description:</strong>
+                                    <i class="fas fa-tree  text-lg"></i>
+                                    <input
+                                        id="description-${currentTree.uuid}"
+                                        readonly
+                                        class=" pl-3 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+                                        type="text"
+                                        value="${currentTree.description}"
+                                        />
+                                </div>
+
+
+                            </div>
                         </div>
 
                         <h4 class="text-lg font-semibold text-gray-700 mb-2">Forestal Zone</h4>
 
-                        
+
 
                         <c:choose>
                             <c:when test="${not empty currentTree.zones}">
@@ -270,7 +366,23 @@ Author     : jeffersonyepez
                                         </c:forEach>
                                     </tbody>
                                 </table>
-                                <div class="my-3 flex justify-end">
+                                <div class="my-3 flex justify-between items-center">
+
+                                    <div class="flex gap-3">
+                                        <button onclick="makeEditable('${currentTree.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                            </svg>
+                                        </button>
+                                        <button id="btn-save-${currentTree.uuid}" onclick="onUpdate('${currentTree.uuid}')" class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                            </svg>
+                                            Save
+                                        </button>
+                                    </div>
+
+
                                     <button id="addZoneBtn-${currentTree.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -278,6 +390,7 @@ Author     : jeffersonyepez
                                         Add Zone
                                     </button>
                                 </div>
+
 
                                 <div id="zoneSelectContainer-${currentTree.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
                                     <label for="zone" class="block text-sm font-medium text-gray-700">Select Zone</label>
@@ -310,301 +423,444 @@ Author     : jeffersonyepez
                             </c:when>
                             <c:otherwise>
                                 <p class="text-sm text-gray-500 italic">No zones added yet.</p>
-                                <div class="my-3 flex justify-end">
-                                    <button id="addZoneBtn-${currentTree.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                <div class="my-3 flex justify-between items-center"">
+                                <div class="my-3 flex gap-3">
+                                    <button onclick="makeEditable('${currentTree.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg>
-                                        Add Zone
+                                    </button>
+                                    <button id="btn-save-${currentTree.uuid}" onclick="onUpdate('${currentTree.uuid}')" class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                        </svg>
+                                        Save
                                     </button>
                                 </div>
+                                <button id="addZoneBtn-${currentTree.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                    Add Zone
+                                </button>
+                            </div>
 
-                                <div id="zoneSelectContainer-${currentTree.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
-                                    <label for="zone" class="block text-sm font-medium text-gray-700">Select Zone</label>
+                            <div id="zoneSelectContainer-${currentTree.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
+                                <label for="zone" class="block text-sm font-medium text-gray-700">Select Zone</label>
 
-                                    <select id="zoneSelect-${currentTree.uuid}" name="zoneId" placeholder="Select a tree..."
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                                        <option value="" selected disabled hidden>Select a Zone...</option>
-                                        <c:forEach var="currentZone" items="${zones}">
-                                            <option value="${currentZone.uuid}">${currentZone.description}</option>
-                                        </c:forEach>
-                                    </select>
+                                <select id="zoneSelect-${currentTree.uuid}" name="zoneId" placeholder="Select a tree..."
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                    <option value="" selected disabled hidden>Select a Zone...</option>
+                                    <c:forEach var="currentZone" items="${zones}">
+                                        <option value="${currentZone.uuid}">${currentZone.description}</option>
+                                    </c:forEach>
+                                </select>
 
-                                    <div class="my-3 flex justify-end">
-                                        <button onclick="addNewZone('${currentTree.uuid}')"
-                                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
-                                            Save
-                                        </button>  
-                                    </div>
+                                <div class="my-3 flex justify-end">
+                                    <button onclick="addNewZone('${currentTree.uuid}')"
+                                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200">
+                                        Save
+                                    </button>  
                                 </div>
-                            </c:otherwise>
-                        </c:choose>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
 
-                    </div>
                 </div>
             </div>
+        </div>
 
-        </c:forEach>
+    </c:forEach>
 
-        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
-        <form action="/forestal/tree_species" id="addNewZoneForm" method="post">
-            <input type="hidden" name="uuidTree" id="uuidTreeAdd">
-            <input type="hidden" name="uuidZone" id="uuidZoneAdd">
-            <input type="hidden" name="_method" value="ADD_ZONE">
-        </form>
+    <form action="/forestal/tree_species" id="addNewZoneForm" method="post">
+        <input type="hidden" name="uuidTree" id="uuidTreeAdd">
+        <input type="hidden" name="uuidZone" id="uuidZoneAdd">
+        <input type="hidden" name="_method" value="ADD_ZONE">
+    </form>
 
-        <script>
-            function addNewZone(uuidTree) {
-                const select = document.getElementById(`zoneSelect-` + uuidTree);
-                if (!select) {
-                    console.error(`No se encontró el select para la zona con UUID: ${uuidTree}`);
+    <script>
+                                        function addNewZone(uuidTree) {
+                                            const select = document.getElementById(`zoneSelect-` + uuidTree);
+                                            if (!select) {
+                                                console.error(`No se encontró el select para la zona con UUID: ${uuidTree}`);
+                                                return;
+                                            }
+                                            const uuidZone = select.value;
+                                            Swal.fire({
+                                                title: "Are you sure?",
+                                                text: "You won't be able to revert this!",
+                                                icon: "warning",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Yes, save it!"
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    document.getElementById("uuidTreeAdd").value = uuidTree;
+                                                    document.getElementById("uuidZoneAdd").value = uuidZone;
+                                                    document.getElementById("addNewZoneForm").submit();
+                                                }
+                                            });
+                                        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('[id^="zoneSelect-"]').forEach(selectElement => {
+                if (selectElement.tomselect)
                     return;
-                }
-                const uuidZone = select.value;
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, save it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById("uuidTreeAdd").value = uuidTree;
-                        document.getElementById("uuidZoneAdd").value = uuidZone;
-                        document.getElementById("addNewZoneForm").submit();
+                new TomSelect(selectElement, {
+                    create: false,
+                    allowEmptyOption: true,
+                    maxOptions: 100
+                });
+            });
+
+            document.querySelectorAll('[id^="addZoneBtn-"]').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const treeId = btn.id.replace('addZoneBtn-', '');
+                    const treeSelectContainer = document.getElementById(`zoneSelectContainer-` + treeId);
+                    console.log(treeSelectContainer);
+                    if (treeSelectContainer) {
+                        if (treeSelectContainer.classList.contains('hidden')) {
+                            treeSelectContainer.classList.remove('hidden');
+                            setTimeout(() => {
+                                treeSelectContainer.classList.add('opacity-100');
+                            }, 10);
+                        } else {
+                            treeSelectContainer.classList.remove('opacity-100');
+                            setTimeout(() => {
+                                treeSelectContainer.classList.add('hidden');
+                            }, 500);
+                        }
+                    } else {
+                        console.error(`El contenedor para el arbol con ID ${treeId} no se encontró.`);
                     }
                 });
-            }
-        </script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                document.querySelectorAll('[id^="zoneSelect-"]').forEach(selectElement => {
-                    if (selectElement.tomselect)
-                        return;
-                    new TomSelect(selectElement, {
-                        create: false,
-                        allowEmptyOption: true,
-                        maxOptions: 100
-                    });
-                });
-
-                document.querySelectorAll('[id^="addZoneBtn-"]').forEach(btn => {
-                    btn.addEventListener('click', function () {
-                        const treeId = btn.id.replace('addZoneBtn-', '');
-                        const treeSelectContainer = document.getElementById(`zoneSelectContainer-` + treeId);
-                        console.log(treeSelectContainer);
-                        if (treeSelectContainer) {
-                            if (treeSelectContainer.classList.contains('hidden')) {
-                                treeSelectContainer.classList.remove('hidden');
-                                setTimeout(() => {
-                                    treeSelectContainer.classList.add('opacity-100');
-                                }, 10);
-                            } else {
-                                treeSelectContainer.classList.remove('opacity-100');
-                                setTimeout(() => {
-                                    treeSelectContainer.classList.add('hidden');
-                                }, 500);
-                            }
-                        } else {
-                            console.error(`El contenedor para el arbol con ID ${treeId} no se encontró.`);
-                        }
-                    });
-                });
             });
-
-        </script>
-
-
-        <script>
-            function downloadCSV() {
-                const rows = document.querySelectorAll("#treesTable tbody tr");
-                let csv = "Name,Description,Area,Register Date\n";
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll("td");
-                    csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
-                });
-                const blob = new Blob([csv], {type: 'text/csv'});
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "forest_zones.csv";
-                link.click();
-            }
-
-
-
-
-        </script>
-
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const table = document.querySelector("#treesTable");
-                new simpleDatatables.DataTable(table, {
-                    perPage: 5,
-                    perPageSelect: [5, 10, 25, 50],
-                    searchable: true,
-                    sortable: true,
-                });
-            });
-        </script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
-
-        <script>
-            document.getElementById('treeSpeciesForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                let isValid = true;
-                const form = e.target;
-
-                const name = form.name.value.trim();
-                const commonName = form.common_name.value.trim();
-                const family = form.family.value.trim();
-                const origin = form.origin.value.trim();
-                const orderName = form.order_name.value.trim();
-                const habitat = form.habitat.value.trim();
-                const description = form.description.value.trim();
-                const image = form.image.value.trim();
-
-                [...form.elements].forEach(el => el.classList.remove('border-green-500'));
-
-                if (name === "") {
-                    isValid = false;
-                    form.name.classList.add('border-green-500');
-                }
-
-                if (commonName === "") {
-                    isValid = false;
-                    form.common_name.classList.add('border-green-500');
-                }
-
-                if (family === "") {
-                    isValid = false;
-                    form.family.classList.add('border-green-500');
-                }
-
-                if (origin === "") {
-                    isValid = false;
-                    form.origin.classList.add('border-green-500');
-                }
-
-                if (orderName === "") {
-                    isValid = false;
-                    form.order_name.classList.add('border-green-500');
-                }
-
-                if (habitat === "") {
-                    isValid = false;
-                    form.habitat.classList.add('border-green-500');
-                }
-
-                if (description === "") {
-                    isValid = false;
-                    form.description.classList.add('border-green-500');
-                }
-
-                if (image === "") {
-                    isValid = false;
-                    form.image.classList.add('border-green-500');
-                }
-
-                if (!isValid) {
-                    alert('Please correct the highlighted fields.');
-                    return;
-                }
-
-                // Ahora sí enviamos
-                form.submit();
-            });
-        </script>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                document.querySelectorAll("[data-modal-toggle]").forEach(button => {
-                    const targetId = button.getAttribute("data-modal-target");
-                    const modal = document.getElementById(targetId);
-
-                    if (!modal)
-                        return;
-
-                    button.addEventListener("click", () => {
-                        modal.classList.remove("hidden");
-                    });
-                });
-
-                document.querySelectorAll("[data-modal-hide]").forEach(button => {
-                    const targetId = button.getAttribute("data-modal-hide");
-                    const modal = document.getElementById(targetId);
-
-                    if (!modal)
-                        return;
-
-                    button.addEventListener("click", () => {
-                        modal.classList.add("hidden");
-                    });
-                });
-            });
-        </script>
-<form id="deleteForm" method="post" action="/forestal/tree_species">
-    <input type="hidden" name="uuid" id="uuid">
-    <input type="hidden" name="_method" value="DELETE">
-</form>
-
-        <script>
-            const onDelete = (uuid) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('uuid').value = uuid;
-                document.getElementById('deleteForm').submit();
-            }
         });
-    }
 
-        </script>
+    </script>
 
 
-        <script>
-            function downloadCSV() {
-                const rows = document.querySelectorAll("#treesTable tbody tr");
-                let csv = "Name,Description,Area,Register Date\n";
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll("td");
-                    csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
+
+
+
+
+    <script>
+
+        const activeEdit = false;
+
+        const makeEditable = (uuid) => {
+            const inputs = document.querySelectorAll("#tree-info-" + uuid + " input");
+            const select = document.getElementById("origin-" + uuid);
+
+            const saveBtn = document.querySelector("#btn-save-" + uuid);
+            saveBtn.classList.toggle("hidden");
+            if (inputs) {
+                inputs.forEach(input => {
+                    input.toggleAttribute("readonly");
+                    input.classList.toggle("text-gray-400");
                 });
-                const blob = new Blob([csv], {type: 'text/csv'});
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "forest_zones.csv";
-                link.click();
+                inputs[0].focus();
             }
 
+            if (select) {
+                select.disabled = false;
+                select.classList.add("text-gray-400");
+            }
+        };
+
+        const makeReadOnly = (uuid) => {
+            const inputs = document.querySelectorAll("#tree-info-" + uuid + " input");
+            const saveBtn = document.querySelector("#btn-save-" + uuid);
+            const select = document.getElementById("origin-" + uuid);
+
+            saveBtn.classList.toggle("hidden");
+            if (inputs) {
+                inputs.forEach(input => {
+                    if (!input.hasAttribute("readonly")) {
+                        input.setAttribute("readonly", "");
+                        input.classList.toggle("text-gray-400");
+                        input.focus();
+                    }
+                });
+                inputs[0].focus();
+            }
+            if (select) {
+                select.disabled = true;
+                select.classList.add("text-gray-400");
+            }
+
+        };
+    </script>
+
+    <form action="/forestal/tree_species" id="updateForm" method="post">
+        <input type="hidden" name="uuid" id="uuidUpdate">
+        <input type="hidden" name="name" id="nameUpdate">
+        <input type="hidden" name="commonName" id="commonNameUpdate">
+        <input type="hidden" name="family" id="familyUpdate">
+        <input type="hidden" name="origin" id="originUpdate">
+        <input type="hidden" name="orderName" id="orderNameUpdate">
+        <input type="hidden" name="habitat" id="habitatUpdate">
+        <input type="hidden" name="description" id="descriptionUpdate">
+
+
+        <input type="hidden" name="_method" value="UPDATE">
+    </form>
+
+    <script>
+        const onUpdate = (uuid) => {
+            const name = document.getElementById("name-" + uuid)?.value || "";
+            const commonName = document.getElementById("commonName-" + uuid)?.value || "";
+            const family = document.getElementById("family-" + uuid)?.value || "";
+            const origin = document.getElementById("origin-" + uuid)?.value || "";
+            const orderName = document.getElementById("orderName-" + uuid)?.value || "";
+            const habitat = document.getElementById("habitat-" + uuid)?.value || "";
+            const description = document.getElementById("description-" + uuid)?.value || "";
+            //const image = document.querySelector("#modal-"+uuid img)?.src || "";
+
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, update it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('uuidUpdate').value = uuid;
+                    document.getElementById('nameUpdate').value = name;
+                    document.getElementById('commonNameUpdate').value = commonName;
+                    document.getElementById('familyUpdate').value = family;
+                    document.getElementById('originUpdate').value = origin;
+                    document.getElementById('orderNameUpdate').value = orderName;
+                    document.getElementById('habitatUpdate').value = habitat;
+                    document.getElementById('descriptionUpdate').value = description;
+
+
+                    document.getElementById('updateForm').submit();
+                }
+            });
+        };
+    </script>
+
+    <script>
+        function downloadCSV() {
+            const rows = document.querySelectorAll("#treesTable tbody tr");
+            let csv = "Name,Description,Area,Register Date\n";
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
+            });
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "forest_zones.csv";
+            link.click();
+        }
 
 
 
-        </script>
+
+    </script>
+
+    <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
+    <input type="hidden" name="uuidForestal" id="uuidForestal">
+    <input type="hidden" name="uuidTree" id="uuidTree">
+    <input type="hidden" name="_method" value="DELETE_ZONE">
+</form>
+    
+    <script>
+        const onDeleteZone = (uuidTree, uuidZone) => {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("uuidForestal").value = uuidZone;
+                    document.getElementById("uuidTree").value = uuidTree;
+                    document.getElementById("deleteZoneForm").submit();
+                }
+            });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const table = document.querySelector("#treesTable");
+            new simpleDatatables.DataTable(table, {
+                perPage: 5,
+                perPageSelect: [5, 10, 25, 50],
+                searchable: true,
+                sortable: true,
+            });
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <script>
+        document.getElementById('treeSpeciesForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let isValid = true;
+            const form = e.target;
+
+            const name = form.name.value.trim();
+            const commonName = form.commonName.value.trim();
+            const family = form.family.value.trim();
+            const origin = form.origin.value.trim();
+            const orderName = form.orderName.value.trim();
+            const habitat = form.habitat.value.trim();
+            const description = form.description.value.trim();
+            const image = form.image.value.trim();
+
+            [...form.elements].forEach(el => el.classList.remove('border-green-500'));
+
+            if (name === "") {
+                isValid = false;
+                form.name.classList.add('border-green-500');
+            }
+
+            if (commonName === "") {
+                isValid = false;
+                form.commonName.classList.add('border-green-500');
+            }
+
+            if (family === "") {
+                isValid = false;
+                form.family.classList.add('border-green-500');
+            }
+
+            if (origin === "") {
+                isValid = false;
+                form.origin.classList.add('border-green-500');
+            }
+
+            if (orderName === "") {
+                isValid = false;
+                form.orderName.classList.add('border-green-500');
+            }
+
+            if (habitat === "") {
+                isValid = false;
+                form.habitat.classList.add('border-green-500');
+            }
+
+            if (description === "") {
+                isValid = false;
+                form.description.classList.add('border-green-500');
+            }
+
+            if (image === "") {
+                isValid = false;
+                form.image.classList.add('border-green-500');
+            }
+
+            if (!isValid) {
+                alert('Please correct the highlighted fields.');
+                return;
+            }
+
+            // Ahora sí enviamos
+            form.submit();
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("[data-modal-toggle]").forEach(button => {
+                const targetId = button.getAttribute("data-modal-target");
+                const modal = document.getElementById(targetId);
+
+                if (!modal)
+                    return;
+
+                button.addEventListener("click", () => {
+                    modal.classList.remove("hidden");
+                });
+            });
+
+            document.querySelectorAll("[data-modal-hide]").forEach(button => {
+                const targetId = button.getAttribute("data-modal-hide");
+                const modal = document.getElementById(targetId);
+
+                if (!modal)
+                    return;
+
+                button.addEventListener("click", () => {
+                    modal.classList.add("hidden");
+                });
+            });
+        });
+    </script>
+    <form id="deleteForm" method="post" action="/forestal/tree_species">
+        <input type="hidden" name="uuid" id="uuid">
+        <input type="hidden" name="_method" value="DELETE">
+    </form>
+
+    <script>
+        const onDelete = (uuid) => {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('uuid').value = uuid;
+                    document.getElementById('deleteForm').submit();
+                }
+            });
+        }
+
+    </script>
 
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script>
+        function downloadCSV() {
+            const rows = document.querySelectorAll("#treesTable tbody tr");
+            let csv = "Name,Description,Area,Register Date\n";
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
+            });
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "forest_zones.csv";
+            link.click();
+        }
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
 
-        
+
+    </script>
 
 
-    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+
+
+
+
+</body>
 </html>

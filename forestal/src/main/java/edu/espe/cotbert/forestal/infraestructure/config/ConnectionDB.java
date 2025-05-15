@@ -12,7 +12,7 @@ public class ConnectionDB {
 
     
 
-    private static final String URL = "jdbc:postgresql://localhost:5433/forestal";
+    private static final String URL = "jdbc:postgresql://localhost:5432/forestal";
     private static final String USER = "forestal_tree";
     private static final String PASSWORD = "admin123";
     private static final Logger logger = LoggerConfig.getLogger();

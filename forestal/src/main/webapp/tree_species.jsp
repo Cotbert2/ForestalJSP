@@ -677,8 +677,6 @@ Author     : jeffersonyepez
         <input type="hidden" name="_method" value="UPDATE">
     </form>
 
-<<<<<<< HEAD
-=======
     <script>
         const onUpdate = (uuid) => {
             const name = document.getElementById("name-" + uuid)?.value || "";
@@ -724,7 +722,6 @@ Author     : jeffersonyepez
     <input type="hidden" name="uuidTree" id="uuidTree">
     <input type="hidden" name="_method" value="DELETE_ZONE">
 </form>
->>>>>>> faea819f5607c7a2605dc2e5e388034239747e3a
     
 
 

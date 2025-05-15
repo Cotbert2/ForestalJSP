@@ -24,22 +24,21 @@ const onUpdate = (uuid) => {
     });
 };
  
-
-
-
   
 
 const activeEdit = false;
 
 const makeEditable = (uuid) => {
     const inputs = document.querySelectorAll("#zone-info-" + uuid + " input");
-
     const saveBtn = document.querySelector("#btn-save-" + uuid);
     saveBtn.classList.toggle("hidden");
-    if (inputs) {
-        inputs.forEach(input => {
-            input.toggleAttribute("readonly");
-            input.classList.toggle("text-gray-400");
+
+    if (inputs.length > 0) {
+        inputs.forEach((input, index) => {
+            if (index !== inputs.length - 1) {
+                input.toggleAttribute("readonly");
+                input.classList.toggle("text-gray-400");
+            }
         });
         inputs[0].focus();
     } else {
@@ -118,21 +117,19 @@ const onDeleteTree = (uuidForestal, uuidTree) => {
 
 
   
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const now = new Date();
+document.addEventListener('DOMContentLoaded', () => {
+    const now = new Date();
 
-                        const ecuadorOffset = -5 * 60;
-                        const localTime = new Date(now.getTime() + (ecuadorOffset - now.getTimezoneOffset()) * 60000);
+    const ecuadorOffset = -5 * 60;
+    const localTime = new Date(now.getTime() + (ecuadorOffset - now.getTimezoneOffset()) * 60000);
 
-                        const formatted = localTime.toISOString().slice(0, 16);
+    const formatted = localTime.toISOString().slice(0, 16);
 
-                        const input = document.getElementById('registerDate');
-                        input.value = formatted;
-                        input.readOnly = true;
-                    });
+    const input = document.getElementById('registerDate');
+    input.value = formatted;
+    input.readOnly = true;
+});
                  
-
-
 
 
   
@@ -201,42 +198,39 @@ document.getElementById('forestZoneForm').addEventListener('submit',  (e) => {
     const registerDate = form.registerDate.value.trim();
     const mapJson = form.mapJson.value.trim();
 
-    [...form.elements].forEach(el => el.classList.remove('border-green-500'));
+    [...form.elements].forEach(el => el.classList.remove('border-red-500'));
 
     if (zoneName === "") {
         isValid = false;
-        form.zoneName.classList.add('border-green-500');
+        form.zoneName.classList.add('border-red-500');
     }
 
     if (description === "") {
         isValid = false;
-        form.description.classList.add('border-green-500');
+        form.description.classList.add('border-red-500');
     }
 
     if (isNaN(area) || area <= 0) {
         isValid = false;
-        form.area.classList.add('border-green-500');
+        form.area.classList.add('border-red-500');
     }
 
     if (image === "") {
         isValid = false;
-        form.image.classList.add('border-green-500');
+        form.image.classList.add('border-red-500');
     }
 
     if (registerDate === "") {
         isValid = false;
-        form.registerDate.classList.add('border-green-500');
+        form.registerDate.classList.add('border-red-500');
     }
 
     if (!isValid) {
-        alert('Please correct the highlighted fields.');
+        toastr.warning("Invalid form. Please check your input.");
         return;
     }
 
-    if (!isValid) {
-        alert("Formulario válido. Enviar datos...");
-        return;
-    }
+
 
     form.submit();
 });

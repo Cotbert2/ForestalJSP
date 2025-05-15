@@ -35,20 +35,27 @@ Author     : jeffersonyepez
 
         <header class="sticky top-0 z-50 bg-white shadow">
             <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center py-4">
-                    <div class="text-2xl font-bold text-green-700">Run Forest, Run!</div>
-                    <ul class="flex space-x-8 text-sm font-medium">
-                        <li><a href="#forest-zones" class="hover:text-green-700">Tree Species</a></li>
-                    </ul>
-                </div>
+              <div class="flex justify-between items-center py-4">
+                <div class="text-2xl font-bold text-green-700">
+                  <a href="/forestal/">
+                    Run Forest, Run!</div>
+                  </a>
+                <ul class="flex space-x-8 text-sm font-medium">
+                  <li><a href="forestal_zone" class="hover:text-green-700">Forest Zones</a></li>
+                  <li><a href="tree_species" class="hover:text-green-700">Tree species</a></li>
+                  <li><a href="conservation_activities" class="hover:text-green-700">Conservation activities</a></li>
+                </ul>
+              </div>
             </nav>
-        </header>
+          </header>
+        
 
         <section class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8" id="tree-species">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-3xl font-bold text-green-800">Tree Species</h2>
                 <div class="flex">
-                    <button onclick="downloadCSVFileFromTable('treesTable','Trees_Species')" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
+                    <button onclick="downloadCSVFileFromTable('treesTable','tree_species')" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
+
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
                         </svg> Download CSV</button>
@@ -646,31 +653,33 @@ Author     : jeffersonyepez
             };
         </script>
 
-        <script>
-            function downloadCSV() {
-                const rows = document.querySelectorAll("#treesTable tbody tr");
-                let csv = "Name,Description,Area,Register Date\n";
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll("td");
-                    csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
-                });
-                const blob = new Blob([csv], {type: 'text/csv'});
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "forest_zones.csv";
-                link.click();
-            }
-
-
-
-
-        </script>
+        
 
         <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
             <input type="hidden" name="uuidForestal" id="uuidForestal">
             <input type="hidden" name="uuidTree" id="uuidTree">
             <input type="hidden" name="_method" value="DELETE_ZONE">
         </form>
+
+
+
+    <form action="/forestal/tree_species" id="updateForm" method="post">
+        <input type="hidden" name="uuid" id="uuidUpdate">
+        <input type="hidden" name="name" id="nameUpdate">
+        <input type="hidden" name="commonName" id="commonNameUpdate">
+        <input type="hidden" name="family" id="familyUpdate">
+        <input type="hidden" name="origin" id="originUpdate">
+        <input type="hidden" name="orderName" id="orderNameUpdate">
+        <input type="hidden" name="habitat" id="habitatUpdate">
+        <input type="hidden" name="description" id="descriptionUpdate">
+
+
+        <input type="hidden" name="_method" value="UPDATE">
+    </form>
+
+    
+
+
 
         <script>
             const onDeleteZone = (uuidTree, uuidZone) => {
@@ -878,26 +887,6 @@ Author     : jeffersonyepez
 
         </script>
 
-
-        <script>
-            function downloadCSV() {
-                const rows = document.querySelectorAll("#treesTable tbody tr");
-                let csv = "Name,Description,Area,Register Date\n";
-                rows.forEach(row => {
-                    const cells = row.querySelectorAll("td");
-                    csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
-                });
-                const blob = new Blob([csv], {type: 'text/csv'});
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "forest_zones.csv";
-                link.click();
-            }
-
-
-
-
-        </script>
 
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>

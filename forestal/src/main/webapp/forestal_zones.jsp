@@ -29,6 +29,8 @@
                 <link rel="stylesheet"
                     href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
                 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
 
                 <link rel="icon" href="./assets/leave.png" type="image/x-icon">
 
@@ -38,14 +40,20 @@
 
                 <header class="sticky top-0 z-50 bg-white shadow">
                     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="flex justify-between items-center py-4">
-                            <div class="text-2xl font-bold text-green-700">Run Forest, Run!</div>
-                            <ul class="flex space-x-8 text-sm font-medium">
-                                <li><a href="#forest-zones" class="hover:text-green-700">Forest Zones</a></li>
-                            </ul>
-                        </div>
+                      <div class="flex justify-between items-center py-4">
+                        <div class="text-2xl font-bold text-green-700">
+                          <a href="/forestal/">
+                            Run Forest, Run!</div>
+                          </a>
+                        <ul class="flex space-x-8 text-sm font-medium">
+                          <li><a href="forestal_zone" class="hover:text-green-700">Forest Zones</a></li>
+                          <li><a href="tree_species" class="hover:text-green-700">Tree species</a></li>
+                          <li><a href="conservation_activities" class="hover:text-green-700">Conservation activities</a></li>
+                        </ul>
+                      </div>
                     </nav>
-                </header>
+                  </header>
+                
 
                 <!-- Modal New -->
                 <div id="modalNew"
@@ -114,7 +122,7 @@
 
                                 <div>
                                     <label for="map" class="block text-sm font-medium text-gray-700 mb-1">Select
-                                        Area</label>
+                                        Area (This field cannot be edited)</label>
                                     <div id="map" class="rounded border" style="height: 400px; width: 100%;"></div>
                                     <input type="hidden" id="mapJson" name="map_json">
                                 </div>
@@ -514,7 +522,8 @@
 
 
             </body>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
             <script src="./scipts/forestalZone.js"></script>
             <script src="./scipts/downloadCSV.js"></script>
-
+            
             </html>

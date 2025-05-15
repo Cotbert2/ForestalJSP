@@ -8,22 +8,18 @@ public class ConservationActivities {
     private String uuid;
     private String name;
     private String description;
-    private Timestamp activityDate;
+    private Timestamp startDate;
+    private Timestamp endDate;
+    private Timestamp registerDate;
     private String forestalZoneUuid;
 
-    public ConservationActivities(String uuid, String name, String description, Timestamp activityDate, String forestalZoneUuid) {
+    public ConservationActivities(String uuid, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp registerDate, String forestalZoneUuid) {
         this.uuid = uuid;
         this.name = name;
         this.description = description;
-        this.activityDate = activityDate;
-        this.forestalZoneUuid = forestalZoneUuid;
-    }
-
-    public ConservationActivities(String name, String description, Timestamp activityDate, String forestalZoneUuid) {
-        this.uuid = UUID.randomUUID().toString();
-        this.name = name;
-        this.description = description;
-        this.activityDate = activityDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.registerDate = registerDate;
         this.forestalZoneUuid = forestalZoneUuid;
     }
 
@@ -51,12 +47,28 @@ public class ConservationActivities {
         this.description = description;
     }
 
-    public Timestamp getActivityDate() {
-        return activityDate;
+    public Timestamp getStartDate() {
+        return startDate;
     }
 
-    public void setActivityDate(Timestamp activityDate) {
-        this.activityDate = activityDate;
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
+
+    public Timestamp getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+
+    public Timestamp getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Timestamp registerDate) {
+        this.registerDate = registerDate;
     }
 
     public String getForestalZoneUuid() {

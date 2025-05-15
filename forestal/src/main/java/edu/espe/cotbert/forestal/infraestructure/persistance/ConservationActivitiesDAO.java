@@ -26,8 +26,10 @@ public class ConservationActivitiesDAO implements ConservationActivitiesReposito
             stmt.setObject(1, UUID.fromString(activity.getUuid()), java.sql.Types.OTHER);
             stmt.setString(2, activity.getName());
             stmt.setString(3, activity.getDescription());
-            stmt.setTimestamp(4, activity.getActivityDate());
-            stmt.setObject(5, UUID.fromString(activity.getForestalZoneUuid()), java.sql.Types.OTHER);
+            stmt.setTimestamp(4, activity.getStartDate());
+            stmt.setTimestamp(5, activity.getEndDate());
+            stmt.setTimestamp(6, activity.getRegisterDate());
+            stmt.setObject(7, UUID.fromString(activity.getForestalZoneUuid()), java.sql.Types.OTHER);
 
             stmt.executeUpdate();
             logger.info("ConservationActivity saved successfully");
@@ -41,19 +43,21 @@ public class ConservationActivitiesDAO implements ConservationActivitiesReposito
     public List<ConservationActivities> findAll() {
         List<ConservationActivities> activities = new ArrayList<>();
         try (Connection conn = ConnectionDB.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(ConstantsDB.GET_ALL_CONSERVATION_ACTIVITY)) {
-
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(ConstantsDB.GET_ALL_CONSERVATION_ACTIVITY)) 
+        {
             while (rs.next()) {
-                ConservationActivities activity = new ConservationActivities(
-                    rs.getString("uuid_conservation_activity"),
-                    rs.getString("name_conservation_activity"),
-                    rs.getString("description_conservation_activity"),
-                    rs.getTimestamp("activity_date_conservation_activity"),
-                    rs.getString("uuid_forestal_zone")
-                );
-                activities.add(activity);
-            }
+            ConservationActivities activity = new ConservationActivities(
+                rs.getString("uuid_conservation_activity"),
+                rs.getString("name_conservation_activity"),
+                rs.getString("description_conservation_activity"),
+                rs.getTimestamp("start_date_conservation_activity"),
+                rs.getTimestamp("end_date_conservation_activity"),
+                rs.getTimestamp("register_date_conservation_activity"),
+                rs.getString("uuidd_forestal_zone") 
+            );
+            activities.add(activity);
+        }
 
         } catch (Exception e) {
             logger.severe("Error retrieving ConservationActivity list: " + e.getMessage());
@@ -74,7 +78,9 @@ public class ConservationActivitiesDAO implements ConservationActivitiesReposito
                     rs.getString("uuid_conservation_activity"),
                     rs.getString("name_conservation_activity"),
                     rs.getString("description_conservation_activity"),
-                    rs.getTimestamp("activity_date_conservation_activity"),
+                    rs.getTimestamp("start_date_conservation_activity"),
+                    rs.getTimestamp("end_date_conservation_activity"),
+                    rs.getTimestamp("register_date_conservation_activity"),
                     rs.getString("uuid_forestal_zone")
                 );
             }
@@ -92,9 +98,11 @@ public class ConservationActivitiesDAO implements ConservationActivitiesReposito
 
             stmt.setString(1, activity.getName());
             stmt.setString(2, activity.getDescription());
-            stmt.setTimestamp(3, activity.getActivityDate());
-            stmt.setObject(4, UUID.fromString(activity.getForestalZoneUuid()), java.sql.Types.OTHER);
-            stmt.setObject(5, UUID.fromString(activity.getUuid()), java.sql.Types.OTHER);
+            stmt.setTimestamp(3, activity.getStartDate());
+            stmt.setTimestamp(4, activity.getEndDate());
+            stmt.setTimestamp(5, activity.getRegisterDate());
+            stmt.setObject(6, UUID.fromString(activity.getForestalZoneUuid()), java.sql.Types.OTHER);
+            stmt.setObject(7, UUID.fromString(activity.getUuid()), java.sql.Types.OTHER);
 
             stmt.executeUpdate();
             logger.info("ConservationActivity updated successfully");

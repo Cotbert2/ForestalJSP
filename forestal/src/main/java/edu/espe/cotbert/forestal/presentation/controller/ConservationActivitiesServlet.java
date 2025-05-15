@@ -14,72 +14,163 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
  *
  * @author Luis Sagnay
  */
-@WebServlet(name = "ConservationActivityServlet", urlPatterns = {"/conservation_activities"})
+@WebServlet(name = "ConservationActivitiesServlet", urlPatterns = {"/conservation_activities"})
 public class ConservationActivitiesServlet extends HttpServlet {
 
-    private static final Logger logger = LoggerConfig.getLogger();
     private final ConservationActivitiesDAO dao = new ConservationActivitiesDAO();
-        private final ForestalZoneDAO daoForestal = new ForestalZoneDAO();
-
+    private final ForestalZoneDAO daoForestal = new ForestalZoneDAO();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
 
         try {
-            String name = request.getParameter("name");
-            String description = request.getParameter("description");
-            String dateStr = request.getParameter("activity_date");
-            String forestalZoneUuid = request.getParameter("uuid_forestal_zone");
+            String method = request.getParameter("_method");
 
-            dateStr = dateStr.replace("T", " ") + ":00";
+            // ELIMINAR (soft delete)
+            if ("DELETE".equalsIgnoreCase(method)) {
+                String uuid = request.getParameter("uuid");
+                if (uuid == null || uuid.isBlank()) {
+                    sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "UUID parameter is required");
+                    return;
+                }
 
-            if (name == null || description == null || dateStr == null || forestalZoneUuid == null) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("{\"error\":\"Missing required parameters\"}");
+                dao.delete(uuid);
+                response.sendRedirect("/forestal/conservation_activities");
                 return;
             }
 
-            Timestamp activityDate = Timestamp.valueOf(dateStr);
-            ConservationActivities activity = new ConservationActivities(name, description, activityDate, forestalZoneUuid);
-            dao.save(activity);
+            // ACTUALIZAR
+            if ("UPDATE".equalsIgnoreCase(method)) {
+                handleUpdate(request, response);
+                return;
+            }
 
-            response.setStatus(HttpServletResponse.SC_CREATED);
-            response.getWriter().write("{\"message\":\"Conservation activity created successfully\"}");
+            // CREAR
+            handleCreate(request, response);
 
+        } catch (IllegalArgumentException e) {
+            sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid date format: " + e.getMessage());
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+            e.printStackTrace();
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error: " + e.getMessage());
         }
+    }
+
+    private void handleUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String uuid = request.getParameter("uuid");
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String startDateStr = request.getParameter("start_date");
+        String endDateStr = request.getParameter("end_date");
+        String registerDateStr = request.getParameter("register_date");
+        String forestalZoneUuid = request.getParameter("uuidd_forestal_zone");
+
+        // Validación de campos requeridos
+        if (uuid == null || uuid.isBlank() || name == null || name.isBlank() || 
+            description == null || description.isBlank() || startDateStr == null || startDateStr.isBlank() ||
+            endDateStr == null || endDateStr.isBlank() || registerDateStr == null || registerDateStr.isBlank() ||
+            forestalZoneUuid == null || forestalZoneUuid.isBlank()) {
+            
+            sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Missing required parameters");
+            return;
+        }
+
+        // Formateo de fechas
+        startDateStr = startDateStr.replace("T", " ") + ":00";
+        endDateStr = endDateStr.replace("T", " ") + ":00";
+        registerDateStr = registerDateStr.replace("T", " ") + ":00";
+
+        // Validación de fechas
+        Timestamp startDate = Timestamp.valueOf(startDateStr);
+        Timestamp endDate = Timestamp.valueOf(endDateStr);
+        Timestamp registerDate = Timestamp.valueOf(registerDateStr);
+        
+        if (endDate.before(startDate)) {
+            sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "End date must be after start date");
+            return;
+        }
+
+        ConservationActivities activity = new ConservationActivities(
+            uuid, name, description, 
+            startDate, endDate, registerDate, 
+            forestalZoneUuid
+        );
+
+        dao.update(activity);
+        response.sendRedirect("/forestal/conservation_activities");
+    }
+
+    private void handleCreate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        String startDateStr = request.getParameter("start_date");
+        String endDateStr = request.getParameter("end_date");
+        String registerDateStr = request.getParameter("register_date");
+        String forestalZoneUuid = request.getParameter("uuidd_forestal_zone");
+
+        // Validación de campos requeridos
+        if (name == null || description == null || startDateStr == null || endDateStr == null ||
+            registerDateStr == null || forestalZoneUuid == null || name.isBlank() || 
+            description.isBlank() || startDateStr.isBlank() || endDateStr.isBlank() ||
+            registerDateStr.isBlank() || forestalZoneUuid.isBlank()) {
+            
+            sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Missing required parameters");
+            return;
+        }
+
+        // Formateo de fechas
+        startDateStr = startDateStr.replace("T", " ") + ":00";
+        endDateStr = endDateStr.replace("T", " ") + ":00";
+        registerDateStr = registerDateStr.replace("T", " ") + ":00";
+
+        // Validación de fechas
+        Timestamp startDate = Timestamp.valueOf(startDateStr);
+        Timestamp endDate = Timestamp.valueOf(endDateStr);
+        Timestamp registerDate = Timestamp.valueOf(registerDateStr);
+        
+        if (endDate.before(startDate)) {
+            sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "End date must be after start date");
+            return;
+        }
+
+        String uuid = UUID.randomUUID().toString();
+        ConservationActivities activity = new ConservationActivities(
+            uuid, name, description, 
+            startDate, endDate, registerDate, 
+            forestalZoneUuid
+        );
+
+        dao.save(activity);
+        response.sendRedirect("/forestal/conservation_activities");
+    }
+
+    private void sendErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\":\"" + message + "\"}");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<ConservationActivities> activities = dao.findAll();
-        request.setAttribute("activities", activities);
-        List<ForestalZone> zones = daoForestal.findAll();
-        request.setAttribute("zones", zones);
-        request.getRequestDispatcher("/conservation_activities.jsp").forward(request, response);
-    }
+        try {
+            List<ConservationActivities> activities = dao.findAll();
+            List<ForestalZone> zones = daoForestal.findAll();
 
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String uuid = request.getParameter("uuid");
-        if (uuid == null || uuid.isBlank()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\":\"UUID parameter is required\"}");
-            return;
+            request.setAttribute("activities", activities);
+            request.setAttribute("zones", zones);
+
+            request.getRequestDispatcher("/conservation_activities.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading data");
         }
-
-        dao.delete(uuid);
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("{\"message\":\"Conservation activity deleted successfully\"}");
     }
 }

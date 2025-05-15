@@ -17,25 +17,28 @@ Author     : jeffersonyepez
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+        
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
         <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet" />
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
         
         <link rel="icon" href="./assets/leave.png" type="image/x-icon">
     </head>
     <body class="bg-gray-50 text-gray-900">
+
 
         <header class="sticky top-0 z-50 bg-white shadow">
             <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center py-4">
                     <div class="text-2xl font-bold text-green-700">Run Forest, Run!</div>
                     <ul class="flex space-x-8 text-sm font-medium">
-                        <li><a href="#forest-zones" class="hover:text-green-700">Forest Zones</a></li>
+                        <li><a href="#forest-zones" class="hover:text-green-700">Tree Species</a></li>
                     </ul>
                 </div>
             </nav>
@@ -236,7 +239,7 @@ Author     : jeffersonyepez
 
                         <h4 class="text-lg font-semibold text-gray-700 mb-2">Forestal Zone</h4>
 
-                        <h4 class="text-lg font-semibold text-gray-700 mb-2">Tree Species</h4>
+                        
 
                         <c:choose>
                             <c:when test="${not empty currentTree.zones}">
@@ -352,29 +355,29 @@ Author     : jeffersonyepez
         </form>
 
         <script>
-                                    function addNewZone(uuidTree) {
-                                        const select = document.getElementById(`zoneSelect-` + uuidTree);
-                                        if (!select) {
-                                            console.error(`No se encontró el select para la zona con UUID: ${uuidTree}`);
-                                            return;
-                                        }
-                                        const uuidZone = select.value;
-                                        Swal.fire({
-                                            title: "Are you sure?",
-                                            text: "You won't be able to revert this!",
-                                            icon: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#3085d6",
-                                            cancelButtonColor: "#d33",
-                                            confirmButtonText: "Yes, save it!"
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                document.getElementById("uuidTreeAdd").value = uuidTree;
-                                                document.getElementById("uuidZoneAdd").value = uuidZone;
-                                                document.getElementById("addNewZoneForm").submit();
-                                            }
-                                        });
-                                    }
+            function addNewZone(uuidTree) {
+                const select = document.getElementById(`zoneSelect-` + uuidTree);
+                if (!select) {
+                    console.error(`No se encontró el select para la zona con UUID: ${uuidTree}`);
+                    return;
+                }
+                const uuidZone = select.value;
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, save it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("uuidTreeAdd").value = uuidTree;
+                        document.getElementById("uuidZoneAdd").value = uuidZone;
+                        document.getElementById("addNewZoneForm").submit();
+                    }
+                });
+            }
         </script>
 
         <script>
@@ -415,6 +418,7 @@ Author     : jeffersonyepez
 
         </script>
 
+
         <script>
             function downloadCSV() {
                 const rows = document.querySelectorAll("#treesTable tbody tr");
@@ -435,9 +439,21 @@ Author     : jeffersonyepez
 
         </script>
 
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const table = document.querySelector("#treesTable");
+                new simpleDatatables.DataTable(table, {
+                    perPage: 5,
+                    perPageSelect: [5, 10, 25, 50],
+                    searchable: true,
+                    sortable: true,
+                });
+            });
+        </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
         <script>
@@ -535,21 +551,60 @@ Author     : jeffersonyepez
                 });
             });
         </script>
-
-
-
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
+<form id="deleteForm" method="post" action="/forestal/tree_species">
+    <input type="hidden" name="uuid" id="uuid">
+    <input type="hidden" name="_method" value="DELETE">
+</form>
 
         <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const table = document.querySelector("#treesTable");
-                new simpleDatatables.DataTable(table, {
-                    perPage: 5,
-                    perPageSelect: [5, 10, 25, 50],
-                    searchable: true,
-                    sortable: true,
-                });
-            });
+            const onDelete = (uuid) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('uuid').value = uuid;
+                document.getElementById('deleteForm').submit();
+            }
+        });
+    }
+
         </script>
+
+
+        <script>
+            function downloadCSV() {
+                const rows = document.querySelectorAll("#treesTable tbody tr");
+                let csv = "Name,Description,Area,Register Date\n";
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll("td");
+                    csv += `${cells[0].innerText},${cells[1].innerText},${cells[2].innerText},${cells[3].innerText}\n`;
+                });
+                const blob = new Blob([csv], {type: 'text/csv'});
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "forest_zones.csv";
+                link.click();
+            }
+
+
+
+
+        </script>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+
+        
+
+
     </body>
 </html>

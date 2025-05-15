@@ -104,21 +104,40 @@ public static final String GET_BY_ID_TREE_SPECIES =
      * **************Conservation Activities***************
      *
      */
-    public static final String CREATE_CONSERVATION_ACTIVITY = "INSERT INTO forestal_managment.conservation_activities\n" +
-        "(uuid_conservation_activity, name_conservation_activity, description_conservation_activity,\n" +
-        "activity_date_conservation_activity, uuid_forestal_zone)\n" +
-        "VALUES (?, ?, ?, ?, ?)";
+    /**
+     * **************Conservation Activities***************
+     */
+    public static final String CREATE_CONSERVATION_ACTIVITY = "INSERT INTO forestal_managment.conservation_activities\n"
+        + "(uuid_conservation_activity, name_conservation_activity, description_conservation_activity,\n"
+        + "start_date_conservation_activity, end_date_conservation_activity, register_date_conservation_activity, \n"
+        + "uuidd_forestal_zone, is_deleted_conservation_activities)\n"
+        + "VALUES (?, ?, ?, ?, ?, ?, ?, false)";
 
-    public static final String DELETE_CONSERVATION_ACTIVITY = "DELETE FROM forestal_managment.conservation_activities WHERE uuid_conservation_activity = ?";
+    public static final String DELETE_CONSERVATION_ACTIVITY = "UPDATE forestal_managment.conservation_activities\n"
+        + "SET is_deleted_conservation_activities = true\n"
+        + "WHERE uuid_conservation_activity = ?";
+    
+    public static final String GET_ALL_CONSERVATION_ACTIVITY = 
+        "SELECT ca.uuid_conservation_activity, ca.name_conservation_activity, ca.description_conservation_activity, " +
+        "ca.start_date_conservation_activity, ca.end_date_conservation_activity, ca.register_date_conservation_activity, " +
+        "ca.uuidd_forestal_zone, fz.name_forestal_zone " +
+        "FROM forestal_managment.conservation_activities ca " +
+        "LEFT JOIN forestal_managment.forestal_zone fz ON ca.uuidd_forestal_zone = fz.uuid_forestal_zone " +
+        "WHERE ca.is_deleted_conservation_activities IS NOT TRUE";
 
-    public static final String GET_ALL_CONSERVATION_ACTIVITY = "SELECT * FROM forestal_managment.conservation_activities";
+    public static final String GET_BY_ID_CONSERVATION_ACTIVITY = 
+        "SELECT ca.uuid_conservation_activity, ca.name_conservation_activity, ca.description_conservation_activity,\n"
+        + "ca.start_date_conservation_activity, ca.end_date_conservation_activity, ca.register_date_conservation_activity,\n"
+        + "ca.uuidd_forestal_zone, fz.name_forestal_zone\n"
+        + "FROM forestal_managment.conservation_activities ca\n"
+        + "LEFT JOIN forestal_managment.forestal_zone fz ON ca.uuidd_forestal_zone = fz.uuid_forestal_zone\n"
+        + "WHERE ca.uuid_conservation_activity = ?\n"
+        + "AND ca.is_deleted_conservation_activities IS NOT TRUE";
 
-    public static final String GET_BY_ID_CONSERVATION_ACTIVITY = "SELECT * FROM forestal_managment.conservation_activities WHERE uuid_conservation_activity = ?";
-
-    public static final String UPDATE_BY_ID_CONSERVATION_ACTIVITY = "UPDATE forestal_managment.conservation_activities\n" +
-        "SET name_conservation_activity = ?, description_conservation_activity = ?, activity_date_conservation_activity = ?, uuid_forestal_zone = ?\n" +
-        "WHERE uuid_conservation_activity = ?";
-
+    public static final String UPDATE_BY_ID_CONSERVATION_ACTIVITY = "UPDATE forestal_managment.conservation_activities\n"
+        + "SET name_conservation_activity = ?, description_conservation_activity = ?,\n"
+        + "start_date_conservation_activity = ?, end_date_conservation_activity = ?, uuidd_forestal_zone = ?\n"
+        + "WHERE uuid_conservation_activity = ?";
     /**
      * **************Forestal Zone Tree Species***************
      *

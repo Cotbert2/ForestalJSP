@@ -180,7 +180,7 @@
                                     </c:if>
                                 </c:forEach>
                             </td>
-                            <td class="px-6 py-4 space-x-2">
+                            <td class="px-6 py-4 space-x-2 flex">
                                 <button data-modal-target="modal-${activity.uuid}" data-modal-toggle="modal-${activity.uuid}" 
                                         class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500">
                                     <i class="fas fa-eye"></i>

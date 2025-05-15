@@ -30,14 +30,20 @@
 
     <header class="sticky top-0 z-50 bg-white shadow">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <div class="text-2xl font-bold text-green-700">Run Forest, Run!</div>
-                <ul class="flex space-x-8 text-sm font-medium">
-                    <li><a href="#conservation-activities" class="hover:text-green-700">Conservation Activities</a></li>
-                </ul>
-            </div>
+          <div class="flex justify-between items-center py-4">
+            <div class="text-2xl font-bold text-green-700">
+              <a href="/forestal/">
+                Run Forest, Run!</div>
+              </a>
+            <ul class="flex space-x-8 text-sm font-medium">
+              <li><a href="forestal_zone" class="hover:text-green-700">Forest Zones</a></li>
+              <li><a href="tree_species" class="hover:text-green-700">Tree species</a></li>
+              <li><a href="conservation_activities" class="hover:text-green-700">Conservation activities</a></li>
+            </ul>
+          </div>
         </nav>
-    </header>
+      </header>
+    
 
     <!-- Modal: New Activity -->
         <div id="modalNewActivity" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">

@@ -131,11 +131,12 @@ public class TreeSpeciesDAO implements TreeSpeciesRepository{
             stmt.setString(1, tree.getName());
             stmt.setString(2, tree.getCommonName());
             stmt.setString(3, tree.getFamily());
-            stmt.setString(4, tree.getOrigin());
+            
+            stmt.setObject(4, UUID.fromString(tree.getOrigin()), java.sql.Types.OTHER);
             stmt.setString(5, tree.getOrderName());
             stmt.setString(6, tree.getHabitat());
             stmt.setString(7, tree.getDescription());
-            stmt.setString(8, tree.getImage());
+            stmt.setObject(8,UUID.fromString(tree.getUuid()), java.sql.Types.OTHER);
             
             stmt.executeUpdate();
             logger.info("TreeSpecies updated successfully");

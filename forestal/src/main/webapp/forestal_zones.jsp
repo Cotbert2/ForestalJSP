@@ -405,6 +405,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <p class="text-sm text-gray-500 italic">No trees added yet.</p>
+
                                                 <div class="my-3 flex justify-between items-center">
                                                     <div class="flex gap-3">
                                                         <button onclick="makeEditable('${currentZone.uuid}')"
@@ -436,16 +437,19 @@
                                                             stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+
                                                         </svg>
                                                         Add Tree
                                                     </button>
                                                 </div>
+
 
                                                 <div id="treeSelectContainer-${currentZone.uuid}"
                                                     class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
                                                     <label for="tree"
                                                         class="block text-sm font-medium text-gray-700">Select
                                                         Tree</label>
+
 
                                                     <select id="treeSelect-${currentZone.uuid}" name="treeId"
                                                         placeholder="Select a tree..."

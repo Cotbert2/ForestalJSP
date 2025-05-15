@@ -5,22 +5,22 @@ const onUpdate = (uuid) => {
     const description = document.getElementById('description-' + uuid);
     const area = document.getElementById('area-' + uuid);
     const registerDate = document.getElementById('register-date-' + uuid);
-    if (name.value === "") {
+    if (name.value.trim() === "") {
         isValid = false;
         name.classList.add('border-red-500');
     }
 
-    if (description.value === "") {
+    if (description.value.trim() === "") {
         isValid = false;
         description.classList.add('border-red-500');
     }
 
-    if (isNaN(area.value) || area.value <= 0) {
+    if (isNaN(area.value.trim()) || area.value.trim() <= 0) {
         isValid = false;
         area.classList.add('border-red-500');
     }
 
-    if (registerDate.value === "") {
+    if (registerDate.value.trim() === "") {
         isValid = false;
         registerDate.classList.add('border-red-500');
     }
@@ -29,9 +29,8 @@ const onUpdate = (uuid) => {
         console.error("Please fill in all required fields.");
         onWarningToast("Please fill in all required fields.");        
         return;
-    }
-    
-    Swal.fire({
+    }else{
+        Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
         icon: "warning",
@@ -49,6 +48,10 @@ const onUpdate = (uuid) => {
             document.getElementById('updateForm').submit();
         }
     });
+    }
+    
+    
+    
 };
  
   

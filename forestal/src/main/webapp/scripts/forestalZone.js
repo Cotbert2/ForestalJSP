@@ -251,14 +251,17 @@ document.getElementById('forestZoneForm').addEventListener('submit',  (e) => {
         isValid = false;
         form.registerDate.classList.add('border-red-500');
     }
+    
+    if (!mapJson) {
+        isValid = false;
+        form.mapJson.classList.add('border-red-500');
+    }
 
     if (!isValid) {
         console.error("Please fill in all required fields.");
         onWarningToast("Please fill in all required fields.");        
         return;
     }
-
-
 
     form.submit();
 });
@@ -320,6 +323,7 @@ document.querySelectorAll('[data-modal-toggle="modalNew"]').forEach(btn => {
 
                     const geoJsonData = layer.toGeoJSON();
                     console.log("Nuevo polígono dibujado:", geoJsonData);
+                  
                     document.getElementById('mapJson').value = JSON.stringify(geoJsonData);
                 });
 
@@ -335,24 +339,28 @@ document.querySelectorAll('[data-modal-toggle="modalNew"]').forEach(btn => {
 
 
   
-
+let mapView; 
 const renderMap = (mapJson) => {
     console.log("Renderizando mapa...");
     console.log("mapJson", mapJson);
+    
     setTimeout(() => {
-
-        console.log("Renderizando mapa...");
         const parsedGeoJSON = JSON.parse(mapJson);
-        const map = L.map("mapView").setView([-0.420, -78.49], 13);
+
+        if (mapView) {
+            mapView.remove();
+        }
+
+        mapView = L.map("mapView").setView([-0.420, -78.49], 13);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: "© OpenStreetMap contributors"
-        }).addTo(map);
+        }).addTo(mapView);
 
-        const geoJsonLayer = L.geoJSON(parsedGeoJSON).addTo(map);
+        const geoJsonLayer = L.geoJSON(parsedGeoJSON).addTo(mapView);
 
-        map.fitBounds(geoJsonLayer.getBounds());
+        mapView.fitBounds(geoJsonLayer.getBounds());
     }, 1000);
-
 }
+
  

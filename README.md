@@ -48,7 +48,7 @@ This system is built using the principles of **Clean Architecture**, separating 
 
 ## 📷 Screenshots
 
-[!Screenshot](./docs/image.png)
+![Forestal JSP](./docs/image.png)
 
 ## 📦 Getting Started
 

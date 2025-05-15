@@ -458,7 +458,7 @@ Author     : jeffersonyepez
                                             class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
                                         <option value="" selected disabled hidden>Select a Zone...</option>
                                         <c:forEach var="currentZone" items="${zones}">
-                                            <option value="${currentZone.uuid}">${currentZone.description}</option>
+                                            <option value="${currentZone.uuid}">${currentZone.name}</option>
                                         </c:forEach>
                                     </select>
 

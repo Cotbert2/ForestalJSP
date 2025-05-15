@@ -191,7 +191,7 @@
                                         <td class="px-6 py-4">${currentZone.registerDate}</td>
 
                                         <td class="px-6 py-4">
-                                            <button onclick='renderMap(`${currentZone.mapJson}`)'
+                                            <button onclick='renderMap(`${currentZone.mapJson}`, "${currentZone.uuid}")'
                                                 data-modal-target="modal-${currentZone.uuid}"
                                                 data-modal-toggle="modal-${currentZone.uuid}"
                                                 class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500">
@@ -249,7 +249,7 @@
                                         <div>
                                             <label for="mapView"
                                                 class="block text-sm font-medium text-gray-700 mb-1">Location: </label>
-                                            <div id="mapView" class="rounded border"
+                                            <div id="mapView-${currentZone.uuid}" class="rounded border"
                                                 style="height: 400px; width: 100%;"></div>
                                             <input type="hidden" id="mapViewJson" name="mapViewJson">
                                         </div>

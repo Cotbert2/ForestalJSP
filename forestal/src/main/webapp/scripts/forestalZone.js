@@ -256,12 +256,15 @@ document.getElementById('forestZoneForm').addEventListener('submit',  (e) => {
         isValid = false;
         form.mapJson.classList.add('border-red-500');
     }
+    
 
     if (!isValid) {
         console.error("Please fill in all required fields.");
         onWarningToast("Please fill in all required fields.");        
         return;
     }
+
+
 
     form.submit();
 });
@@ -339,14 +342,15 @@ document.querySelectorAll('[data-modal-toggle="modalNew"]').forEach(btn => {
 
 
   
-const renderMap = (mapJson) => {
+
+const renderMap = (mapJson, uuid) => {
     console.log("Renderizando mapa...");
     console.log("mapJson", mapJson);
     setTimeout(() => {
 
         console.log("Renderizando mapa...");
         const parsedGeoJSON = JSON.parse(mapJson);
-        const map = L.map("mapView").setView([-0.420, -78.49], 13);
+        const map = L.map("mapView-" + uuid).setView([-0.420, -78.49], 13);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: "© OpenStreetMap contributors"
@@ -357,4 +361,5 @@ const renderMap = (mapJson) => {
         map.fitBounds(geoJsonLayer.getBounds());
     }, 1000);
 
-} 
+}
+ 

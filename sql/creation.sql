@@ -40,6 +40,7 @@ CREATE TABLE forestal_managment.conservation_activities(
     end_date_conservation_activity TIMESTAMP NOT NULL,
     register_date_conservation_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     uuidd_forestal_zone UUID NOT NULL,
+    is_deleted_conservation_activities BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (uuidd_forestal_zone) REFERENCES forestal_managment.forestal_zone(uuid_forestal_zone)
 );
 

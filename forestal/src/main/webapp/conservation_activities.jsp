@@ -57,6 +57,7 @@
                 <form id="activityForm" method="post" class="space-y-4">
                     <input type="hidden" name="uuid" id="activityUuid">
                     <input type="hidden" name="_method" id="formMethod" value="CREATE">
+                    <input type="hidden" name="_method" id="activityMethod" value="POST">
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
@@ -133,7 +134,7 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-3xl font-bold text-green-800">Conservation Activities</h2>
             <div class="flex">
-                <button onclick="downloadCSV()" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
+                <button onclick="downloadActivitiesCSV()" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
                     </svg> Download CSV</button>
@@ -172,17 +173,24 @@
                             <td class="px-6 py-4">
                                 <fmt:formatDate value="${activity.registerDate}" pattern="yyyy-MM-dd HH:mm" />
                             </td>
-                            <td class="px-6 py-4">${activity.forestalZoneUuid}</td>
+                            <td class="px-6 py-4">
+                                <c:forEach var="zone" items="${zones}">
+                                    <c:if test="${zone.uuid == activity.forestalZoneUuid}">
+                                        ${zone.name}
+                                    </c:if>
+                                </c:forEach>
+                            </td>
                             <td class="px-6 py-4 space-x-2">
                                 <button data-modal-target="modal-${activity.uuid}" data-modal-toggle="modal-${activity.uuid}" 
                                         class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500">
                                     <i class="fas fa-eye"></i>
                                 </button>
                                         
-                                <button onclick="onDelete('${activity.uuid}')" 
+                                <button onclick="onDeleteActivity('${activity.uuid}')" 
                                         class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
+
                             </td>
                         </tr>
 
@@ -210,25 +218,83 @@
                         <p><strong class="text-gray-700">Register Date:</strong> ${activity.registerDate}</p>
                         <p><strong class="text-gray-700">Forest Zone:</strong> ${activity.forestalZoneUuid}</p>
                     </div>
-                <button onclick="onEdit('${activity.uuid}', '${activity.name}', '${activity.description}', '${activity.startDate}', '${activity.endDate}', '${activity.forestalZoneUuid}')" 
-                                        class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                    <button onclick="onEditActivity('${activity.uuid}', '${activity.name}', '${activity.description}', '${activity.startDate}', '${activity.endDate}', '${activity.forestalZoneUuid}')" 
+                            class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500">
+                        <i class="fas fa-edit"></i>
+                    </button>
                 </div>
                     
             </div>
         </div>
     </c:forEach>
 
-    <form action="/conservation/activities" id="deleteForm" method="post">
-        <input type="hidden" name="uuid" id="uuidDelete">
-        <input type="hidden" name="_method" value="DELETE">
-    </form>
-
     <!-- SimpleDataTables -->
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
     <!-- Flowbite -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+
+    <script>
+        const downloadActivitiesCSV = () => {
+            const rows = document.querySelectorAll("#activityTable tbody tr");
+            if (!rows.length) {
+                alert("No hay datos disponibles para descargar.");
+                return;
+            }
+
+            let csv = "Name,Description,Start Date,End Date,Register Date,Zone\n";
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                const values = Array.from(cells)
+                    .slice(0, 6) 
+                    .map(cell => {
+                        const text = cell?.innerText?.trim() ?? "";
+                        return `"\${text.replace(/"/g, '""')}"`;
+                    });
+                csv += values.join(",") + "\n";
+            });
+
+            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+            if (window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveBlob(blob, "conservation_activities.csv");
+            } else {
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", "conservation_activities.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+        };
+    </script>
+
+    <form action="/forestal/conservation_activities" id="deleteForm" method="post">
+        <input type="hidden" name="uuid" id="uuid">
+        <input type="hidden" name="_method" value="DELETE">
+    </form>
+
+    <script>
+        const onDeleteActivity = (uuid) => {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "¡No podrás revertir esta acción!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("uuid").value = uuid;
+                    document.getElementById("deleteForm").submit();
+                }
+            });
+        };
+    </script>
 
     <script>
     // Función para hacer editable los campos de una actividad
@@ -260,25 +326,6 @@
         });
     };
 
-    // Función para eliminar una actividad
-    const onDeleteActivity = (uuid) => {
-        Swal.fire({
-            title: "¿Estás seguro?",
-            text: "¡No podrás revertir esta acción!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById("uuidDelete").value = uuid;
-                document.getElementById("deleteForm").submit();
-            }
-        });
-    };
-
     // Inicialización de fechas
     document.addEventListener('DOMContentLoaded', () => {
         // Configurar fecha de registro
@@ -307,43 +354,6 @@
             }
         });
     });
-
-    // Función para descargar CSV
-    const downloadActivitiesCSV = () => {
-        const rows = document.querySelectorAll("#activityTable tbody tr");
-        if (!rows.length) {
-            Swal.fire({
-                icon: "warning",
-                title: "Sin datos",
-                text: "No hay datos para exportar"
-            });
-            return;
-        }
-
-        let csv = "Nombre,Descripción,Fecha Inicio,Fecha Fin,Zona Forestal,Fecha Registro\n";
-
-        rows.forEach(row => {
-            const cells = row.querySelectorAll("td");
-            const values = Array.from(cells)
-                .slice(0, 6) // Ajustar según número de columnas
-                .map(cell => {
-                    const text = cell?.textContent?.trim() ?? "";
-                    return `"\${text.replace(/"/g, '""')}"`;
-                    });
-            csv += values.join(",") + "\n";
-        });
-
-        const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
-        const url = URL.createObjectURL(blob);
-        
-        const link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", "actividades_conservacion.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-    };
 
     // Validación del formulario
     document.getElementById('activityForm')?.addEventListener('submit', function(e) {
@@ -389,13 +399,41 @@
         const modal = new Modal(document.getElementById('modalNewActivity'));
         modal.show();
     };
+
+    function onEditActivity(uuid, name, description, startDate, endDate, zone) {
+        const modal = document.getElementById("modalNewActivity");
+        const form = document.getElementById("activityForm");
+        
+        if (form) {
+            form.action = "/conservation/activities"; // o tu endpoint de actualización
+            form.uuid.value = uuid;
+            form.name.value = name;
+            form.description.value = description;
+            form.start_date.value = new Date(startDate).toISOString().slice(0, 16);
+            form.end_date.value = new Date(endDate).toISOString().slice(0, 16);
+            form.forestal_zone_uuid.value = zone;
+            
+            // Asegúrate de establecer el método de actualización
+            document.getElementById("activityMethod").value = "PUT";
+            
+            // Mostrar modal
+            modal.classList.remove("hidden");
+        }
+    }
+
 </script>
 
-<!-- Formulario para eliminación -->
-<form action="/conservation/activities" id="deleteForm" method="post">
-    <input type="hidden" name="uuid" id="uuidDelete">
-    <input type="hidden" name="_method" value="DELETE">
-</form>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabla = document.querySelector("#activityTable");
+        if (tabla) {
+            new simpleDatatables.DataTable(tabla);
+        }
+    });
+</script>
+
 
 <!-- Dependencias necesarias -->
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>

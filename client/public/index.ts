@@ -172,7 +172,7 @@ const createForestalZone = ({
     });
   });
 };
-async function handleCreateZone(event) {
+const handleCreateZone = async (event) => {
     event.preventDefault();
     const name = document.getElementById("zoneName").value.trim();
     const description = document.getElementById("zoneDescription").value.trim();
@@ -249,14 +249,9 @@ const renderTable = (data) => {
     }
   }
 
-  document.addEventListener("DOMContentLoaded", loadTreeSpecies);
-  document.getElementById("deleteSpeciesBtn").addEventListener("click", () => {
-    alert("delete");
-  });
 
-
-  function formatToSqlTimestamp(input) {
-    console.log("Valor recibido en formatToSqlTimestamp:", input); // 👈 clave
+  const formatToSqlTimestamp = (input)  => {
+    console.log("Valor recibido en formatToSqlTimestamp:", input);
     const date = new Date(input);
 
     if (isNaN(date.getTime())) throw new Error("Fecha inválida");
@@ -266,3 +261,7 @@ const renderTable = (data) => {
   }
   
 
+const reloadTreeSpecies = () => {
+  getTreeSpecies()
+  
+}

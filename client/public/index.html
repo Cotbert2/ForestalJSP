@@ -14,14 +14,14 @@
 
 <body class="bg-green-50 min-h-screen font-sans">
     <div class="max-w-7xl mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold text-green-900 mb-4">Gestor de Zonas Forestales</h1>
+        <h1 class="text-3xl font-bold text-green-900 mb-4">Forestal Zone SOAP Client</h1>
         <button onclick="getForestalZones()"
             class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded shadow">
-            Cargar Zonas
+            Load Zones
         </button>
         <button onclick="document.getElementById('modal').classList.remove('hidden')"
             class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow">
-            Crear Zona
+            Create Zone
         </button>
 
 
@@ -29,11 +29,11 @@
             <table class="min-w-full bg-white shadow rounded">
                 <thead>
                     <tr class="bg-green-100 text-left text-green-800">
-                        <th class="px-4 py-2">Nombre</th>
-                        <th class="px-4 py-2">Descripción</th>
-                        <th class="px-4 py-2">Área</th>
-                        <th class="px-4 py-2">Mapa (GeoJSON)</th>
-                        <th class="px-4 py-2">Imagen</th>
+                        <th class="px-4 py-2">Name</th>
+                        <th class="px-4 py-2">Description</th>
+                        <th class="px-4 py-2">area</th>
+                        <th class="px-4 py-2">Map info</th>
+                        <th class="px-4 py-2">Image</th>
                     </tr>
                 </thead>
                 <tbody id="table-body"></tbody>
@@ -43,7 +43,7 @@
 
         <div id="modal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden">
             <div class="bg-white rounded-lg shadow-lg w-full max-w-xl p-6">
-                <h2 class="text-xl font-bold mb-4">Crear Nueva Zona Forestal</h2>
+                <h2 class="text-xl font-bold mb-4">Create new Forestal zone</h2>
                 <form onsubmit="handleCreateZone(event)" class="space-y-4">
                     <input id="zoneName" required type="text" placeholder="Nombre"
                         class="w-full border px-3 py-2 rounded" />
@@ -58,9 +58,9 @@
                         class="w-full border px-3 py-2 rounded"></textarea>
                     <div class="flex justify-end gap-4">
                         <button type="button" onclick="document.getElementById('modal').classList.add('hidden')"
-                            class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                            class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
                         <button type="submit"
-                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Guardar</button>
+                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>
                     </div>
                 </form>
             </div>
@@ -70,8 +70,18 @@
 
 
 
-    <select id="speciesSelect" placeholder="Selecciona una especie..."></select>
-    <button id="deleteSpeciesBtn" onclick="deleteSelectedSpecies()">Eliminar especie</button>
+    <select 
+    class="w-full border p-7 py-2 rounded"
+    id="speciesSelect" placeholder="Choose an spece to delete..."></select>
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <button id="deleteSpeciesBtn"
+        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+        onclick="deleteSelectedSpecies()">Delete Specie</button>
+        <!--reload button-->
+        <button id="reloadSpeciesBtn"
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        onclick="reloadTreeSpecies()">Reload Species</button>
+    </div>
 
     <pre id="resultOutput"></pre>
 

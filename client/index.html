@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SOAP en Electron</title>
+  </head>
+  <body>
+    <h1>Consultar Zonas Forestales</h1>
+    <button id="loadZones">Cargar</button>
+    <pre id="output"></pre>
+
+  </body>
+
+  <script>
+    const soap = require('soap');
+    const wsdlUrl = 'http://localhost:8080/forestal/ForestalSOAP?wsdl';
+  
+    async function getForestalZones() {
+      try {
+        const client = await soap.createClientAsync(wsdlUrl);
+  
+        const [result] = await client.ForestalSOAP.ForestalServicePort.getForestalZonesAsync({});
+        
+        const zones = Array.isArray(result.return)
+          ? result.return
+          : result.return
+            ? [result.return]
+            : [];
+  
+        console.log('Zonas:', zones);
+        document.getElementById('output').textContent = JSON.stringify(zones, null, 2);
+  
+      } catch (err) {
+        console.error('Error al obtener zonas forestales:', err);
+        document.getElementById('output').textContent = 'Error al cargar zonas.';
+      }
+    }
+  
+    // Vincular botón
+    document.getElementById('loadZones').addEventListener('click', getForestalZones);
+  </script>
+  
+</html>

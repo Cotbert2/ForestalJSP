@@ -12,5 +12,5 @@ public interface TreeSpeciesRepository {
     List<TreeSpecies> findAll();
     TreeSpecies findById(String uuid);
     void update(TreeSpecies tree);
-    void delete(String uuid);
+    boolean delete(String uuid);
 }

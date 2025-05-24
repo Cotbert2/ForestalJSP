@@ -35,8 +35,6 @@ const onUpdate = (uuid) => {
     text: "You won't be able to revert this!",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
     confirmButtonText: "Yes, update it!"
 }).then((result) => {
     if (result.isConfirmed) {
@@ -104,8 +102,6 @@ const onDeleteTree = (uuidForestal, uuidTree) => {
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!"
     }).then((result) => {
         if (result.isConfirmed) {
@@ -132,8 +128,6 @@ const onDeleteTree = (uuidForestal, uuidTree) => {
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
         confirmButtonText: "Yes, save it!"
     }).then((result) => {
         if (result.isConfirmed) {
@@ -281,8 +275,6 @@ const onDelete = (uuid) => {
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!"
     }).then((result) => {
         if (result.isConfirmed) {

@@ -373,14 +373,14 @@
 
         // Confirmación y envío si es válido
         Swal.fire({
-            title: "¿Estás seguro?",
-            text: "¡No podrás revertir esta acción!",
+            title: "¿Are your sure?",
+            text: "You won't be able to change it",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, actualizar",
-            cancelButtonText: "Cancelar"
+            confirmButtonText: "Yes, update!",
+            cancelButtonText: "Calncel"
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('uuidUpdate').value = uuid;
@@ -491,14 +491,14 @@
     <script>
         const onDeleteActivity = (uuid) => {
             Swal.fire({
-                title: "¿Estás seguro?",
-                text: "¡No podrás revertir esta acción!",
+                title: "¿Are your sure?",
+                text: "You won't be able to change it",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Sí, eliminar",
-                cancelButtonText: "Cancelar"
+                confirmButtonText: "Yes, Delete",
+                cancelButtonText: "Cancel"
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById("uuid").value = uuid;

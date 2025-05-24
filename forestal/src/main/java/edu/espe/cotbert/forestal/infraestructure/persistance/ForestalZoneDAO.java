@@ -20,7 +20,7 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
     private static final Logger logger = LoggerConfig.getLogger();
 
     @Override
-    public void save(ForestalZone forestalZone) {
+    public boolean save(ForestalZone forestalZone) {
         try (Connection conn = ConnectionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(ConstantsDB.CREATE_FORESTAL_ZONE)) {
 
             stmt.setObject(1, UUID.fromString(forestalZone.getUuid()), java.sql.Types.OTHER);
@@ -31,12 +31,15 @@ public class ForestalZoneDAO implements ForestalZoneRepository {
             stmt.setTimestamp(6, forestalZone.getRegisterDate());
             stmt.setString(7, forestalZone.getMapJson());
 
-            stmt.executeUpdate();
+            int rowsAffected = stmt.executeUpdate();
             logger.info("ForestalZone saved successfully");
+            
+            return rowsAffected > 0;
 
         } catch (Exception e) {
             logger.severe("Error saving ForestalZone: " + e.getMessage());
         }
+        return false;
     }
 
     @Override

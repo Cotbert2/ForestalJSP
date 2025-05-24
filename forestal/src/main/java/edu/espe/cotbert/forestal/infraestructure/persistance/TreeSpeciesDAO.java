@@ -146,9 +146,11 @@ public class TreeSpeciesDAO implements TreeSpeciesRepository{
     }
     
     @Override
-public void delete(String uuid){
+    public boolean delete(String uuid){
+    int rowsAffected = 0;
     try (Connection conn = ConnectionDB.getConnection()) {
         // 1. Eliminar todas las relaciones con zonas forestales
+        
         try (PreparedStatement stmtDeleteRelations = conn.prepareStatement(
              ConstantsDB.DELET_BY_RELATION)) {
             stmtDeleteRelations.setObject(1, UUID.fromString(uuid), java.sql.Types.OTHER);
@@ -158,13 +160,15 @@ public void delete(String uuid){
         // 2. Eliminar lógicamente el árbol
         try (PreparedStatement stmtDeleteTree = conn.prepareStatement(ConstantsDB.DELETE_TREE_SPECIES)) {
             stmtDeleteTree.setObject(1, UUID.fromString(uuid), java.sql.Types.OTHER);
-            stmtDeleteTree.executeUpdate();
+            rowsAffected = stmtDeleteTree.executeUpdate();
         }
 
         logger.info("TreeSpecies and its zone relations deleted successfully");
+        return rowsAffected > 0;
     } catch (Exception e) {
         logger.severe("Error deleting TreeSpecies and its relations: " + e.getMessage());
     }
+    return false;
 }
 
 

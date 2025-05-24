@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:ser="http://services.presentation.forestal.cotbert.espe.edu/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:createForestalZone>
+         <arg0>Zona Norte</arg0>
+         <arg1>Zona con pinos</arg1>
+         <arg2>150.5</arg2>
+         <arg3>imagen.jpg</arg3>
+         <arg4>2025-05-24 14:30:00</arg4>
+         <arg5>{"type":"Polygon","coordinates":[]}</arg5>
+      </ser:createForestalZone>
+   </soapenv:Body>
+</soapenv:Envelope>

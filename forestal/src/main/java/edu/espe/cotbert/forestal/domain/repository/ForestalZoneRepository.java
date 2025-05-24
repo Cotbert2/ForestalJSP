@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public interface ForestalZoneRepository {
-    void save(ForestalZone forestalZone);
+    boolean save(ForestalZone forestalZone);
     List<ForestalZone> findAll();
     ForestalZone findById(String uuid);
     void update(ForestalZone Zone);

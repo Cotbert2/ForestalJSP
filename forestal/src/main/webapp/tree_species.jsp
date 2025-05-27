@@ -34,36 +34,40 @@ Author     : jeffersonyepez
 
         <header class="sticky top-0 z-50 bg-white shadow">
             <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div class="flex justify-between items-center py-4">
-                <div class="text-2xl font-bold text-green-700">
-                  <a href="/forestal/">
-                    Run Forest, Run!</div>
-                  </a>
-                <ul class="flex space-x-8 text-sm font-medium">
-                  <li><a href="forestal_zone" class="hover:text-green-700">Forest Zones</a></li>
-                  <li><a href="tree_species" class="hover:text-green-700">Tree species</a></li>
-                  <li><a href="conservation_activities" class="hover:text-green-700">Conservation activities</a></li>
-                </ul>
-              </div>
+                <div class="flex justify-between items-center py-4">
+                    <div class="text-2xl font-bold text-green-700">
+                        <a href="/forestal/">
+                            Run Forest, Run!</div>
+                    </a>
+                    <ul class="flex space-x-8 text-sm font-medium">
+                        <li><a href="forestal_zone" class="hover:text-green-700">Forest Zones</a></li>
+                        <li><a href="tree_species" class="hover:text-green-700">Tree species</a></li>
+                        <li><a href="conservation_activities" class="hover:text-green-700">Conservation activities</a></li>
+                    </ul>
+                </div>
             </nav>
-          </header>
-        
+        </header>
 
+        <h1 class="text-3xl md:text-4xl font-bold text-green-700 tracking-tight text-center mb-6">
+            ${user.roleUsers} Panel
+        </h1>
         <section class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8" id="tree-species">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-3xl font-bold text-green-800">Tree Species</h2>
                 <div class="flex">
-                    <button onclick="downloadCSVFileFromTable('treesTable','tree_species')" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
+                    <button onclick="downloadCSVFileFromTable('treesTable', 'tree_species')" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
 
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m-6 3.75 3 3m0 0 3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
                         </svg> Download CSV</button>
 
+                    <c:if test="${user.roleUsers == 'ADMIN' || user.roleUsers == 'ROOT'}">
 
-                    <button data-modal-target="modalNew" data-modal-toggle="modalNew" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>New</button>
+                        <button data-modal-target="modalNew" data-modal-toggle="modalNew" class="bg-green-700 flex text-white px-4 py-2 rounded hover:bg-green-600 m-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>New</button>
+                        </c:if>
                 </div>
 
 
@@ -105,16 +109,19 @@ Author     : jeffersonyepez
                                         </svg>
 
                                     </button>
-                                    <button
-                                        onclick="onDelete('${currentTree.uuid}')"
-                                        class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500"
-                                        >
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                        </svg>
+                                    <c:if test="${user.roleUsers == 'ADMIN' || user.roleUsers == 'ROOT'}">
+
+                                        <button
+                                            onclick="onDelete('${currentTree.uuid}')"
+                                            class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500"
+                                            >
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                            </svg>
 
 
-                                    </button>
+                                        </button>
+                                    </c:if>
                                 </td>
                             </tr>
 
@@ -359,14 +366,17 @@ Author     : jeffersonyepez
                                                 <td class="px-4 py-2">${zone.name}</td>
                                                 <td class="px-4 py-2">${zone.description}</td>
                                                 <td class="px-4 py-2">
-                                                    <button
-                                                        onclick="onDeleteZone('${currentTree.uuid}', '${zone.uuid}')"
-                                                        class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500"
-                                                        >
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                                        </svg>
-                                                    </button>
+                                                    <c:if test="${user.roleUsers == 'ADMIN' || user.roleUsers == 'ROOT'}">
+
+                                                        <button
+                                                            onclick="onDeleteZone('${currentTree.uuid}', '${zone.uuid}')"
+                                                            class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-500"
+                                                            >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                                            </svg>
+                                                        </button>
+                                                    </c:if>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -375,17 +385,20 @@ Author     : jeffersonyepez
                                 <div class="my-3 flex justify-between items-center">
 
                                     <div class="flex gap-3">
-                                        <button onclick="makeEditable('${currentTree.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                            </svg>
-                                        </button>
-                                        <button id="btn-save-${currentTree.uuid}" onclick="onUpdate('${currentTree.uuid}')" class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
-                                            </svg>
-                                            Save
-                                        </button>
+                                        <c:if test="${user.roleUsers == 'ADMIN' || user.roleUsers == 'ROOT'}">
+
+                                            <button onclick="makeEditable('${currentTree.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                </svg>
+                                            </button>
+                                            <button id="btn-save-${currentTree.uuid}" onclick="onUpdate('${currentTree.uuid}')" class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                                </svg>
+                                                Save
+                                            </button>
+                                        </c:if>
                                     </div>
 
 
@@ -430,25 +443,29 @@ Author     : jeffersonyepez
                             <c:otherwise>
                                 <p class="text-sm text-gray-500 italic">No zones added yet.</p>
                                 <div class="my-3 flex justify-between items-center"">
-                                    <div class="my-3 flex gap-3">
-                                        <button onclick="makeEditable('${currentTree.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                    <c:if test="${user.roleUsers == 'ADMIN' || user.roleUsers == 'ROOT'}">
+
+                                        <div class="my-3 flex gap-3">
+                                            <button onclick="makeEditable('${currentTree.uuid}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                                </svg>
+                                            </button>
+                                            <button id="btn-save-${currentTree.uuid}" onclick="onUpdate('${currentTree.uuid}')" class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+                                                </svg>
+                                                Save
+                                            </button>
+                                        </div>
+
+                                        <button id="addZoneBtn-${currentTree.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
+                                            Add Zone
                                         </button>
-                                        <button id="btn-save-${currentTree.uuid}" onclick="onUpdate('${currentTree.uuid}')" class="hidden flex gap-1 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
-                                            </svg>
-                                            Save
-                                        </button>
-                                    </div>
-                                    <button id="addZoneBtn-${currentTree.uuid}" class="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-                                        Add Zone
-                                    </button>
+                                    </c:if>
                                 </div>
 
                                 <div id="zoneSelectContainer-${currentTree.uuid}" class="hidden opacity-0 transition-all duration-500 ease-in-out bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4 space-y-3">
@@ -478,7 +495,7 @@ Author     : jeffersonyepez
 
         </c:forEach>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-            <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
@@ -572,7 +589,7 @@ Author     : jeffersonyepez
 
                 if (select) {
                     select.disabled = false;
-                    
+
                     select.classList.add("text-black");
                 }
             };
@@ -601,7 +618,7 @@ Author     : jeffersonyepez
 
             };
         </script>
-        
+
 
         <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
             <input type="hidden" name="uuidForestal" id="uuidForestal">
@@ -611,107 +628,70 @@ Author     : jeffersonyepez
 
 
 
-    <form action="/forestal/tree_species" id="updateForm" method="post">
-        <input type="hidden" name="uuid" id="uuidUpdate">
-        <input type="hidden" name="name" id="nameUpdate">
-        <input type="hidden" name="commonName" id="commonNameUpdate">
-        <input type="hidden" name="family" id="familyUpdate">
-        <input type="hidden" name="origin" id="originUpdate">
-        <input type="hidden" name="orderName" id="orderNameUpdate">
-        <input type="hidden" name="habitat" id="habitatUpdate">
-        <input type="hidden" name="description" id="descriptionUpdate">
+        <form action="/forestal/tree_species" id="updateForm" method="post">
+            <input type="hidden" name="uuid" id="uuidUpdate">
+            <input type="hidden" name="name" id="nameUpdate">
+            <input type="hidden" name="commonName" id="commonNameUpdate">
+            <input type="hidden" name="family" id="familyUpdate">
+            <input type="hidden" name="origin" id="originUpdate">
+            <input type="hidden" name="orderName" id="orderNameUpdate">
+            <input type="hidden" name="habitat" id="habitatUpdate">
+            <input type="hidden" name="description" id="descriptionUpdate">
 
 
-        <input type="hidden" name="_method" value="UPDATE">
-    </form>
-
-    <script>
-        const onUpdate = (uuid) => {
-            const name =document.getElementById("name-" + uuid);
-            const commonName =document.getElementById("commonName-" + uuid);
-            const family =document.getElementById("family-" + uuid);
-            const origin =document.getElementById("origin-" + uuid);
-            const orderName =document.getElementById("orderName-" + uuid);
-            const habitat =document.getElementById("habitat-" + uuid);
-            const description =document.getElementById("description-" + uuid);
-           
-            let isValid = true;
-            if (name.value.trim() === "") {
-                isValid = false;
-                name.classList.add('border-red-500');
-            }
-
-            if (commonName.value.trim() === "") {
-                isValid = false;
-                commonName.classList.add('border-red-500');
-            }
-            if (family.value.trim() === "") {
-                isValid = false;
-                family.classList.add('border-red-500');
-            }
-
-            if (origin.value.trim() === "") {
-                isValid = false;
-                origin.classList.add('border-red-500');
-            }
-            
-            if (orderName.value.trim() === "") {
-                isValid = false;
-                orderName.classList.add('border-red-500');
-            }
-            if (habitat.value.trim() === "") {
-                isValid = false;
-                habitat.classList.add('border-red-500');
-            }
-            if (description.value.trim() === "") {
-                isValid = false;
-                description.classList.add('border-red-500');
-            }
-
-            if (!isValid) {
-                console.error("Please fill in all required fields.");
-                onWarningToast("Please fill in all required fields.");        
-                return;
-            }
-
-
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, update it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('uuidUpdate').value = uuid;
-                    document.getElementById('nameUpdate').value = name.value;
-                    document.getElementById('commonNameUpdate').value = commonName.value;
-                    document.getElementById('familyUpdate').value = family.value;
-                    document.getElementById('originUpdate').value = origin.value;
-                    document.getElementById('orderNameUpdate').value = orderName.value;
-                    document.getElementById('habitatUpdate').value = habitat.value;
-                    document.getElementById('descriptionUpdate').value = description.value;
-                    document.getElementById('updateForm').submit();
-                }
-            });
-        };
-    </script>
-
-    <script src="./scripts/downloadCSV.js"></script>
-
-    <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
-    <input type="hidden" name="uuidForestal" id="uuidForestal">
-    <input type="hidden" name="uuidTree" id="uuidTree">
-    <input type="hidden" name="_method" value="DELETE_ZONE">
-</form>
-    
-
-
+            <input type="hidden" name="_method" value="UPDATE">
+        </form>
 
         <script>
-            const onDeleteZone = (uuidTree, uuidZone) => {
+            const onUpdate = (uuid) => {
+                const name = document.getElementById("name-" + uuid);
+                const commonName = document.getElementById("commonName-" + uuid);
+                const family = document.getElementById("family-" + uuid);
+                const origin = document.getElementById("origin-" + uuid);
+                const orderName = document.getElementById("orderName-" + uuid);
+                const habitat = document.getElementById("habitat-" + uuid);
+                const description = document.getElementById("description-" + uuid);
+
+                let isValid = true;
+                if (name.value.trim() === "") {
+                    isValid = false;
+                    name.classList.add('border-red-500');
+                }
+
+                if (commonName.value.trim() === "") {
+                    isValid = false;
+                    commonName.classList.add('border-red-500');
+                }
+                if (family.value.trim() === "") {
+                    isValid = false;
+                    family.classList.add('border-red-500');
+                }
+
+                if (origin.value.trim() === "") {
+                    isValid = false;
+                    origin.classList.add('border-red-500');
+                }
+
+                if (orderName.value.trim() === "") {
+                    isValid = false;
+                    orderName.classList.add('border-red-500');
+                }
+                if (habitat.value.trim() === "") {
+                    isValid = false;
+                    habitat.classList.add('border-red-500');
+                }
+                if (description.value.trim() === "") {
+                    isValid = false;
+                    description.classList.add('border-red-500');
+                }
+
+                if (!isValid) {
+                    console.error("Please fill in all required fields.");
+                    onWarningToast("Please fill in all required fields.");
+                    return;
+                }
+
+
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this!",
@@ -719,60 +699,97 @@ Author     : jeffersonyepez
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
+                    confirmButtonText: "Yes, update it!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        document.getElementById("uuidForestal").value = uuidZone;
-                        document.getElementById("uuidTree").value = uuidTree;
-                        document.getElementById("deleteZoneForm").submit();
+                        document.getElementById('uuidUpdate').value = uuid;
+                        document.getElementById('nameUpdate').value = name.value;
+                        document.getElementById('commonNameUpdate').value = commonName.value;
+                        document.getElementById('familyUpdate').value = family.value;
+                        document.getElementById('originUpdate').value = origin.value;
+                        document.getElementById('orderNameUpdate').value = orderName.value;
+                        document.getElementById('habitatUpdate').value = habitat.value;
+                        document.getElementById('descriptionUpdate').value = description.value;
+                        document.getElementById('updateForm').submit();
                     }
                 });
-            }
+            };
+        </script>
+
+        <script src="./scripts/downloadCSV.js"></script>
+
+        <form action="/forestal/tree_species" id="deleteZoneForm" method="post">
+            <input type="hidden" name="uuidForestal" id="uuidForestal">
+            <input type="hidden" name="uuidTree" id="uuidTree">
+            <input type="hidden" name="_method" value="DELETE_ZONE">
+        </form>
+
+
+
+
+        <script>
+        const onDeleteZone = (uuidTree, uuidZone) => {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("uuidForestal").value = uuidZone;
+                    document.getElementById("uuidTree").value = uuidTree;
+                    document.getElementById("deleteZoneForm").submit();
+                }
+            });
+        }
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" defer></script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const table = document.querySelector("#treesTable");
-                new simpleDatatables.DataTable(table, {
-                    perPage: 5,
-                    perPageSelect: [5, 10, 25, 50],
-                    searchable: true,
-                    sortable: true,
-                });
+        document.addEventListener("DOMContentLoaded", () => {
+            const table = document.querySelector("#treesTable");
+            new simpleDatatables.DataTable(table, {
+                perPage: 5,
+                perPageSelect: [5, 10, 25, 50],
+                searchable: true,
+                sortable: true,
             });
+        });
         </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                document.querySelectorAll("[data-modal-toggle]").forEach(button => {
-                    const targetId = button.getAttribute("data-modal-target");
-                    const modal = document.getElementById(targetId);
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll("[data-modal-toggle]").forEach(button => {
+                const targetId = button.getAttribute("data-modal-target");
+                const modal = document.getElementById(targetId);
 
-                    if (!modal)
-                        return;
+                if (!modal)
+                    return;
 
-                    button.addEventListener("click", () => {
-                        modal.classList.remove("hidden");
-                    });
-                });
-
-                document.querySelectorAll("[data-modal-hide]").forEach(button => {
-                    const targetId = button.getAttribute("data-modal-hide");
-                    const modal = document.getElementById(targetId);
-
-                    if (!modal)
-                        return;
-
-                    button.addEventListener("click", () => {
-                        modal.classList.add("hidden");
-                    });
+                button.addEventListener("click", () => {
+                    modal.classList.remove("hidden");
                 });
             });
+
+            document.querySelectorAll("[data-modal-hide]").forEach(button => {
+                const targetId = button.getAttribute("data-modal-hide");
+                const modal = document.getElementById(targetId);
+
+                if (!modal)
+                    return;
+
+                button.addEventListener("click", () => {
+                    modal.classList.add("hidden");
+                });
+            });
+        });
         </script>
         <form id="deleteForm" method="post" action="/forestal/tree_species">
             <input type="hidden" name="uuid" id="uuid">
@@ -798,73 +815,73 @@ Author     : jeffersonyepez
             }
 
         </script>
-        
+
         <script>
-            document.getElementById('treeSpeciesForm').addEventListener('submit',  (e) => {
-            e.preventDefault();
-
-            
-            let isValid = true;
-            const form = e.target;
-            console.log("form: " + form);
-
-            const name = form.name.value.trim();
-            const commonName = form.commonName.value.trim();
-            const family = form.family.value.trim();
-            const origin = form.origin.value.trim();
-            const orderName = form.orderName.value.trim();
-            const habitat = form.habitat.value.trim();
-            const description = form.description.value.trim();
-            const image = form.image.value.trim();
-
-            [...form.elements].forEach(el => el.classList.remove('border-red-500'));
-
-            if (name === "") {
-                isValid = false;
-                form.name.classList.add('border-red-500');
-            }
-
-            if (commonName === "") {
-                isValid = false;
-                form.commonName.classList.add('border-red-500');
-            }
-            if (family === "") {
-                isValid = false;
-                form.family.classList.add('border-red-500');
-            }
-
-            if (origin=== "") {
-                isValid = false;
-                form.origin.classList.add('border-red-500');
-            }
-            
-            if (orderName === "") {
-                isValid = false;
-                form.orderName.classList.add('border-red-500');
-            }
-            if (habitat === "") {
-                isValid = false;
-                form.habitat.classList.add('border-red-500');
-            }
-            if (description === "") {
-                isValid = false;
-                form.description.classList.add('border-red-500');
-            }
-            if (image === "") {
-                isValid = false;
-                form.image.classList.add('border-red-500');
-            }
-
-            if (!isValid) {
-                console.error("Please fill in all required fields.");
-                onWarningToast("Please fill in all required fields.");        
-                return;
-            }
+            document.getElementById('treeSpeciesForm').addEventListener('submit', (e) => {
+                e.preventDefault();
 
 
+                let isValid = true;
+                const form = e.target;
+                console.log("form: " + form);
 
-            form.submit();
-        });
+                const name = form.name.value.trim();
+                const commonName = form.commonName.value.trim();
+                const family = form.family.value.trim();
+                const origin = form.origin.value.trim();
+                const orderName = form.orderName.value.trim();
+                const habitat = form.habitat.value.trim();
+                const description = form.description.value.trim();
+                const image = form.image.value.trim();
+
+                [...form.elements].forEach(el => el.classList.remove('border-red-500'));
+
+                if (name === "") {
+                    isValid = false;
+                    form.name.classList.add('border-red-500');
+                }
+
+                if (commonName === "") {
+                    isValid = false;
+                    form.commonName.classList.add('border-red-500');
+                }
+                if (family === "") {
+                    isValid = false;
+                    form.family.classList.add('border-red-500');
+                }
+
+                if (origin === "") {
+                    isValid = false;
+                    form.origin.classList.add('border-red-500');
+                }
+
+                if (orderName === "") {
+                    isValid = false;
+                    form.orderName.classList.add('border-red-500');
+                }
+                if (habitat === "") {
+                    isValid = false;
+                    form.habitat.classList.add('border-red-500');
+                }
+                if (description === "") {
+                    isValid = false;
+                    form.description.classList.add('border-red-500');
+                }
+                if (image === "") {
+                    isValid = false;
+                    form.image.classList.add('border-red-500');
+                }
+
+                if (!isValid) {
+                    console.error("Please fill in all required fields.");
+                    onWarningToast("Please fill in all required fields.");
+                    return;
+                }
+
+
+
+                form.submit();
+            });
 
         </script>
 

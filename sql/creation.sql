@@ -53,3 +53,15 @@ CREATE TABLE forestal_managment.forestal_zone_tree_species(
     FOREIGN KEY (uuid_tree_species) REFERENCES forestal_managment.tree_species(uuid_tree_species)
 );
 
+--Table for users
+
+CREATE TABLE users (
+    uuid_users UUID PRIMARY KEY,
+    email_users VARCHAR(50) UNIQUE NOT NULL,
+    phone_users VARCHAR(20) NOT NULL,
+    first_name_users VARCHAR(50) NOT NULL,
+    last_name_users VARCHAR(50) NOT NULL,
+    password_users VARCHAR(255) NOT NULL,
+    role_users VARCHAR(20) NOT NULL  -- ejemplo: "ADMIN", "USER"
+    is_active_user BOOLEAN DEFAULT TRUE
+);

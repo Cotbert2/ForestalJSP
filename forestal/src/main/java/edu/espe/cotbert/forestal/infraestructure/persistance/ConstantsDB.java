@@ -163,5 +163,12 @@ public static final String GET_ALL_CONSERVATION_ACTIVITY =
     public static final String GET_BY_ID_ORIGIN = "SELECT uuid_origin, name_origin FROM forestal_managment.origins WHERE uuid_origin = ?";
 
     public static final String CREATE_ORIGINS = "INSERT INTO forestal_managment.origins (uuid_origin, name_origin) VALUES (?, ?)";
-
+    
+    /**
+     * **************Users***************
+     *
+     */
+    
+    public static final String GET_USER_BY_EMAIL = "SELECT * FROM forestal_managment.users WHERE email_users = ?;";
+    public static final String CREATE_USER = "INSERT INTO forestal_managment.users (uuid_users, email_users, phone_users, first_name_users, last_name_users, password_users, role_users, is_active_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 }

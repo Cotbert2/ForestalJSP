@@ -26,8 +26,6 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         UserAuthModel user = userDAO.getUserByEmail(username);
-        System.out.println("user login" + user.getUuidUsers());
-        System.out.println("password " + user.getPassword());
 
         if (user != null && PasswordHasher.verify(password,  user.getPassword())) {
             HttpSession session = req.getSession();
@@ -35,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect("home.jsp");
         } else {
             req.setAttribute("error", "Wrong credentials");
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }
     

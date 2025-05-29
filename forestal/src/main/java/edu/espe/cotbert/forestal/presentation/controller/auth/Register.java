@@ -3,6 +3,7 @@ package edu.espe.cotbert.forestal.presentation.controller.auth;
 import edu.espe.cotbert.forestal.domain.model.security.PasswordHasher;
 import edu.espe.cotbert.forestal.domain.model.security.UserAuthModel;
 import edu.espe.cotbert.forestal.infraestructure.persistance.UserAuthDAO;
+import edu.espe.cotbert.forestal.util.MailSender;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +43,11 @@ public class Register extends HttpServlet {
                 UUID.randomUUID().toString(), email, phone, firstName, lastName,
                 role, hashedPassword
         );
+        
+        // Enviar correo
+        String asunto = "¡Gracias por registrarte!";
+        String mensaje = "Hola " + firstName + ",\n\nGracias por ser parte de nuestra comunidad forestal 🌱.\n\nRun Forest, Run!";
+        MailSender.sendEmail(email, asunto, mensaje);
 
         boolean created = userDAO.createUser(newUser);
 

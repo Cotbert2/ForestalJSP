@@ -43,6 +43,9 @@ Author     : jeffersonyepez
                         <li><a href="forestal_zone" class="hover:text-green-700">Forest Zones</a></li>
                         <li><a href="tree_species" class="hover:text-green-700">Tree species</a></li>
                         <li><a href="conservation_activities" class="hover:text-green-700">Conservation activities</a></li>
+                        <c:if test="${user.roleUsers == 'ROOT'}">
+                        <li><a href="users" class="text-green-700 font-bold">Users</a></li>
+                        </c:if>
                     </ul>
                 </div>
             </nav>

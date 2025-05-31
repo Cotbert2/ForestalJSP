@@ -169,7 +169,7 @@ public static final String GET_ALL_CONSERVATION_ACTIVITY =
      *
      */
     
-    public static final String GET_USER_BY_EMAIL = "SELECT * FROM forestal_managment.users WHERE email_users = ?;";
+    public static final String GET_USER_BY_EMAIL = "SELECT * FROM forestal_managment.users WHERE email_users = ? AND is_active_user = true;";
     public static final String CREATE_USER = "INSERT INTO forestal_managment.users (uuid_users, email_users, phone_users, first_name_users, last_name_users, password_users, role_users, is_active_user) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String GET_ALL_USERS = "SELECT uuid_users, email_users, phone_users, first_name_users, last_name_users, role_users FROM forestal_managment.users WHERE is_active_user = true";
     public static final String UPDATE_USERS = "UPDATE forestal_managment.users SET email_users = ?, phone_users = ?, first_name_users = ?, last_name_users = ?, role_users = ? WHERE uuid_users = ?";

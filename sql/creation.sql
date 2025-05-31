@@ -57,7 +57,7 @@ CREATE TABLE forestal_managment.forestal_zone_tree_species(
 
 CREATE TABLE users (
     uuid_users UUID PRIMARY KEY,
-    email_users VARCHAR(50) UNIQUE NOT NULL,
+    email_users VARCHAR(50) NOT NULL,
     phone_users VARCHAR(20) NOT NULL,
     first_name_users VARCHAR(50) NOT NULL,
     last_name_users VARCHAR(50) NOT NULL,

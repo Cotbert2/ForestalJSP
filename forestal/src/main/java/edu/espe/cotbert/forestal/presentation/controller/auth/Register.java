@@ -50,7 +50,7 @@ public class Register extends HttpServlet {
         
         String htmlContent=EmailConfig.EMAIL_STRUCTURE.replace("{{firstName}}", firstName);
 
-        MailSender.sendEmail(email, "¡Bienvenido a Run Forest, Run!", htmlContent);
+        MailSender.sendEmail(email, "O the road, welcome to Run Forest, Run!", htmlContent);
 
         boolean created = userDAO.createUser(newUser);
 

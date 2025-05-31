@@ -30,7 +30,7 @@ public class EmailConfig {
                 + "      <p>You can now log in and start exploring the platform's features designed to protect and manage our forest zones.</p>\n"
                 + "      <p>If you didn't create this account, please ignore this email.</p>\n"
                 + "      <p style=\"margin-top: 2rem; justify-content: center; text-align: center\">\n"
-                + "        <a href=\"https://forestal/login\"\n"
+                + "        <a href=\"http://localhost:8080/forestal\"\n"
                 + "           style=\"display:inline-block; padding:10px 20px; background-color:#047857; color:#ffffff; text-decoration:none; border-radius:8px; font-weight:bold;\">\n"
                 + "          Log In Now\n"
                 + "        </a>\n"

@@ -12,6 +12,8 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -20,11 +22,23 @@ import java.util.Properties;
  */
 public class MailSender {
 
-    public static void sendEmail(String toEmail, String subject, String messageText) {
-        final String fromEmail = "sebasraster10@gmail.com"; // tu correo
-        final String appPassword = "easc msme nrbe evlq"; // generada en myaccount.google.com/apppasswords
+    public static void sendEmail(String toEmail, String subject, String htmlContent) {
+
+        String FROM_EMAIL;
+        String APP_PASSWORD;
+        final String PROPERTIES_FILE = "/db.properties";
 
         Properties props = new Properties();
+
+        try (InputStream input = MailSender.class.getResourceAsStream("/db.properties")) {
+            props.load(input);
+            FROM_EMAIL = props.getProperty("email");
+            APP_PASSWORD = props.getProperty("email.password");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return;
+        }
+
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
@@ -33,16 +47,17 @@ public class MailSender {
 
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(fromEmail, appPassword);
+                return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
             }
         });
 
         try {
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(fromEmail));
+            msg.setFrom(new InternetAddress(FROM_EMAIL));
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
             msg.setSubject(subject);
-            msg.setText(messageText);
+            msg.setContent(htmlContent, "text/html; charset=utf-8");
+
 
             Transport.send(msg);
             System.out.println("Correo enviado a " + toEmail);

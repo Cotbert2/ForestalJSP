@@ -96,60 +96,6 @@ const makeReadOnly = (uuid) => {
 };
 
 
-document.getElementById('userForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    let isValid = true;
-    const form = e.target;
-
-    const firstName = form.first_name_users.value.trim();
-    const lastName = form.last_name_users.value.trim();
-    const email = form.email_users.value.trim();
-    const phone = form.phone_users.value.trim();
-    const role = form.role_users.value.trim();
-    const password = form.password_users.value.trim();
-
-    [...form.elements].forEach(el => el.classList.remove('border-red-500'));
-
-    if (firstName === "") {
-        isValid = false;
-        form.first_name_users.classList.add('border-red-500');
-    }
-
-    if (lastName === "") {
-        isValid = false;
-        form.last_name_users.classList.add('border-red-500');
-    }
-
-    if (email === "") {
-        isValid = false;
-        form.email_users.classList.add('border-red-500');
-    }
-
-    if (phone === "") {
-        isValid = false;
-        form.phone_users.classList.add('border-red-500');
-    }
-
-    if (role === "") {
-        isValid = false;
-        form.role_users.classList.add('border-red-500');
-    }
-
-    if (password === "") {
-        isValid = false;
-        form.password_users.classList.add('border-red-500');
-    }
-
-    if (!isValid) {
-        console.error("Please fill in all required fields.");
-        onWarningToast("Please fill in all required fields.");
-        return;
-    }
-
-    form.submit();
-});
-
 
 const onDelete = (uuid) => {
     console.log("UUID to delete:", uuid);
@@ -194,33 +140,30 @@ document.getElementById('userForm').addEventListener('submit', (e) => {
     const role = form.role_users.value.trim();
     const password = form.password_users.value.trim();
 
-
-    [...form.elements].forEach(el => el.classList.remove('border-red-500'));
-
     // Expresiones regulares
     const nameRegex = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{7,15}$/;
     const passwordRegex = /^[a-zA-Z0-9@#$_\-\.]+$/;
 
-    // Validación de campos
+    [...form.elements].forEach(el => el.classList.remove('border-red-500'));
 
-    if (firstName === "" || !nameRegex.test(firstName)) {
+    if (!nameRegex.test(firstName)) {
         isValid = false;
         form.first_name_users.classList.add('border-red-500');
-        onWarningToast("First name is required and must not contain special characters.");
+        onWarningToast("Nombre inválido.");
     }
 
-    if (lastName === "" || !nameRegex.test(lastName)) {
+    if (!nameRegex.test(lastName)) {
         isValid = false;
         form.last_name_users.classList.add('border-red-500');
-        onWarningToast("Last name is required and must not contain special characters.");
+        onWarningToast("Apellido inválido.");
     }
 
-    if (email === "" || !emailRegex.test(email)) {
+    if (!emailRegex.test(email)) {
         isValid = false;
         form.email_users.classList.add('border-red-500');
-        onWarningToast("Please enter a valid email address.");
+        onWarningToast("Correo inválido.");
     }
 
     if (existingEmails.includes(email)) {
@@ -229,28 +172,20 @@ document.getElementById('userForm').addEventListener('submit', (e) => {
         onErrorToast("El correo ya existe en el sistema.");
     }
 
-
-    if (phone === "" || !phoneRegex.test(phone)) {
+    if (!phoneRegex.test(phone)) {
         isValid = false;
         form.phone_users.classList.add('border-red-500');
-        onWarningToast("Phone must be numeric and between 7 and 15 digits.");
+        onWarningToast("Teléfono inválido.");
     }
 
-    if (role === "") {
-        isValid = false;
-        form.role_users.classList.add('border-red-500');
-        onWarningToast("Please select a valid role.");
-    }
-
-    if (password === "" || !passwordRegex.test(password)) {
+    if (!passwordRegex.test(password)) {
         isValid = false;
         form.password_users.classList.add('border-red-500');
-        onWarningToast("Password cannot contain special characters like *, /, +, etc.");
+        onWarningToast("Contraseña con caracteres no permitidos.");
     }
 
-    if (!isValid) {
-        return;
-    }
+    if (!isValid) return;
 
     form.submit();
 });
+

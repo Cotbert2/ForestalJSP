@@ -2,8 +2,10 @@ package edu.espe.cotbert.forestal.presentation.controller.auth;
 
 import edu.espe.cotbert.forestal.domain.model.security.PasswordHasher;
 import edu.espe.cotbert.forestal.domain.model.security.UserAuthModel;
+import edu.espe.cotbert.forestal.infraestructure.config.EmailConfig;
 import edu.espe.cotbert.forestal.infraestructure.persistance.UserAuthDAO;
 import edu.espe.cotbert.forestal.util.MailSender;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,11 +45,12 @@ public class Register extends HttpServlet {
                 UUID.randomUUID().toString(), email, phone, firstName, lastName,
                 role, hashedPassword
         );
-        
+
         // Enviar correo
-        String asunto = "¡Gracias por registrarte!";
-        String mensaje = "Hola " + firstName + ",\n\nGracias por ser parte de nuestra comunidad forestal 🌱.\n\nRun Forest, Run!";
-        MailSender.sendEmail(email, asunto, mensaje);
+        
+        String htmlContent=EmailConfig.EMAIL_STRUCTURE.replace("{{firstName}}", firstName);
+
+        MailSender.sendEmail(email, "¡Bienvenido a Run Forest, Run!", htmlContent);
 
         boolean created = userDAO.createUser(newUser);
 
@@ -58,9 +61,9 @@ public class Register extends HttpServlet {
             req.getRequestDispatcher("singup.jsp").forward(req, resp);
         }
     }
-    
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            req.getRequestDispatcher("singup.jsp").forward(req, resp);
+        req.getRequestDispatcher("singup.jsp").forward(req, resp);
 
     }
 }

@@ -11,6 +11,10 @@
     <meta charset="UTF-8">
     <title>Sign Up | Run Forest, Run!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="./assets/leave.png" type="image/x-icon">
 </head>
@@ -88,6 +92,11 @@
             &copy; 2025 Run Forest, Run! All rights reserved.
         </div>
     </div>
+        
+                <script src="./scripts/toastrService.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
     <script>
         document.getElementById("registerForm").addEventListener("submit", function(event) {
@@ -104,6 +113,66 @@
         });
     </script>
 
+     <script>
+            document.getElementById('registerForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                let isValid = true;
+                const form = e.target;
+                console.log("form: " + form);
+
+                const firstName = form.firstName.value.trim();
+                const lastName = form.lastName.value.trim();
+                const email = form.email.value.trim();
+                const phone = form.phone.value.trim();
+                const password = form.password.value.trim();
+                const confirmPassword = form.confirmPassword.value.trim();
+
+                [...form.elements].forEach(el => el.classList.remove('border-red-500'));
+
+                if (firstName === "") {
+                    isValid = false;
+                    form.firstName.classList.add('border-red-500');
+                }
+
+                if (lastName === "") {
+                    isValid = false;
+                    form.lastName.classList.add('border-red-500');
+                }
+                if (email === "") {
+                    isValid = false;
+                    form.email.classList.add('border-red-500');
+                }
+
+                if (phone === "") {
+                    isValid = false;
+                    form.phone.classList.add('border-red-500');
+                }
+
+                if (password === "") {
+                    isValid = false;
+                    form.password.classList.add('border-red-500');
+                }
+                if (confirmPassword === "") {
+                    isValid = false;
+                    form.confirmPassword.classList.add('border-red-500');
+                }
+
+                if (!isValid) {
+                    console.error("Please fill in all required fields.");
+                    onWarningToast("Please fill in all required fields.");
+                    return;
+                }
+
+
+
+                form.submit();
+            });
+
+        </script>
+        
+        
+    
 </body>
 </html>
 

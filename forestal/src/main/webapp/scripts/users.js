@@ -66,7 +66,7 @@ const makeEditable = (uuid) => {
 
     if (inputs.length > 0) {
         inputs.forEach((input, index) => {
-            if (index !== inputs.length - 1) {
+            if (index !== inputs.length ) {
                 input.toggleAttribute("readonly");
                 input.classList.toggle("text-gray-400");
             }

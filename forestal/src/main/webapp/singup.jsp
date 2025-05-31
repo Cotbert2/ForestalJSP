@@ -93,10 +93,6 @@
         </div>
     </div>
         
-                <script src="./scripts/toastrService.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
     <script>
         document.getElementById("registerForm").addEventListener("submit", function(event) {
@@ -119,7 +115,6 @@
 
                 let isValid = true;
                 const form = e.target;
-                console.log("form: " + form);
 
                 const firstName = form.firstName.value.trim();
                 const lastName = form.lastName.value.trim();
@@ -127,44 +122,47 @@
                 const phone = form.phone.value.trim();
                 const password = form.password.value.trim();
                 const confirmPassword = form.confirmPassword.value.trim();
+                
+                // Expresiones regulares
+                const nameRegex = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phoneRegex = /^[0-9]{7,15}$/;
+                const passwordRegex = /^[a-zA-Z0-9@#$_\-\.]+$/;
 
                 [...form.elements].forEach(el => el.classList.remove('border-red-500'));
 
-                if (firstName === "") {
+                if (!nameRegex.test(firstName)) {
                     isValid = false;
                     form.firstName.classList.add('border-red-500');
+                    onWarningToast("Nombre inválido.");
                 }
 
-                if (lastName === "") {
+                if (!nameRegex.test(lastName)) {
                     isValid = false;
                     form.lastName.classList.add('border-red-500');
+                    onWarningToast("Apellido inválido.");
                 }
-                if (email === "") {
+
+                if (!emailRegex.test(email)) {
                     isValid = false;
                     form.email.classList.add('border-red-500');
+                    onWarningToast("Correo inválido.");
                 }
 
-                if (phone === "") {
+                if (!phoneRegex.test(phone)) {
                     isValid = false;
                     form.phone.classList.add('border-red-500');
+                    onWarningToast("Teléfono inválido.");
                 }
 
-                if (password === "") {
+                if (!passwordRegex.test(password)) {
                     isValid = false;
                     form.password.classList.add('border-red-500');
+                    onWarningToast("Contraseña con caracteres no permitidos.");
                 }
-                if (confirmPassword === "") {
-                    isValid = false;
-                    form.confirmPassword.classList.add('border-red-500');
-                }
+                
 
-                if (!isValid) {
-                    console.error("Please fill in all required fields.");
-                    onWarningToast("Please fill in all required fields.");
-                    return;
-                }
-
-
+                if (!isValid) return;
 
                 form.submit();
             });
@@ -172,7 +170,11 @@
         </script>
         
         
-    
+        <script src="./scripts/toastrService.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
 </body>
 </html>
 

@@ -16,7 +16,43 @@ const onUpdate = (uuid) => {
     const phone = document.getElementById('phone-' + uuid);
     const role = document.getElementById('role-' + uuid);
 
-    // Validaciones simples
+    const currentRole = role.getAttribute('data-original-role');
+    const newRole = role.value.toLowerCase();
+
+    if (currentRole === 'root' && newRole !== 'root') {
+        onWarningToast("No puedes cambiar el rol de un usuario ROOT.");
+        return;
+    }
+
+    const nameRegex = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{7,15}$/;
+
+    if (!nameRegex.test(name.value.trim())) {
+        isValid = false;
+        name.classList.add('border-red-500');
+        onWarningToast("Nombre inválido.");
+    }
+
+    if (!nameRegex.test(lastname.value.trim())) {
+        isValid = false;
+        lastname.classList.add('border-red-500');
+        onWarningToast("Apellido inválido.");
+    }
+
+    if (!emailRegex.test(email.value.trim())) {
+        isValid = false;
+        email.classList.add('border-red-500');
+        onWarningToast("Correo inválido.");
+    }
+
+    if (!phoneRegex.test(phone.value.trim())) {
+        isValid = false;
+        phone.classList.add('border-red-500');
+        onWarningToast("Teléfono inválido.");
+    }
+
+
     [name, lastname, email, phone].forEach(field => {
         if (field.value.trim() === "") {
             isValid = false;
@@ -64,9 +100,19 @@ const makeEditable = (uuid) => {
     const saveBtn = document.querySelector("#btn-save-" + uuid);
     saveBtn.classList.toggle("hidden");
 
+    const role = document.getElementById('role-' + uuid);
+    const currentRole = role.getAttribute('data-original-role');
+    const newRole = role.value.toLowerCase();
+
+
+    if (currentRole === 'root' && newRole !== 'root') {
+        onWarningToast("No puedes modificar el rol de un usuario ROOT.");
+        return;
+    }
+
     if (inputs.length > 0) {
         inputs.forEach((input, index) => {
-            if (index !== inputs.length ) {
+            if (index !== inputs.length) {
                 input.toggleAttribute("readonly");
                 input.classList.toggle("text-gray-400");
             }
@@ -184,7 +230,8 @@ document.getElementById('userForm').addEventListener('submit', (e) => {
         onWarningToast("Contraseña con caracteres no permitidos.");
     }
 
-    if (!isValid) return;
+    if (!isValid)
+        return;
 
     form.submit();
 });

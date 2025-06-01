@@ -46,6 +46,11 @@ Author     : jeffersonyepez
                         <c:if test="${user.roleUsers == 'ROOT'}">
                         <li><a href="users" class="text-green-700 font-bold">Users</a></li>
                         </c:if>
+                        <li>
+                            <form action="logout" method="get">
+                                <button type="submit" class="hover:text-green-700">Logout</button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </nav>

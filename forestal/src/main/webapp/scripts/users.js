@@ -20,7 +20,7 @@ const onUpdate = (uuid) => {
     const newRole = role.value.toLowerCase();
 
     if (currentRole === 'root' && newRole !== 'root') {
-        onWarningToast("No puedes cambiar el rol de un usuario ROOT.");
+        onWarningToast("You cannot modify the role of a ROOT user.");
         return;
     }
 
@@ -31,25 +31,25 @@ const onUpdate = (uuid) => {
     if (!nameRegex.test(name.value.trim())) {
         isValid = false;
         name.classList.add('border-red-500');
-        onWarningToast("Nombre inválido.");
+        onWarningToast("Invalid name.");
     }
 
     if (!nameRegex.test(lastname.value.trim())) {
         isValid = false;
         lastname.classList.add('border-red-500');
-        onWarningToast("Apellido inválido.");
+        onWarningToast("Invalid lastName.");
     }
 
     if (!emailRegex.test(email.value.trim())) {
         isValid = false;
         email.classList.add('border-red-500');
-        onWarningToast("Correo inválido.");
+        onWarningToast("Invalid email.");
     }
 
     if (!phoneRegex.test(phone.value.trim())) {
         isValid = false;
         phone.classList.add('border-red-500');
-        onWarningToast("Teléfono inválido.");
+        onWarningToast("Inalid phone.");
     }
 
 
@@ -106,7 +106,7 @@ const makeEditable = (uuid) => {
 
 
     if (currentRole === 'root' && newRole !== 'root') {
-        onWarningToast("No puedes modificar el rol de un usuario ROOT.");
+        onWarningToast("You cannot modify the role of a ROOT user.");
         return;
     }
 
@@ -197,37 +197,37 @@ document.getElementById('userForm').addEventListener('submit', (e) => {
     if (!nameRegex.test(firstName)) {
         isValid = false;
         form.first_name_users.classList.add('border-red-500');
-        onWarningToast("Nombre inválido.");
+        onWarningToast("Invalid name.");
     }
 
     if (!nameRegex.test(lastName)) {
         isValid = false;
         form.last_name_users.classList.add('border-red-500');
-        onWarningToast("Apellido inválido.");
+        onWarningToast("Invalid lastName.");
     }
 
     if (!emailRegex.test(email)) {
         isValid = false;
         form.email_users.classList.add('border-red-500');
-        onWarningToast("Correo inválido.");
+        onWarningToast("Invalid email.");
     }
 
     if (existingEmails.includes(email)) {
         isValid = false;
         form.email_users.classList.add('border-red-500');
-        onErrorToast("El correo ya existe en el sistema.");
+        onErrorToast("The mail already exists in the system.");
     }
 
     if (!phoneRegex.test(phone)) {
         isValid = false;
         form.phone_users.classList.add('border-red-500');
-        onWarningToast("Teléfono inválido.");
+        onWarningToast("Invalid telephone.");
     }
 
     if (!passwordRegex.test(password)) {
         isValid = false;
         form.password_users.classList.add('border-red-500');
-        onWarningToast("Contraseña con caracteres no permitidos.");
+        onWarningToast("The Password contains characters that aren't allowed.");
     }
 
     if (!isValid)
